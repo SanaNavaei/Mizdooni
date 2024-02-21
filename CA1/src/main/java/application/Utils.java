@@ -7,6 +7,7 @@ public class Utils {
     }
 
     static public boolean validateEmail(String email) {
-        return true;
+        String emailFormat = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.com$";
+        return email.matches(emailFormat);
     }
 }
