@@ -19,4 +19,12 @@ public class User {
         this.address = address;
         this.role = role;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 }

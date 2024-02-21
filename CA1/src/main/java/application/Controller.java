@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
+import exceptions.DuplicatedUsernameEmail;
 import exceptions.InvalidEmailFormat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,7 +55,7 @@ public class Controller {
 
         try {
             mizdooni.addUser(username, password, email, address, role);
-        } catch (InvalidUsernameFormat | InvalidEmailFormat ex) {
+        } catch (InvalidUsernameFormat | InvalidEmailFormat | DuplicatedUsernameEmail ex) {
             success = false;
             data = ex.getMessage();
         }
