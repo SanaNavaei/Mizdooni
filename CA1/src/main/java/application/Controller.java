@@ -39,6 +39,7 @@ public class Controller {
         String password = node.get("password").asText();
         String email = node.get("email").asText();
         Address address;
+        User.Role role;
 
         try {
             String country = node.get("address").get("country").asText();
@@ -48,7 +49,11 @@ public class Controller {
             return createResultJson(false, TextNode.valueOf("Address is not complete."));
         }
 
-        User.Role role = User.Role.valueOf(node.get("role").asText());
+        try {
+            role = User.Role.valueOf(node.get("role").asText());
+        } catch (IllegalArgumentException ex) {
+            return createResultJson(false, TextNode.valueOf("Role is not valid."));
+        }
 
         boolean success = true;
         String data = "User added successfully.";
