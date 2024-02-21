@@ -37,10 +37,15 @@ public class Controller {
         String username = node.get("username").asText();
         String password = node.get("password").asText();
         String email = node.get("email").asText();
+        Address address;
 
-        String country = node.get("address").get("country").asText();
-        String city = node.get("address").get("city").asText();
-        Address address = new Address(country, city, null);
+        try {
+            String country = node.get("address").get("country").asText();
+            String city = node.get("address").get("city").asText();
+            address = new Address(country, city, null);
+        } catch (NullPointerException ex) {
+            return createResultJson(false, TextNode.valueOf("Address is not complete."));
+        }
 
         User.Role role = User.Role.valueOf(node.get("role").asText());
 
