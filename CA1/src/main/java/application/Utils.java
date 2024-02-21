@@ -2,7 +2,8 @@ package application;
 
 public class Utils {
     static public boolean validateUsername(String username) {
-        return true;
+        String usernameFormat = "^[a-zA-Z0-9]+$";
+        return username.matches(usernameFormat);
     }
 
     static public boolean validateEmail(String email) {
