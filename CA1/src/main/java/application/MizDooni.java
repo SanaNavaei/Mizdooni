@@ -45,11 +45,14 @@ public class MizDooni {
         restaurants.add(restaurant);
     }
 
-    public void addTable(int tableNumber, String restaurantName, String manager, int seatsNumber) {
+    public void addTable(int tableNumber, String restaurantName, String manager, int seatsNumber) throws DuplicatedTableNumber {
         User managerUser = findManager(manager, users);
         Table table = new Table(tableNumber, restaurantName, managerUser, seatsNumber);
         Restaurant restaurant = findRestaurant(restaurantName, restaurants);
 
+        if (!tableIsTaken(tableNumber, restaurant)) {
+            throw new DuplicatedTableNumber();
+        }
         restaurant.addTable(table);
     }
 

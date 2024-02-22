@@ -12,4 +12,6 @@ public class Table {
         this.manager = manager;
         this.seatsNumber = seatsNumber;
     }
+
+    public int getTableNumber() { return tableNumber; }
 }

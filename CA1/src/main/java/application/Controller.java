@@ -111,7 +111,12 @@ public class Controller {
         boolean success = true;
         String data = "Table added successfully.";
 
-        mizdooni.addTable(tableNumber, restaurantName, manager, seatsNumber);
+        try {
+            mizdooni.addTable(tableNumber, restaurantName, manager, seatsNumber);
+        } catch (DuplicatedTableNumber ex) {
+            success = false;
+            data = ex.getMessage();
+        }
 
         return createResultJson(success, TextNode.valueOf(data));
     }

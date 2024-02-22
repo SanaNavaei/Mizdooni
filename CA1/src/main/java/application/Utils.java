@@ -53,4 +53,14 @@ public class Utils {
         }
         return null;
     }
+
+    static public boolean tableIsTaken(int tableNumber, Restaurant restaurant) {
+        ArrayList<Table> tables = restaurant.getTables();
+        for (Table t : tables) {
+            if (t.getTableNumber() == tableNumber) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

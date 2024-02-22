@@ -26,6 +26,8 @@ public class Restaurant {
 
     public Object getName() { return name; }
 
+    public ArrayList<Table> getTables() { return tables; }
+
     public void addTable(Table table) {
         tables.add(table);
     }
