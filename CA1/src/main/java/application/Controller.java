@@ -10,6 +10,8 @@ import exceptions.InvalidEmailFormat;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import exceptions.InvalidUsernameFormat;
 
+import java.time.LocalTime;
+
 public class Controller {
     private MizDooni mizdooni;
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -68,8 +70,27 @@ public class Controller {
         return createResultJson(success, TextNode.valueOf(data));
     }
 
-    public void addRestaurant() {
+    public JsonNode addRestaurant(String json) {
+        JsonNode node = stringToJson(json);
+        String name = node.get("name").asText();
+        String manager = node.get("managerUsername").asText();
+        String type = node.get("type").asText();
+        String description = node.get("description").asText();
 
+        LocalTime startTime = LocalTime.parse(node.get("startTime").asText());
+        LocalTime endTime = LocalTime.parse(node.get("endTime").asText());
+
+        String country = node.get("address").get("country").asText();
+        String city = node.get("address").get("city").asText();
+        String street = node.get("address").get("street").asText();
+        Address address = new Address(country, city, street);
+
+        boolean success = true;
+        String data = "Restaurant added successfully.";
+
+        mizdooni.addRestaurant(name, manager, type, startTime, endTime, description, address);
+
+        return createResultJson(success, TextNode.valueOf(data));
     }
 
     public void addTable() {

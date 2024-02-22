@@ -27,4 +27,6 @@ public class User {
     public String getEmail() {
         return email;
     }
+
+    public Role getRole() { return role; }
 }

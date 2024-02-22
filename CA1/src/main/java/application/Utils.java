@@ -21,4 +21,13 @@ public class Utils {
         }
         return true;
     }
+
+    static public User findManager(String username, ArrayList<User> users) {
+        for (User u : users) {
+            if (u.getUsername().equals(username) && u.getRole() == User.Role.manager) {
+                return u;
+            }
+        }
+        return null;
+    }
 }
