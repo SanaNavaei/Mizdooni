@@ -1,10 +1,14 @@
 package application;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import exceptions.*;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+import static application.Controller.createRestaurantJson;
 import static application.Utils.*;
 
 public class MizDooni {
@@ -82,8 +86,25 @@ public class MizDooni {
 
     }
 
-    public void searchRestaurantsByName() {
+    public JsonNode searchRestaurantsByName(String restaurantName) {
+        Restaurant restaurant = findRestaurant(restaurantName, restaurants);
+        ArrayList<JsonNode> restaurantJsons = new ArrayList<>();
 
+        String name = restaurant.getName();
+        String type = restaurant.getType();
+        String startTime = restaurant.getStartTime().toString();
+        String endTime = restaurant.getEndTime().toString();
+        String description = restaurant.getDescription();
+        String country = restaurant.getAddress().getCountry();
+        String city = restaurant.getAddress().getCity();
+        String street = restaurant.getAddress().getStreet();
+
+        restaurantJsons.add(createRestaurantJson(name, type, startTime, endTime, description, country, city, street));
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode node = mapper.createObjectNode();
+        node.put("restaurants", mapper.valueToTree(restaurantJsons));
+        return node;
     }
 
     public void searchRestaurantsByType() {

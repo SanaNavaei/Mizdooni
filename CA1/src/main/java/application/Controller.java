@@ -33,6 +33,23 @@ public class Controller {
         return node;
     }
 
+    static public JsonNode createRestaurantJson(String name, String type, String startTime, String endTime, String description, String country, String city, String street) {
+        ObjectNode node = new ObjectMapper().createObjectNode();
+        node.put("name", name);
+        node.put("type", type);
+        node.put("startTime", startTime);
+        node.put("endTime", endTime);
+        node.put("description", description);
+
+        ObjectNode address = new ObjectMapper().createObjectNode();
+        address.put("country", country);
+        address.put("city", city);
+        address.put("street", street);
+        node.set("address", address);
+
+        return node;
+    }
+
     public JsonNode addUser(String json) {
         JsonNode node = stringToJson(json);
         String username = node.get("username").asText();
@@ -133,8 +150,16 @@ public class Controller {
 
     }
 
-    public void searchRestaurantsByName() {
+    public JsonNode searchRestaurantsByName(String json) {
+        JsonNode node = stringToJson(json);
+        String restaurantName = node.get("name").asText();
 
+        boolean success = true;
+        JsonNode data = TextNode.valueOf("No restaurant found.");
+
+        data = mizdooni.searchRestaurantsByName(restaurantName);
+
+        return createResultJson(success, data);
     }
 
     public void searchRestaurantsByType() {

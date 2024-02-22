@@ -24,7 +24,17 @@ public class Restaurant {
         this.address = address;
     }
 
-    public Object getName() { return name; }
+    public String getName() { return name; }
+
+    public String getType() { return type; }
+
+    public LocalTime getStartTime() { return startTime; }
+
+    public LocalTime getEndTime() { return endTime; }
+
+    public String getDescription() { return description; }
+
+    public Address getAddress() { return address; }
 
     public ArrayList<Table> getTables() { return tables; }
 
