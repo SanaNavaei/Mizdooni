@@ -93,7 +93,7 @@ public class Controller {
 
         try{
             mizdooni.addRestaurant(name, manager, type, startTime, endTime, description, address);
-        } catch (DuplicatedRestaurantName | ManagerNotFound ex) {
+        } catch (DuplicatedRestaurantName | ManagerNotFound | InvalidWorkingTime ex) {
             success = false;
             data = ex.getMessage();
         }

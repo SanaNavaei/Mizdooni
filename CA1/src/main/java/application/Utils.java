@@ -1,5 +1,6 @@
 package application;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class Utils {
@@ -38,5 +39,9 @@ public class Utils {
             }
         }
         return true;
+    }
+
+    static public boolean validateWorkingTime(LocalTime time) {
+        return time.getMinute() == 0;
     }
 }
