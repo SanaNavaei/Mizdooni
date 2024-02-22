@@ -4,12 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
-import exceptions.DuplicatedRestaurantName;
-import exceptions.DuplicatedUsernameEmail;
-import exceptions.InvalidEmailFormat;
+import exceptions.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import exceptions.InvalidUsernameFormat;
 
 import java.time.LocalTime;
 
@@ -96,7 +93,7 @@ public class Controller {
 
         try{
             mizdooni.addRestaurant(name, manager, type, startTime, endTime, description, address);
-        } catch (DuplicatedRestaurantName ex) {
+        } catch (DuplicatedRestaurantName | ManagerNotFound ex) {
             success = false;
             data = ex.getMessage();
         }

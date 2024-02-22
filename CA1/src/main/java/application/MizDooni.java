@@ -28,8 +28,11 @@ public class MizDooni {
     }
 
     public void addRestaurant(String name, String manager, String type, LocalTime startTime, LocalTime endTime,
-                              String description, Address address) throws DuplicatedRestaurantName {
+                              String description, Address address) throws DuplicatedRestaurantName, ManagerNotFound {
         User managerUser = findManager(manager, users);
+        if (managerUser == null) {
+            throw new ManagerNotFound();
+        }
         Restaurant restaurant = new Restaurant(name, managerUser, type, startTime, endTime, description, address);
 
         if (!restaurantIsTaken(name, restaurants)) {
