@@ -76,14 +76,19 @@ public class Controller {
         String manager = node.get("managerUsername").asText();
         String type = node.get("type").asText();
         String description = node.get("description").asText();
+        Address address;
 
         LocalTime startTime = LocalTime.parse(node.get("startTime").asText());
         LocalTime endTime = LocalTime.parse(node.get("endTime").asText());
 
-        String country = node.get("address").get("country").asText();
-        String city = node.get("address").get("city").asText();
-        String street = node.get("address").get("street").asText();
-        Address address = new Address(country, city, street);
+        try {
+            String country = node.get("address").get("country").asText();
+            String city = node.get("address").get("city").asText();
+            String street = node.get("address").get("street").asText();
+            address = new Address(country, city, street);
+        } catch (NullPointerException ex) {
+            return createResultJson(false, TextNode.valueOf("Address is not complete."));
+        }
 
         boolean success = true;
         String data = "Restaurant added successfully.";
