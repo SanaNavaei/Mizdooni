@@ -10,7 +10,10 @@ public class Main {
         var restaurant = controller.addRestaurant("{\"name\": \"restaurant1\", \"managerUsername\": \"user1\", \"type\": \"Iranian\", \"startTime\": \"08:00\", \"endTime\": \"23:00\", \"description\": \"Open seven days a week.\", \"address\": {\"country\": \"Iran\", \"city\": \"Tehran\", \"street\": \"North Kargar\"}}");
         System.out.println(restaurant);
 
-        var table = controller.addTable("{\"tableNumber\": 1, \"restaurantName\": \"restaurant1\", \"managerUsername\": \"user1\", \"seatsNumber\": 4}");
+        var table = controller.addTable("{\"tableNumber\": 1, \"restaurantName\": \"restaurant1\", \"managerUsername\": \"user1\", \"seatsNumber\": 15}");
         System.out.println(table);
+
+        var table2 = controller.addTable("{\"tableNumber\": 2, \"restaurantName\": \"restaurant1\", \"managerUsername\": \"user1\", \"seatsNumber\": 10}");
+        System.out.println(table2);
     }
 }

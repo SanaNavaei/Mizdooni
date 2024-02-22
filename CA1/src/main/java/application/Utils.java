@@ -68,4 +68,8 @@ public class Utils {
         String seatsNumberFormat = "^[1-9][0-9]*$";
         return seatsNumber.matches(seatsNumberFormat);
     }
+
+    static public boolean validateManagerRestaurant(User managerUser, Restaurant restaurant) {
+        return restaurant.getManager().equals(managerUser);
+    }
 }

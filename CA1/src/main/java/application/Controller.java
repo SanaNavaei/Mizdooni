@@ -113,7 +113,7 @@ public class Controller {
 
         try {
             mizdooni.addTable(tableNumber, restaurantName, manager, seatsNumber);
-        } catch (DuplicatedTableNumber | InvalidSeatsNumber | RestaurantNotFound ex) {
+        } catch (DuplicatedTableNumber | InvalidSeatsNumber | RestaurantNotFound | ManagerNotFound | InvalidManagerRestaurant ex) {
             success = false;
             data = ex.getMessage();
         }

@@ -28,6 +28,8 @@ public class Restaurant {
 
     public ArrayList<Table> getTables() { return tables; }
 
+    public Object getManager() { return manager; }
+
     public void addTable(Table table) {
         tables.add(table);
     }
