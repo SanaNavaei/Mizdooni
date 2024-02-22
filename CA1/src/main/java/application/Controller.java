@@ -101,8 +101,19 @@ public class Controller {
         return createResultJson(success, TextNode.valueOf(data));
     }
 
-    public void addTable() {
+    public JsonNode addTable(String json) {
+        JsonNode node = stringToJson(json);
+        int tableNumber = node.get("tableNumber").asInt();
+        String restaurantName = node.get("restaurantName").asText();
+        String manager = node.get("managerUsername").asText();
+        int seatsNumber = node.get("seatsNumber").asInt();
 
+        boolean success = true;
+        String data = "Table added successfully.";
+
+        mizdooni.addTable(tableNumber, restaurantName, manager, seatsNumber);
+
+        return createResultJson(success, TextNode.valueOf(data));
     }
 
     public void reserveTable() {

@@ -44,4 +44,13 @@ public class Utils {
     static public boolean validateWorkingTime(LocalTime time) {
         return time.getMinute() == 0;
     }
+
+    static public Restaurant findRestaurant(String name, ArrayList<Restaurant> restaurants) {
+        for (Restaurant r : restaurants) {
+            if (r.getName().equals(name)) {
+                return r;
+            }
+        }
+        return null;
+    }
 }

@@ -1,6 +1,7 @@
 package application;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class Restaurant {
     private String name;
@@ -10,6 +11,7 @@ public class Restaurant {
     private LocalTime endTime;
     private String description;
     private Address address;
+    private ArrayList<Table> tables = new ArrayList<>();
 
     public Restaurant(String name, User manager, String type, LocalTime startTime, LocalTime endTime,
                       String description, Address address) {
@@ -23,4 +25,8 @@ public class Restaurant {
     }
 
     public Object getName() { return name; }
+
+    public void addTable(Table table) {
+        tables.add(table);
+    }
 }

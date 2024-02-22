@@ -45,8 +45,12 @@ public class MizDooni {
         restaurants.add(restaurant);
     }
 
-    public void addTable() {
+    public void addTable(int tableNumber, String restaurantName, String manager, int seatsNumber) {
+        User managerUser = findManager(manager, users);
+        Table table = new Table(tableNumber, restaurantName, managerUser, seatsNumber);
+        Restaurant restaurant = findRestaurant(restaurantName, restaurants);
 
+        restaurant.addTable(table);
     }
 
     public void reserveTable() {
