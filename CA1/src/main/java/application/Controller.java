@@ -106,14 +106,14 @@ public class Controller {
         int tableNumber = node.get("tableNumber").asInt();
         String restaurantName = node.get("restaurantName").asText();
         String manager = node.get("managerUsername").asText();
-        int seatsNumber = node.get("seatsNumber").asInt();
+        String seatsNumber = node.get("seatsNumber").asText();
 
         boolean success = true;
         String data = "Table added successfully.";
 
         try {
             mizdooni.addTable(tableNumber, restaurantName, manager, seatsNumber);
-        } catch (DuplicatedTableNumber ex) {
+        } catch (DuplicatedTableNumber | InvalidSeatsNumber ex) {
             success = false;
             data = ex.getMessage();
         }

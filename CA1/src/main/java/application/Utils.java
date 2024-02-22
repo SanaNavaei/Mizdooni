@@ -63,4 +63,9 @@ public class Utils {
         }
         return true;
     }
+
+    static public boolean validateSeatsNumber(String seatsNumber) {
+        String seatsNumberFormat = "^[1-9][0-9]*$";
+        return seatsNumber.matches(seatsNumberFormat);
+    }
 }
