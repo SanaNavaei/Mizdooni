@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
+import exceptions.DuplicatedRestaurantName;
 import exceptions.DuplicatedUsernameEmail;
 import exceptions.InvalidEmailFormat;
 
@@ -93,7 +94,12 @@ public class Controller {
         boolean success = true;
         String data = "Restaurant added successfully.";
 
-        mizdooni.addRestaurant(name, manager, type, startTime, endTime, description, address);
+        try{
+            mizdooni.addRestaurant(name, manager, type, startTime, endTime, description, address);
+        } catch (DuplicatedRestaurantName ex) {
+            success = false;
+            data = ex.getMessage();
+        }
 
         return createResultJson(success, TextNode.valueOf(data));
     }

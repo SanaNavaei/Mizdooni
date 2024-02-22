@@ -30,4 +30,13 @@ public class Utils {
         }
         return null;
     }
+
+    static public boolean restaurantIsTaken(String name, ArrayList<Restaurant> restaurants) {
+        for (Restaurant r : restaurants) {
+            if (r.getName().equals(name)) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

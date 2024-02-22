@@ -21,4 +21,6 @@ public class Restaurant {
         this.description = description;
         this.address = address;
     }
+
+    public Object getName() { return name; }
 }

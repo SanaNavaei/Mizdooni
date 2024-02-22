@@ -1,16 +1,11 @@
 package application;
 
-import exceptions.DuplicatedUsernameEmail;
-import exceptions.InvalidEmailFormat;
-import exceptions.InvalidUsernameFormat;
+import exceptions.*;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-import static application.Utils.validateEmail;
-import static application.Utils.validateUsername;
-import static application.Utils.userIsTaken;
-import static application.Utils.findManager;
+import static application.Utils.*;
 
 public class MizDooni {
     ArrayList<User> users = new ArrayList<>();
@@ -33,10 +28,13 @@ public class MizDooni {
     }
 
     public void addRestaurant(String name, String manager, String type, LocalTime startTime, LocalTime endTime,
-                              String description, Address address) {
+                              String description, Address address) throws DuplicatedRestaurantName {
         User managerUser = findManager(manager, users);
         Restaurant restaurant = new Restaurant(name, managerUser, type, startTime, endTime, description, address);
 
+        if (!restaurantIsTaken(name, restaurants)) {
+            throw new DuplicatedRestaurantName();
+        }
         restaurants.add(restaurant);
     }
 
