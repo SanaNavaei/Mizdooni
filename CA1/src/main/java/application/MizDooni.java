@@ -112,9 +112,13 @@ public class MizDooni {
         return node;
     }
 
-    public JsonNode searchRestaurantsByType(String restaurantType) {
+    public JsonNode searchRestaurantsByType(String restaurantType) throws RestaurantNotFound {
         ArrayList<Restaurant> restaurantResults = findRestaurantsByType(restaurantType, restaurants);
         ArrayList<JsonNode> restaurantJsons = new ArrayList<>();
+
+        if (restaurantResults.isEmpty()) {
+            throw new RestaurantNotFound();
+        }
 
         for (Restaurant r : restaurantResults) {
             String name = r.getName();

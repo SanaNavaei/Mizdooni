@@ -173,7 +173,11 @@ public class Controller {
         boolean success = true;
         JsonNode data = TextNode.valueOf("No restaurant found.");
 
-        data = mizdooni.searchRestaurantsByType(restaurantType);
+        try{
+            data = mizdooni.searchRestaurantsByType(restaurantType);
+        } catch (RestaurantNotFound ex) {
+            success = false;
+        }
 
         return createResultJson(success, data);
     }
