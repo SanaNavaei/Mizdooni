@@ -112,8 +112,27 @@ public class MizDooni {
         return node;
     }
 
-    public void searchRestaurantsByType() {
+    public JsonNode searchRestaurantsByType(String restaurantType) {
+        ArrayList<Restaurant> restaurantResults = findRestaurantsByType(restaurantType, restaurants);
+        ArrayList<JsonNode> restaurantJsons = new ArrayList<>();
 
+        for (Restaurant r : restaurantResults) {
+            String name = r.getName();
+            String type = r.getType();
+            String startTime = r.getStartTime().toString();
+            String endTime = r.getEndTime().toString();
+            String description = r.getDescription();
+            String country = r.getAddress().getCountry();
+            String city = r.getAddress().getCity();
+            String street = r.getAddress().getStreet();
+
+            restaurantJsons.add(createRestaurantJson(name, type, startTime, endTime, description, country, city, street));
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode node = mapper.createObjectNode();
+        node.put("restaurants", mapper.valueToTree(restaurantJsons));
+        return node;
     }
 
     public void showAvailableTables() {

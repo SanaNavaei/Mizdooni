@@ -166,8 +166,16 @@ public class Controller {
         return createResultJson(success, data);
     }
 
-    public void searchRestaurantsByType() {
+    public JsonNode searchRestaurantsByType(String json) {
+        JsonNode node = stringToJson(json);
+        String restaurantType = node.get("type").asText();
 
+        boolean success = true;
+        JsonNode data = TextNode.valueOf("No restaurant found.");
+
+        data = mizdooni.searchRestaurantsByType(restaurantType);
+
+        return createResultJson(success, data);
     }
 
     public void showAvailableTables() {

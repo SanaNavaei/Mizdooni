@@ -72,4 +72,14 @@ public class Utils {
     static public boolean validateManagerRestaurant(User managerUser, Restaurant restaurant) {
         return restaurant.getManager().equals(managerUser);
     }
+
+    static public ArrayList<Restaurant> findRestaurantsByType(String type, ArrayList<Restaurant> restaurants) {
+        ArrayList<Restaurant> result = new ArrayList<>();
+        for (Restaurant r : restaurants) {
+            if (r.getType().equals(type)) {
+                result.add(r);
+            }
+        }
+        return result;
+    }
 }
