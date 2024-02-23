@@ -1,5 +1,9 @@
 package application;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -42,5 +46,22 @@ public class Restaurant {
 
     public void addTable(Table table) {
         tables.add(table);
+    }
+
+    public JsonNode createRestaurantJson() {
+        ObjectNode node = new ObjectMapper().createObjectNode();
+        node.put("name", name);
+        node.put("type", type);
+        node.put("startTime", startTime.toString());
+        node.put("endTime", endTime.toString());
+        node.put("description", description);
+
+        ObjectNode address_ = new ObjectMapper().createObjectNode();
+        address_.put("country", address.getCountry());
+        address_.put("city", address.getCity());
+        address_.put("street", address.getStreet());
+        node.set("address", address_);
+
+        return node;
     }
 }

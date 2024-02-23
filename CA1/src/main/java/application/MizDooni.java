@@ -8,7 +8,6 @@ import exceptions.*;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-import static application.Controller.createRestaurantJson;
 import static application.Utils.*;
 
 public class MizDooni {
@@ -94,17 +93,7 @@ public class MizDooni {
         }
 
         ArrayList<JsonNode> restaurantJsons = new ArrayList<>();
-
-        String name = restaurant.getName();
-        String type = restaurant.getType();
-        String startTime = restaurant.getStartTime().toString();
-        String endTime = restaurant.getEndTime().toString();
-        String description = restaurant.getDescription();
-        String country = restaurant.getAddress().getCountry();
-        String city = restaurant.getAddress().getCity();
-        String street = restaurant.getAddress().getStreet();
-
-        restaurantJsons.add(createRestaurantJson(name, type, startTime, endTime, description, country, city, street));
+        restaurantJsons.add(restaurant.createRestaurantJson());
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode node = mapper.createObjectNode();
@@ -121,16 +110,7 @@ public class MizDooni {
         }
 
         for (Restaurant r : restaurantResults) {
-            String name = r.getName();
-            String type = r.getType();
-            String startTime = r.getStartTime().toString();
-            String endTime = r.getEndTime().toString();
-            String description = r.getDescription();
-            String country = r.getAddress().getCountry();
-            String city = r.getAddress().getCity();
-            String street = r.getAddress().getStreet();
-
-            restaurantJsons.add(createRestaurantJson(name, type, startTime, endTime, description, country, city, street));
+            restaurantJsons.add(r.createRestaurantJson());
         }
 
         ObjectMapper mapper = new ObjectMapper();
