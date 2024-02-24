@@ -56,7 +56,7 @@ public class Restaurant {
         return tables;
     }
 
-    public Object getManager() {
+    public User getManager() {
         return manager;
     }
 

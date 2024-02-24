@@ -33,19 +33,14 @@ public class Utils {
     }
 
     static public boolean restaurantIsTaken(String name, ArrayList<Restaurant> restaurants) {
-        for (Restaurant r : restaurants) {
-            if (r.getName().equals(name)) {
-                return false;
-            }
-        }
-        return true;
+        return findRestaurantByName(name, restaurants) != null;
     }
 
     static public boolean validateWorkingTime(LocalTime time) {
         return time.getMinute() == 0;
     }
 
-    static public Restaurant findRestaurant(String name, ArrayList<Restaurant> restaurants) {
+    static public Restaurant findRestaurantByName(String name, ArrayList<Restaurant> restaurants) {
         for (Restaurant r : restaurants) {
             if (r.getName().equals(name)) {
                 return r;

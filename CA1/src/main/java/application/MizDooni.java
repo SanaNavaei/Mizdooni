@@ -53,7 +53,7 @@ public class MizDooni {
         User managerUser = findManager(manager, users);
         int seatsNumberInt = (int) Double.parseDouble(seatsNumber);
         Table table = new Table(tableNumber, restaurantName, managerUser, seatsNumberInt);
-        Restaurant restaurant = findRestaurant(restaurantName, restaurants);
+        Restaurant restaurant = findRestaurantByName(restaurantName, restaurants);
 
         if (restaurant == null) {
             throw new RestaurantNotFound();
@@ -86,7 +86,7 @@ public class MizDooni {
     }
 
     public JsonNode searchRestaurantsByName(String restaurantName) throws RestaurantNotFound {
-        Restaurant restaurant = findRestaurant(restaurantName, restaurants);
+        Restaurant restaurant = findRestaurantByName(restaurantName, restaurants);
 
         if (restaurant == null) {
             throw new RestaurantNotFound();
