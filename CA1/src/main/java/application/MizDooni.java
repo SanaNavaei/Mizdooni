@@ -17,6 +17,7 @@ public class MizDooni {
     public void addUser(String username, String password, String email, Address address,
                         User.Role role) throws InvalidEmailFormat, InvalidUsernameFormat, DuplicatedUsernameEmail {
         User user = new User(username, password, email, address, role);
+
         if (!validateUsername(username)) {
             throw new InvalidUsernameFormat();
         }
@@ -35,11 +36,11 @@ public class MizDooni {
         User managerUser = findManager(manager, users);
         Restaurant restaurant = new Restaurant(name, managerUser, type, startTime, endTime, description, address);
 
+        if (findRestaurantByName(name, restaurants) != null) {
+            throw new DuplicatedRestaurantName();
+        }
         if (managerUser == null) {
             throw new ManagerNotFound();
-        }
-        if (!restaurantIsTaken(name, restaurants)) {
-            throw new DuplicatedRestaurantName();
         }
         if (!validateWorkingTime(startTime) || !validateWorkingTime(endTime)) {
             throw new InvalidWorkingTime();
@@ -70,6 +71,7 @@ public class MizDooni {
         if (!validateSeatsNumber(seatsNumber)) {
             throw new InvalidSeatsNumber();
         }
+
         restaurant.addTable(table);
     }
 

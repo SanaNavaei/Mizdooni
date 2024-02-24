@@ -32,10 +32,6 @@ public class Utils {
         return null;
     }
 
-    static public boolean restaurantIsTaken(String name, ArrayList<Restaurant> restaurants) {
-        return findRestaurantByName(name, restaurants) != null;
-    }
-
     static public boolean validateWorkingTime(LocalTime time) {
         return time.getMinute() == 0;
     }
