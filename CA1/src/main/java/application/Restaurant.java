@@ -64,7 +64,7 @@ public class Restaurant {
         tables.add(table);
     }
 
-    public JsonNode createRestaurantJson() {
+    public JsonNode toJson() {
         ObjectNode node = new ObjectMapper().createObjectNode();
         node.put("name", name);
         node.put("type", type);

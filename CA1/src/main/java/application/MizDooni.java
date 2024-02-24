@@ -87,38 +87,20 @@ public class MizDooni {
 
     }
 
-    public JsonNode searchRestaurantsByName(String restaurantName) throws RestaurantNotFound {
+    public Restaurant searchRestaurantsByName(String restaurantName) throws RestaurantNotFound {
         Restaurant restaurant = findRestaurantByName(restaurantName, restaurants);
-
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
-
-        ArrayList<JsonNode> restaurantJsons = new ArrayList<>();
-        restaurantJsons.add(restaurant.createRestaurantJson());
-
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectNode node = mapper.createObjectNode();
-        node.put("restaurants", mapper.valueToTree(restaurantJsons));
-        return node;
+        return restaurant;
     }
 
-    public JsonNode searchRestaurantsByType(String restaurantType) throws RestaurantNotFound {
-        ArrayList<Restaurant> restaurantResults = findRestaurantsByType(restaurantType, restaurants);
-        ArrayList<JsonNode> restaurantJsons = new ArrayList<>();
-
-        if (restaurantResults.isEmpty()) {
+    public ArrayList<Restaurant> searchRestaurantsByType(String restaurantType) throws RestaurantNotFound {
+        ArrayList<Restaurant> restaurantsResults = findRestaurantsByType(restaurantType, restaurants);
+        if (restaurantsResults.isEmpty()) {
             throw new RestaurantNotFound();
         }
-
-        for (Restaurant r : restaurantResults) {
-            restaurantJsons.add(r.createRestaurantJson());
-        }
-
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectNode node = mapper.createObjectNode();
-        node.put("restaurants", mapper.valueToTree(restaurantJsons));
-        return node;
+        return restaurantsResults;
     }
 
     public void showAvailableTables() {

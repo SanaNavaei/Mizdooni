@@ -9,13 +9,15 @@ import exceptions.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class Controller {
-    private MizDooni mizdooni;
-    private ObjectMapper objectMapper = new ObjectMapper();
+    final private MizDooni mizdooni;
+    final private ObjectMapper objectMapper;
 
     public Controller(MizDooni mizdooni) {
         this.mizdooni = mizdooni;
+        this.objectMapper = new ObjectMapper();
     }
 
     private JsonNode stringToJson(String json) {
@@ -138,13 +140,18 @@ public class Controller {
         JsonNode node = stringToJson(json);
         String restaurantName = node.get("name").asText();
 
-        boolean success = true;
-        JsonNode data = TextNode.valueOf("No restaurant found.");
+        boolean success;
+        JsonNode data;
 
         try {
-            data = mizdooni.searchRestaurantsByName(restaurantName);
+            Restaurant restaurant = mizdooni.searchRestaurantsByName(restaurantName);
+            ArrayList<JsonNode> result = new ArrayList<>();
+            result.add(restaurant.toJson());
+            success = true;
+            data = objectMapper.createObjectNode().set("restaurants", objectMapper.valueToTree(result));
         } catch (RestaurantNotFound ex) {
             success = false;
+            data = TextNode.valueOf("No restaurant found.");
         }
 
         return createResultJson(success, data);
@@ -154,13 +161,21 @@ public class Controller {
         JsonNode node = stringToJson(json);
         String restaurantType = node.get("type").asText();
 
-        boolean success = true;
-        JsonNode data = TextNode.valueOf("No restaurant found.");
+        boolean success;
+        JsonNode data;
 
         try {
-            data = mizdooni.searchRestaurantsByType(restaurantType);
+            ArrayList<Restaurant> restaurants = mizdooni.searchRestaurantsByType(restaurantType);
+            ArrayList<JsonNode> restaurantJsons = new ArrayList<>();
+            for (Restaurant r : restaurants) {
+                restaurantJsons.add(r.toJson());
+            }
+            success = true;
+            data = objectMapper.createObjectNode().set("restaurants", objectMapper.valueToTree(restaurantJsons));
+
         } catch (RestaurantNotFound ex) {
             success = false;
+            data = TextNode.valueOf("No restaurant found.");
         }
 
         return createResultJson(success, data);
