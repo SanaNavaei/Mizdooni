@@ -28,5 +28,7 @@ public class User {
         return email;
     }
 
-    public Role getRole() { return role; }
+    public Role getRole() {
+        return role;
+    }
 }

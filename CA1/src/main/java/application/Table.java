@@ -13,5 +13,7 @@ public class Table {
         this.seatsNumber = seatsNumber;
     }
 
-    public int getTableNumber() { return tableNumber; }
+    public int getTableNumber() {
+        return tableNumber;
+    }
 }

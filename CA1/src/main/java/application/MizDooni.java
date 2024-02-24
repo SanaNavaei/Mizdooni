@@ -49,9 +49,9 @@ public class MizDooni {
     }
 
     public void addTable(int tableNumber, String restaurantName, String manager, String seatsNumber)
-                        throws DuplicatedTableNumber, InvalidSeatsNumber, RestaurantNotFound, ManagerNotFound, InvalidManagerRestaurant {
+            throws DuplicatedTableNumber, InvalidSeatsNumber, RestaurantNotFound, ManagerNotFound, InvalidManagerRestaurant {
         User managerUser = findManager(manager, users);
-        int seatsNumberInt = (int)Double.parseDouble(seatsNumber);
+        int seatsNumberInt = (int) Double.parseDouble(seatsNumber);
         Table table = new Table(tableNumber, restaurantName, managerUser, seatsNumberInt);
         Restaurant restaurant = findRestaurant(restaurantName, restaurants);
 

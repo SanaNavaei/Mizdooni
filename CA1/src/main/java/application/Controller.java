@@ -91,7 +91,7 @@ public class Controller {
         boolean success = true;
         String data = "Restaurant added successfully.";
 
-        try{
+        try {
             mizdooni.addRestaurant(name, manager, type, startTime, endTime, description, address);
         } catch (DuplicatedRestaurantName | ManagerNotFound | InvalidWorkingTime ex) {
             success = false;
@@ -113,7 +113,8 @@ public class Controller {
 
         try {
             mizdooni.addTable(tableNumber, restaurantName, manager, seatsNumber);
-        } catch (DuplicatedTableNumber | InvalidSeatsNumber | RestaurantNotFound | ManagerNotFound | InvalidManagerRestaurant ex) {
+        } catch (DuplicatedTableNumber | InvalidSeatsNumber | RestaurantNotFound | ManagerNotFound |
+                 InvalidManagerRestaurant ex) {
             success = false;
             data = ex.getMessage();
         }
@@ -140,7 +141,7 @@ public class Controller {
         boolean success = true;
         JsonNode data = TextNode.valueOf("No restaurant found.");
 
-        try{
+        try {
             data = mizdooni.searchRestaurantsByName(restaurantName);
         } catch (RestaurantNotFound ex) {
             success = false;
@@ -156,7 +157,7 @@ public class Controller {
         boolean success = true;
         JsonNode data = TextNode.valueOf("No restaurant found.");
 
-        try{
+        try {
             data = mizdooni.searchRestaurantsByType(restaurantType);
         } catch (RestaurantNotFound ex) {
             success = false;

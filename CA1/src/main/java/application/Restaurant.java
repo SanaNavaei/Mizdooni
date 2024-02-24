@@ -28,21 +28,37 @@ public class Restaurant {
         this.address = address;
     }
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public String getType() { return type; }
+    public String getType() {
+        return type;
+    }
 
-    public LocalTime getStartTime() { return startTime; }
+    public LocalTime getStartTime() {
+        return startTime;
+    }
 
-    public LocalTime getEndTime() { return endTime; }
+    public LocalTime getEndTime() {
+        return endTime;
+    }
 
-    public String getDescription() { return description; }
+    public String getDescription() {
+        return description;
+    }
 
-    public Address getAddress() { return address; }
+    public Address getAddress() {
+        return address;
+    }
 
-    public ArrayList<Table> getTables() { return tables; }
+    public ArrayList<Table> getTables() {
+        return tables;
+    }
 
-    public Object getManager() { return manager; }
+    public Object getManager() {
+        return manager;
+    }
 
     public void addTable(Table table) {
         tables.add(table);
