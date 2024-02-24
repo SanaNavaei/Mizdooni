@@ -5,12 +5,12 @@ import java.util.ArrayList;
 
 public class Utils {
     static public boolean validateUsername(String username) {
-        String usernameFormat = "^[a-zA-Z0-9]+$";
+        String usernameFormat = "^\\w+$";
         return username.matches(usernameFormat);
     }
 
     static public boolean validateEmail(String email) {
-        String emailFormat = "^[a-zA-Z0-9]+@[a-zA-Z0-9]+\\.com$";
+        String emailFormat = "^\\w+@\\w+\\.\\w+$";
         return email.matches(emailFormat);
     }
 
