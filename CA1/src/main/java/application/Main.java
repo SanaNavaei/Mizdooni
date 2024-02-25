@@ -24,6 +24,8 @@ public class Main {
         System.out.println(addTable1);
 
         var reserveTable = controller.reserveTable("{\"username\": \"user2\", \"restaurantName\": \"restaurant1\", \"tableNumber\": 1, \"datetime\": \"2024-02-26 21:00\"}");
+        var cancelReservation = controller.cancelReservation("{\"username\": \"user2\", \"reservationNumber\": 1}");
         System.out.println(reserveTable);
+        System.out.println(cancelReservation);
     }
 }

@@ -113,6 +113,25 @@ public class MizDooni {
         return reservation;
     }
 
+    public void cancelReservation(String username, int reservationNumber)
+            throws UserNotFound, ReservationNotFound, ReservationCannotBeCancelled {
+        User user = findUser(username, users);
+        if (user == null) {
+            throw new UserNotFound();
+        }
+
+        Reservation reservation = user.getReservation(reservationNumber);
+        if (reservation == null) {
+            throw new ReservationNotFound();
+        }
+
+        if (reservation.getDateTime().isBefore(LocalDateTime.now())) {
+            throw new ReservationCannotBeCancelled();
+        }
+
+        user.cancelReservation(reservation);
+        reservation.getTable().cancelReservation(reservation);
+    }
     }
 
     public Restaurant searchRestaurantsByName(String restaurantName) throws RestaurantNotFound {

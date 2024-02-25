@@ -155,10 +155,26 @@ public class Controller {
 
         return createResultJson(success, data);
     }
+
+    public JsonNode cancelReservation(String json) {
+        JsonNode node = stringToJson(json);
+        String username = node.get("username").asText();
+        int reservationNumber = node.get("reservationNumber").asInt();
+
+        boolean success;
+        JsonNode data;
+
+        try {
+            mizdooni.cancelReservation(username, reservationNumber);
+            success = true;
+            data = TextNode.valueOf("Reservation cancelled successfully.");
+        } catch (UserNotFound | ReservationNotFound | ReservationCannotBeCancelled ex) {
+            success = false;
+            data = TextNode.valueOf(ex.getMessage());
+        }
+
+        return createResultJson(success, data);
     }
-
-    public void showReservationHistory() {
-
     }
 
     public JsonNode searchRestaurantsByName(String json) {

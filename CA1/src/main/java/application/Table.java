@@ -19,6 +19,9 @@ public class Table {
     public void addReservation(Reservation reservation) {
         reservations.add(reservation);
     }
+
+    public void cancelReservation(Reservation reservation) {
+        reservations.remove(reservation);
     }
 
     public int getTableNumber() {
