@@ -25,7 +25,9 @@ public class Main {
 
         var reserveTable = controller.reserveTable("{\"username\": \"user2\", \"restaurantName\": \"restaurant1\", \"tableNumber\": 1, \"datetime\": \"2024-02-26 21:00\"}");
         var cancelReservation = controller.cancelReservation("{\"username\": \"user2\", \"reservationNumber\": 1}");
+        var showReservationHistory = controller.showReservationHistory("{\"username\": \"user2\"}");
         System.out.println(reserveTable);
         System.out.println(cancelReservation);
+        System.out.println(showReservationHistory);
     }
 }

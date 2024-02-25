@@ -137,6 +137,13 @@ public class MizDooni {
 
         reservation.cancel();
     }
+
+    public List<Reservation> showReservationHistory(String username) throws UserNotFound {
+        User user = findUser(username, users);
+        if (user == null) {
+            throw new UserNotFound();
+        }
+        return user.getReservations();
     }
 
     public Restaurant searchRestaurantsByName(String restaurantName) throws RestaurantNotFound {

@@ -175,6 +175,28 @@ public class Controller {
 
         return createResultJson(success, data);
     }
+
+    public JsonNode showReservationHistory(String json) {
+        JsonNode node = stringToJson(json);
+        String username = node.get("username").asText();
+
+        boolean success;
+        JsonNode data;
+
+        try {
+            List<Reservation> reservations = mizdooni.showReservationHistory(username);
+            List<JsonNode> reserveJsons = new ArrayList<>();
+            for (Reservation r : reservations) {
+                reserveJsons.add(r.toJson());
+            }
+            success = true;
+            data = objectMapper.createObjectNode().set("reservationHistory", objectMapper.valueToTree(reserveJsons));
+        } catch (Exception ex) {
+            success = false;
+            data = TextNode.valueOf(ex.getMessage());
+        }
+
+        return createResultJson(success, data);
     }
 
     public JsonNode searchRestaurantsByName(String json) {

@@ -42,6 +42,10 @@ public class User {
         return null;
     }
 
+    public List<Reservation> getReservations() {
+        return reservations.stream().filter(r -> !r.isCancelled()).toList();
+    }
+
     public String getUsername() {
         return username;
     }

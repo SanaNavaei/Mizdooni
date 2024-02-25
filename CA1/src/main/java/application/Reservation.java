@@ -1,6 +1,11 @@
 package application;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Reservation {
     private User user;
@@ -41,5 +46,14 @@ public class Reservation {
 
     public Table getTable() {
         return table;
+    }
+
+    public JsonNode toJson() {
+        ObjectNode node = new ObjectMapper().createObjectNode();
+        node.put("reservationNumber", reservationNumber);
+        node.put("restaurantName", restaurant.getName());
+        node.put("tableNumber", table.getTableNumber());
+        node.put("datetime", datetime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        return node;
     }
 }
