@@ -2,6 +2,7 @@ package application;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Utils {
     static public boolean validateUsername(String username) {
@@ -14,7 +15,7 @@ public class Utils {
         return email.matches(emailFormat);
     }
 
-    static public boolean userIsTaken(String username, String email, ArrayList<User> users) {
+    static public boolean userIsTaken(String username, String email, List<User> users) {
         for (User u : users) {
             if (u.getUsername().equals(username) || u.getEmail().equals(email)) {
                 return false;
@@ -23,7 +24,7 @@ public class Utils {
         return true;
     }
 
-    static public User findUser(String username, ArrayList<User> users) {
+    static public User findUser(String username, List<User> users) {
         for (User u : users) {
             if (u.getUsername().equals(username)) {
                 return u;
@@ -32,7 +33,7 @@ public class Utils {
         return null;
     }
 
-    static public User findManager(String username, ArrayList<User> users) {
+    static public User findManager(String username, List<User> users) {
         for (User u : users) {
             if (u.getUsername().equals(username) && u.getRole() == User.Role.manager) {
                 return u;
@@ -45,7 +46,7 @@ public class Utils {
         return time.getMinute() == 0;
     }
 
-    static public Restaurant findRestaurantByName(String name, ArrayList<Restaurant> restaurants) {
+    static public Restaurant findRestaurantByName(String name, List<Restaurant> restaurants) {
         for (Restaurant r : restaurants) {
             if (r.getName().equals(name)) {
                 return r;
@@ -63,8 +64,8 @@ public class Utils {
         return restaurant.getManager().equals(managerUser);
     }
 
-    static public ArrayList<Restaurant> findRestaurantsByType(String type, ArrayList<Restaurant> restaurants) {
-        ArrayList<Restaurant> result = new ArrayList<>();
+    static public List<Restaurant> findRestaurantsByType(String type, List<Restaurant> restaurants) {
+        List<Restaurant> result = new ArrayList<>();
         for (Restaurant r : restaurants) {
             if (r.getType().equals(type)) {
                 result.add(r);

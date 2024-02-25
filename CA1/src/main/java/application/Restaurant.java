@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Restaurant {
     private String name;
@@ -15,7 +16,7 @@ public class Restaurant {
     private LocalTime endTime;
     private String description;
     private Address address;
-    private ArrayList<Table> tables;
+    private List<Table> tables;
 
     public Restaurant(String name, User manager, String type, LocalTime startTime, LocalTime endTime,
                       String description, Address address) {
@@ -47,14 +48,6 @@ public class Restaurant {
 
     public LocalTime getEndTime() {
         return endTime;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Address getAddress() {
-        return address;
     }
 
     public Table getTable(int tableNumber) {

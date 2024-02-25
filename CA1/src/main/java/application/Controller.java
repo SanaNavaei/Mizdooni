@@ -2,17 +2,17 @@ package application;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import exceptions.*;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Controller {
     final private MizDooni mizdooni;
@@ -186,7 +186,7 @@ public class Controller {
 
         try {
             Restaurant restaurant = mizdooni.searchRestaurantsByName(restaurantName);
-            ArrayList<JsonNode> result = new ArrayList<>();
+            List<JsonNode> result = new ArrayList<>();
             result.add(restaurant.toJson());
             success = true;
             data = objectMapper.createObjectNode().set("restaurants", objectMapper.valueToTree(result));
@@ -206,8 +206,8 @@ public class Controller {
         JsonNode data;
 
         try {
-            ArrayList<Restaurant> restaurants = mizdooni.searchRestaurantsByType(restaurantType);
-            ArrayList<JsonNode> restaurantJsons = new ArrayList<>();
+            List<Restaurant> restaurants = mizdooni.searchRestaurantsByType(restaurantType);
+            List<JsonNode> restaurantJsons = new ArrayList<>();
             for (Restaurant r : restaurants) {
                 restaurantJsons.add(r.toJson());
             }

@@ -1,6 +1,7 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class User {
     public enum Role {
@@ -14,7 +15,7 @@ public class User {
     private Address address;
     private Role role;
     private int reservationCounter;
-    private ArrayList<Reservation> reservations;
+    private List<Reservation> reservations;
 
     public User(String username, String password, String email, Address address, Role role) {
         this.username = username;

@@ -5,12 +5,18 @@ import exceptions.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
 import static application.Utils.*;
 
 public class MizDooni {
-    ArrayList<User> users = new ArrayList<>();
-    ArrayList<Restaurant> restaurants = new ArrayList<>();
+    List<User> users;
+    List<Restaurant> restaurants;
+
+    public MizDooni() {
+        users = new ArrayList<>();
+        restaurants = new ArrayList<>();
+    }
 
     public void addUser(String username, String password, String email, Address address,
                         User.Role role) throws InvalidEmailFormat, InvalidUsernameFormat, DuplicatedUsernameEmail {
@@ -141,8 +147,8 @@ public class MizDooni {
         return restaurant;
     }
 
-    public ArrayList<Restaurant> searchRestaurantsByType(String restaurantType) throws RestaurantNotFound {
-        ArrayList<Restaurant> restaurantsResults = findRestaurantsByType(restaurantType, restaurants);
+    public List<Restaurant> searchRestaurantsByType(String restaurantType) throws RestaurantNotFound {
+        List<Restaurant> restaurantsResults = findRestaurantsByType(restaurantType, restaurants);
         if (restaurantsResults.isEmpty()) {
             throw new RestaurantNotFound();
         }

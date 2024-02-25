@@ -2,12 +2,13 @@ package application;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Table {
     private int tableNumber;
     private String restaurantName;
     private int seatsNumber;
-    private ArrayList<Reservation> reservations;
+    private List<Reservation> reservations;
 
     public Table(int tableNumber, String restaurantName, int seatsNumber) {
         this.tableNumber = tableNumber;
