@@ -144,6 +144,7 @@ public class MizDooni {
         if (user == null) {
             throw new UserNotFound();
         }
+
         return user.getReservations();
     }
 
@@ -152,6 +153,7 @@ public class MizDooni {
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
+
         return restaurant;
     }
 
@@ -160,11 +162,15 @@ public class MizDooni {
         if (restaurantsResults.isEmpty()) {
             throw new RestaurantNotFound();
         }
+
         return restaurantsResults;
     }
 
-    public List<JsonNode> showAvailableTables(String restaurantName) {
+    public List<JsonNode> showAvailableTables(String restaurantName) throws RestaurantNotFound {
         Restaurant restaurant = findRestaurantByName(restaurantName, restaurants);
+        if (restaurant == null) {
+            throw new RestaurantNotFound();
+        }
 
         return restaurant.showAvailableTables();
     }

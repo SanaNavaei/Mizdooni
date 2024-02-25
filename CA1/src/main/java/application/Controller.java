@@ -214,7 +214,7 @@ public class Controller {
             data = objectMapper.createObjectNode().set("restaurants", objectMapper.valueToTree(result));
         } catch (RestaurantNotFound ex) {
             success = false;
-            data = TextNode.valueOf("No restaurant found.");
+            data = TextNode.valueOf(ex.getMessage());
         }
 
         return createResultJson(success, data);
@@ -238,7 +238,7 @@ public class Controller {
 
         } catch (RestaurantNotFound ex) {
             success = false;
-            data = TextNode.valueOf("No restaurant found.");
+            data = TextNode.valueOf(ex.getMessage());
         }
 
         return createResultJson(success, data);
@@ -251,8 +251,14 @@ public class Controller {
         boolean success = true;
         JsonNode data;
 
-        List<JsonNode> tables = mizdooni.showAvailableTables(restaurantName);
-        data = objectMapper.createObjectNode().set("availableTables", objectMapper.valueToTree(tables));
+        try {
+            List<JsonNode> tables = mizdooni.showAvailableTables(restaurantName);
+            data = objectMapper.createObjectNode().set("availableTables", objectMapper.valueToTree(tables));
+        } catch (RestaurantNotFound ex) {
+            success = false;
+            data = TextNode.valueOf(ex.getMessage());
+        }
+
         return createResultJson(success, data);
     }
 
