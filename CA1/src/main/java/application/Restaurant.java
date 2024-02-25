@@ -4,9 +4,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import static application.Utils.convertToTime;
 
 public class Restaurant {
     private String name;
@@ -67,6 +71,42 @@ public class Restaurant {
 
     public void addReview(Review review) {
         reviews.add(review);
+    }
+
+    public List<JsonNode> showAvailableTables() {
+        List<JsonNode> availableTables = new ArrayList<>();
+
+        for (Table t : tables) {
+            List<Reservation> reservations = t.getReservations();
+            if (!reservations.isEmpty()) {
+                Map<LocalDate, List<Integer>> reservationDate = t.findReservationsDate();
+                Map<LocalDate, List<Integer>> availableHours = findAvailableHours(reservationDate);
+                List<String> TimeAndDate = convertToTime(availableHours);
+                availableTables.add(t.toJson(TimeAndDate));
+            }
+        }
+
+        return availableTables;
+    }
+
+    public Map<LocalDate, List<Integer>> findAvailableHours(Map<LocalDate, List<Integer>> reservationDate) {
+        Map<LocalDate, List<Integer>> availableHours;
+        availableHours = reservationDate;
+        int start = startTime.getHour();
+        int end = endTime.getHour();
+
+        for (LocalDate date : reservationDate.keySet()) {
+            List<Integer> hours = reservationDate.get(date);
+            List<Integer> available = new ArrayList<>();
+            for (int i = start; i <= end; i++) {
+                if (!hours.contains(i)) {
+                    available.add(i);
+                }
+            }
+            availableHours.put(date, available);
+        }
+
+        return availableHours;
     }
 
     public JsonNode toJson() {

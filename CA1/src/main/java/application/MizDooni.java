@@ -1,5 +1,6 @@
 package application;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import exceptions.*;
 
 import java.time.LocalDateTime;
@@ -162,8 +163,10 @@ public class MizDooni {
         return restaurantsResults;
     }
 
-    public void showAvailableTables() {
+    public List<JsonNode> showAvailableTables(String restaurantName) {
+        Restaurant restaurant = findRestaurantByName(restaurantName, restaurants);
 
+        return restaurant.showAvailableTables();
     }
 
     public void addReview(String username, String restaurantName, double foodRate, double serviceRate, double ambianceRate,

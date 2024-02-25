@@ -23,12 +23,20 @@ public class Main {
         var addTable1 = controller.addTable("{\"tableNumber\": 1, \"restaurantName\": \"restaurant1\", \"managerUsername\": \"user1\", \"seatsNumber\": 4}");
         System.out.println(addTable1);
 
+        var addTable2 = controller.addTable("{\"tableNumber\": 2, \"restaurantName\": \"restaurant1\", \"managerUsername\": \"user1\", \"seatsNumber\": 4}");
+
         var reserveTable = controller.reserveTable("{\"username\": \"user2\", \"restaurantName\": \"restaurant1\", \"tableNumber\": 1, \"datetime\": \"2024-02-26 21:00\"}");
-        var cancelReservation = controller.cancelReservation("{\"username\": \"user2\", \"reservationNumber\": 1}");
+        var reserveTable2 = controller.reserveTable("{\"username\": \"user2\", \"restaurantName\": \"restaurant1\", \"tableNumber\": 2, \"datetime\": \"2024-02-26 18:00\"}");
+        var reserveTable3 = controller.reserveTable("{\"username\": \"user2\", \"restaurantName\": \"restaurant1\", \"tableNumber\": 1, \"datetime\": \"2024-02-27 19:00\"}");
+        //var cancelReservation = controller.cancelReservation("{\"username\": \"user2\", \"reservationNumber\": 1}");
         var showReservationHistory = controller.showReservationHistory("{\"username\": \"user2\"}");
         System.out.println(reserveTable);
-        System.out.println(cancelReservation);
+        System.out.println(reserveTable2);
+        //System.out.println(cancelReservation);
         System.out.println(showReservationHistory);
+
+        var showAvailableTables = controller.showAvailableTables("{\"restaurantName\": \"restaurant1\"}");
+        System.out.println(showAvailableTables);
 
         var addReview = controller.addReview("{\"username\": \"user2\", \"restaurantName\": \"restaurant1\", \"foodRate\": 4.5, \"serviceRate\": 3, \"ambianceRate\": 4.5, \"overallRate\": 4, \"comment\": \"Not bad!\"}");
         System.out.println(addReview);

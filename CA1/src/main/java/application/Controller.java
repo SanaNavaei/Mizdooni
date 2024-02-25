@@ -244,8 +244,16 @@ public class Controller {
         return createResultJson(success, data);
     }
 
-    public void showAvailableTables() {
+    public JsonNode showAvailableTables(String json) {
+        JsonNode node = stringToJson(json);
+        String restaurantName = node.get("restaurantName").asText();
 
+        boolean success = true;
+        JsonNode data;
+
+        List<JsonNode> tables = mizdooni.showAvailableTables(restaurantName);
+        data = objectMapper.createObjectNode().set("availableTables", objectMapper.valueToTree(tables));
+        return createResultJson(success, data);
     }
 
     public JsonNode addReview(String json) {

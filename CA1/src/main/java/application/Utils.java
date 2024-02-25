@@ -1,8 +1,9 @@
 package application;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Utils {
     static public boolean validateUsername(String username) {
@@ -72,5 +73,27 @@ public class Utils {
             }
         }
         return result;
+    }
+
+    static public List<String> convertToTime(Map<LocalDate, List<Integer>> availableHours){
+        Map<LocalDate, List<LocalTime>> newAvailableHours = new HashMap<>();
+
+        for (Map.Entry<LocalDate, List<Integer>> entry : availableHours.entrySet()) {
+            List<LocalTime> timeList = entry.getValue().stream()
+                    .map(hour -> LocalTime.of(hour, 0))
+                    .collect(Collectors.toList());
+            newAvailableHours.put(entry.getKey(), timeList);
+        }
+
+        newAvailableHours = new TreeMap<>(newAvailableHours);
+
+        List<String> TimeAndDate = new ArrayList<>();
+        for (Map.Entry<LocalDate, List<LocalTime>> entry : newAvailableHours.entrySet()) {
+            for (LocalTime time : entry.getValue()) {
+                String formattedTime = entry.getKey() + " " + time;
+                TimeAndDate.add(formattedTime);
+            }
+        }
+        return TimeAndDate;
     }
 }
