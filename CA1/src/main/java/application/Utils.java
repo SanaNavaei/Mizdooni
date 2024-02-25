@@ -23,6 +23,15 @@ public class Utils {
         return true;
     }
 
+    static public User findUser(String username, ArrayList<User> users) {
+        for (User u : users) {
+            if (u.getUsername().equals(username)) {
+                return u;
+            }
+        }
+        return null;
+    }
+
     static public User findManager(String username, ArrayList<User> users) {
         for (User u : users) {
             if (u.getUsername().equals(username) && u.getRole() == User.Role.manager) {
@@ -43,16 +52,6 @@ public class Utils {
             }
         }
         return null;
-    }
-
-    static public boolean tableIsTaken(int tableNumber, Restaurant restaurant) {
-        ArrayList<Table> tables = restaurant.getTables();
-        for (Table t : tables) {
-            if (t.getTableNumber() == tableNumber) {
-                return false;
-            }
-        }
-        return true;
     }
 
     static public boolean validateSeatsNumber(String seatsNumber) {

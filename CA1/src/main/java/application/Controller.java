@@ -8,16 +8,21 @@ import exceptions.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 
 public class Controller {
     final private MizDooni mizdooni;
     final private ObjectMapper objectMapper;
+    final private DateTimeFormatter datetimeFormatter;
 
     public Controller(MizDooni mizdooni) {
         this.mizdooni = mizdooni;
         this.objectMapper = new ObjectMapper();
+        this.datetimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     }
 
     private JsonNode stringToJson(String json) {
@@ -124,12 +129,32 @@ public class Controller {
         return createResultJson(success, TextNode.valueOf(data));
     }
 
-    public void reserveTable() {
+    public JsonNode reserveTable(String json) {
+        JsonNode node = stringToJson(json);
+        String username = node.get("username").asText();
+        String restaurantName = node.get("restaurantName").asText();
+        int tableNumber = node.get("tableNumber").asInt();
+        String datetimeString = node.get("datetime").asText();
 
+        boolean success;
+        JsonNode data;
+
+        try {
+            LocalDateTime datetime = LocalDateTime.parse(datetimeString, datetimeFormatter);
+            Reservation reservation = mizdooni.reserveTable(username, restaurantName, tableNumber, datetime);
+            success = true;
+            data = objectMapper.createObjectNode().put("reservationNumber", reservation.getReservationNumber());
+        } catch (DateTimeParseException ex) {
+            success = false;
+            data = TextNode.valueOf("Invalid datetime format");
+        } catch (UserNotFound | ManagerReservationNotAllowed | InvalidWorkingTime | RestaurantNotFound | TableNotFound |
+                 InvalidDateTime | ReservationNotInOpenTimes | TableAlreadyReserved ex) {
+            success = false;
+            data = TextNode.valueOf(ex.getMessage());
+        }
+
+        return createResultJson(success, data);
     }
-
-    public void cancelReservation() {
-
     }
 
     public void showReservationHistory() {

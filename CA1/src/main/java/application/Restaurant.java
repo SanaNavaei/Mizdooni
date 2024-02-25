@@ -15,7 +15,7 @@ public class Restaurant {
     private LocalTime endTime;
     private String description;
     private Address address;
-    private ArrayList<Table> tables = new ArrayList<>();
+    private ArrayList<Table> tables;
 
     public Restaurant(String name, User manager, String type, LocalTime startTime, LocalTime endTime,
                       String description, Address address) {
@@ -26,6 +26,7 @@ public class Restaurant {
         this.endTime = endTime;
         this.description = description;
         this.address = address;
+        this.tables = new ArrayList<>();
     }
 
     public String getName() {
@@ -34,6 +35,10 @@ public class Restaurant {
 
     public String getType() {
         return type;
+    }
+
+    public User getManager() {
+        return manager;
     }
 
     public LocalTime getStartTime() {
@@ -52,12 +57,13 @@ public class Restaurant {
         return address;
     }
 
-    public ArrayList<Table> getTables() {
-        return tables;
-    }
-
-    public User getManager() {
-        return manager;
+    public Table getTable(int tableNumber) {
+        for (Table t : tables) {
+            if (t.getTableNumber() == tableNumber) {
+                return t;
+            }
+        }
+        return null;
     }
 
     public void addTable(Table table) {
