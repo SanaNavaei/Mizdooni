@@ -29,5 +29,8 @@ public class Main {
         System.out.println(reserveTable);
         System.out.println(cancelReservation);
         System.out.println(showReservationHistory);
+
+        var addReview = controller.addReview("{\"username\": \"user2\", \"restaurantName\": \"restaurant1\", \"foodRate\": 4.5, \"serviceRate\": 3, \"ambianceRate\": 4.5, \"overallRate\": 4, \"comment\": \"Not bad!\"}");
+        System.out.println(addReview);
     }
 }

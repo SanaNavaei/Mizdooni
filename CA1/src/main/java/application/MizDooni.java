@@ -166,7 +166,35 @@ public class MizDooni {
 
     }
 
-    public void addReview() {
+    public void addReview(String username, String restaurantName, double foodRate, double serviceRate, double ambianceRate,
+                          double overallRate, String comment) throws UserNotFound, ManagerCannotReview, RestaurantNotFound, InvalidReviewRating {
+        User user = findUser(username, users);
+        if (user == null) {
+            throw new UserNotFound();
+        }
+        if (user.getRole() == User.Role.manager) {
+            throw new ManagerCannotReview();
+        }
 
+        Restaurant restaurant = findRestaurantByName(restaurantName, restaurants);
+        if (restaurant == null) {
+            throw new RestaurantNotFound();
+        }
+
+        if (foodRate < 0 || foodRate > 5) {
+            throw new InvalidReviewRating("Food");
+        }
+        if (serviceRate < 0 || serviceRate > 5) {
+            throw new InvalidReviewRating("Service");
+        }
+        if (ambianceRate < 0 || ambianceRate > 5) {
+            throw new InvalidReviewRating("Ambiance");
+        }
+        if (overallRate < 0 || overallRate > 5) {
+            throw new InvalidReviewRating("Overall");
+        }
+
+        Review review = new Review(foodRate, serviceRate, ambianceRate, overallRate, comment, LocalDateTime.now());
+        restaurant.addReview(review);
     }
 }

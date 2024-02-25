@@ -248,7 +248,28 @@ public class Controller {
 
     }
 
-    public void addReview() {
+    public JsonNode addReview(String json) {
+        JsonNode node = stringToJson(json);
+        String username = node.get("username").asText();
+        String restaurantName = node.get("restaurantName").asText();
+        double foodRate = node.get("foodRate").asDouble();
+        double serviceRate = node.get("serviceRate").asDouble();
+        double ambianceRate = node.get("ambianceRate").asDouble();
+        double overallRate = node.get("overallRate").asDouble();
+        String comment = node.get("comment").asText();
 
+        boolean success;
+        JsonNode data;
+
+        try {
+            mizdooni.addReview(username, restaurantName, foodRate, serviceRate, ambianceRate, overallRate, comment);
+            success = true;
+            data = TextNode.valueOf("Review added successfully.");
+        } catch (Exception ex) {
+            success = false;
+            data = TextNode.valueOf(ex.getMessage());
+        }
+
+        return createResultJson(success, data);
     }
 }

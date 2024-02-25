@@ -17,6 +17,7 @@ public class Restaurant {
     private String description;
     private Address address;
     private List<Table> tables;
+    private List<Review> reviews;
 
     public Restaurant(String name, User manager, String type, LocalTime startTime, LocalTime endTime,
                       String description, Address address) {
@@ -28,6 +29,7 @@ public class Restaurant {
         this.description = description;
         this.address = address;
         this.tables = new ArrayList<>();
+        this.reviews = new ArrayList<>();
     }
 
     public String getName() {
@@ -61,6 +63,10 @@ public class Restaurant {
 
     public void addTable(Table table) {
         tables.add(table);
+    }
+
+    public void addReview(Review review) {
+        reviews.add(review);
     }
 
     public JsonNode toJson() {
