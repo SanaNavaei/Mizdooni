@@ -32,13 +32,9 @@ public class User {
         reservations.add(reservation);
     }
 
-    public void cancelReservation(Reservation reservation) {
-        reservations.remove(reservation);
-    }
-
     public Reservation getReservation(int reservationNumber) {
         for (Reservation r : reservations) {
-            if (r.getReservationNumber() == reservationNumber) {
+            if (r.getReservationNumber() == reservationNumber && !r.isCancelled()) {
                 return r;
             }
         }

@@ -20,17 +20,13 @@ public class Table {
         reservations.add(reservation);
     }
 
-    public void cancelReservation(Reservation reservation) {
-        reservations.remove(reservation);
-    }
-
     public int getTableNumber() {
         return tableNumber;
     }
 
     public boolean isReserved(LocalDateTime datetime) {
         for (Reservation r : reservations) {
-            if (r.getDateTime().equals(datetime)) {
+            if (r.getDateTime().equals(datetime) && !r.isCancelled()) {
                 return true;
             }
         }

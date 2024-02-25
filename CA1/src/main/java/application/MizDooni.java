@@ -129,8 +129,7 @@ public class MizDooni {
             throw new ReservationCannotBeCancelled();
         }
 
-        user.cancelReservation(reservation);
-        reservation.getTable().cancelReservation(reservation);
+        reservation.cancel();
     }
     }
 

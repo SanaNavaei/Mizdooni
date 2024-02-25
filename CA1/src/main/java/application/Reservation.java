@@ -8,6 +8,7 @@ public class Reservation {
     private Table table;
     private LocalDateTime datetime;
     private int reservationNumber;
+    private boolean cancelled;
 
     public Reservation(User user, Restaurant restaurant, Table table, LocalDateTime datetime) {
         this.user = user;
@@ -15,6 +16,15 @@ public class Reservation {
         this.table = table;
         this.datetime = datetime;
         this.reservationNumber = -1;
+        this.cancelled = false;
+    }
+
+    public void cancel() {
+        this.cancelled = true;
+    }
+
+    public boolean isCancelled() {
+        return cancelled;
     }
 
     public void setReservationNumber(int reservationNumber) {
