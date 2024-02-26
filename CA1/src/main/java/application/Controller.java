@@ -206,11 +206,13 @@ public class Controller {
         JsonNode data;
 
         try {
-            Restaurant restaurant = mizdooni.searchRestaurantsByName(restaurantName);
-            List<JsonNode> result = new ArrayList<>();
-            result.add(restaurant.toJson());
+            List<Restaurant> restaurants = mizdooni.searchRestaurantsByName(restaurantName);
+            List<JsonNode> restaurantJsons = new ArrayList<>();
+            for (Restaurant r : restaurants) {
+                restaurantJsons.add(r.toJson());
+            }
             success = true;
-            data = objectMapper.createObjectNode().set("restaurants", objectMapper.valueToTree(result));
+            data = objectMapper.createObjectNode().set("restaurants", objectMapper.valueToTree(restaurantJsons));
         } catch (RestaurantNotFound ex) {
             success = false;
             data = TextNode.valueOf(ex.getMessage());

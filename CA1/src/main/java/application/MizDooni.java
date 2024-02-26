@@ -147,22 +147,22 @@ public class MizDooni {
         return user.getReservations();
     }
 
-    public Restaurant searchRestaurantsByName(String restaurantName) throws RestaurantNotFound {
-        Restaurant restaurant = findRestaurantByName(restaurantName, restaurants);
-        if (restaurant == null) {
+    public List<Restaurant> searchRestaurantsByName(String restaurantName) throws RestaurantNotFound {
+        List<Restaurant> results = findRestaurantsByName(restaurantName, restaurants);
+        if (results.isEmpty()) {
             throw new RestaurantNotFound();
         }
 
-        return restaurant;
+        return results;
     }
 
     public List<Restaurant> searchRestaurantsByType(String restaurantType) throws RestaurantNotFound {
-        List<Restaurant> restaurantsResults = findRestaurantsByType(restaurantType, restaurants);
-        if (restaurantsResults.isEmpty()) {
+        List<Restaurant> results = findRestaurantsByType(restaurantType, restaurants);
+        if (results.isEmpty()) {
             throw new RestaurantNotFound();
         }
 
-        return restaurantsResults;
+        return results;
     }
 
     public List<JsonNode> showAvailableTables(String restaurantName) throws RestaurantNotFound {

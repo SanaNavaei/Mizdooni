@@ -56,6 +56,10 @@ public class Utils {
         return seatsNumber.matches(seatsNumberFormat);
     }
 
+    static public List<Restaurant> findRestaurantsByName(String name, List<Restaurant> restaurants) {
+        return restaurants.stream().filter(r -> r.getName().contains(name)).collect(Collectors.toList());
+    }
+
     static public List<Restaurant> findRestaurantsByType(String type, List<Restaurant> restaurants) {
         return restaurants.stream().filter(r -> r.getType().equals(type)).collect(Collectors.toList());
     }
