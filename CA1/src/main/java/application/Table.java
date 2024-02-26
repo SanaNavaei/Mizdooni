@@ -7,7 +7,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Table {
     private int tableNumber;
@@ -26,14 +29,6 @@ public class Table {
         reservations.add(reservation);
     }
 
-    public int getTableNumber() {
-        return tableNumber;
-    }
-
-    public int getSeatsNumber() {
-        return seatsNumber;
-    }
-
     public boolean isReserved(LocalDateTime datetime) {
         for (Reservation r : reservations) {
             if (r.getDateTime().equals(datetime) && !r.isCancelled()) {
@@ -43,26 +38,30 @@ public class Table {
         return false;
     }
 
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public Map<LocalDate, List<LocalTime>> findReservationsDate() {
-        Map<LocalDate, List<LocalTime>> reservationDate = new HashMap<>();
+    public Map<LocalDate, List<LocalTime>> getReservationsDate() {
+        Map<LocalDate, List<LocalTime>> reservationsDate = new HashMap<>();
 
         for (Reservation r : reservations) {
             if (r.isCancelled()) {
                 continue;
             }
-            List<LocalTime> availableHours = reservationDate.get(r.getDateTime().toLocalDate());
-            if (availableHours == null) {
-                availableHours = new ArrayList<>();
+            List<LocalTime> reservedHours = reservationsDate.get(r.getDateTime().toLocalDate());
+            if (reservedHours == null) {
+                reservedHours = new ArrayList<>();
             }
-            availableHours.add(r.getDateTime().toLocalTime());
-            reservationDate.put(r.getDateTime().toLocalDate(), availableHours);
+            reservedHours.add(r.getDateTime().toLocalTime());
+            reservationsDate.put(r.getDateTime().toLocalDate(), reservedHours);
         }
 
-        return reservationDate;
+        return reservationsDate;
+    }
+
+    public int getTableNumber() {
+        return tableNumber;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
     }
 
     public JsonNode toJson(List<String> timeAndDate) {

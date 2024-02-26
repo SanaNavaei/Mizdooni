@@ -4,7 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Utils {
     static public boolean validateUsername(String username) {
@@ -35,15 +38,6 @@ public class Utils {
         return null;
     }
 
-    static public User findManager(String username, List<User> users) {
-        for (User u : users) {
-            if (u.getUsername().equals(username) && u.getRole() == User.Role.manager) {
-                return u;
-            }
-        }
-        return null;
-    }
-
     static public boolean validateWorkingTime(LocalTime time) {
         return time.getMinute() == 0;
     }
@@ -62,21 +56,11 @@ public class Utils {
         return seatsNumber.matches(seatsNumberFormat);
     }
 
-    static public boolean validateManagerRestaurant(User managerUser, Restaurant restaurant) {
-        return restaurant.getManager().equals(managerUser);
-    }
-
     static public List<Restaurant> findRestaurantsByType(String type, List<Restaurant> restaurants) {
-        List<Restaurant> result = new ArrayList<>();
-        for (Restaurant r : restaurants) {
-            if (r.getType().equals(type)) {
-                result.add(r);
-            }
-        }
-        return result;
+        return restaurants.stream().filter(r -> r.getType().equals(type)).collect(Collectors.toList());
     }
 
-    static public List<String> convertToString(Map<LocalDate, List<LocalTime>> availableHours){
+    static public List<String> convertToString(Map<LocalDate, List<LocalTime>> availableHours) {
         List<String> timeAndDate = new ArrayList<>();
         for (Map.Entry<LocalDate, List<LocalTime>> entry : availableHours.entrySet()) {
             for (LocalTime time : entry.getValue()) {

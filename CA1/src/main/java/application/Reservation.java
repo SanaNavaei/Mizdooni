@@ -32,28 +32,28 @@ public class Reservation {
         return cancelled;
     }
 
-    public void setReservationNumber(int reservationNumber) {
-        this.reservationNumber = reservationNumber;
-    }
-
-    public int getReservationNumber() {
-        return reservationNumber;
-    }
-
-    public LocalDateTime getDateTime() {
-        return datetime;
-    }
-
-    public Table getTable() {
-        return table;
-    }
-
     public User getUser() {
         return user;
     }
 
     public Restaurant getRestaurant() {
         return restaurant;
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public LocalDateTime getDateTime() {
+        return datetime;
+    }
+
+    public int getReservationNumber() {
+        return reservationNumber;
+    }
+
+    public void setReservationNumber(int reservationNumber) {
+        this.reservationNumber = reservationNumber;
     }
 
     public JsonNode toJson() {

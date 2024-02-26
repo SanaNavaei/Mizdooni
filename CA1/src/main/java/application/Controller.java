@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
-    final private MizDooni mizdooni;
-    final private ObjectMapper objectMapper;
+    private MizDooni mizdooni;
+    private ObjectMapper objectMapper;
     static public DateTimeFormatter datetimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public Controller(MizDooni mizdooni) {

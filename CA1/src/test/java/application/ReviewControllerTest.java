@@ -50,7 +50,7 @@ public class ReviewControllerTest {
     public void testAddReviewControllerSuccess() {
         String input = createReviewJson(1.2, 2.4, 3.6, 4.8);
         JsonNode result = controller.addReview(input);
-        Assertions.assertEquals(true, result.get("success").asBoolean());
+        Assertions.assertTrue(result.get("success").asBoolean());
         Assertions.assertEquals("Review added successfully.", result.get("data").asText());
     }
 
@@ -59,7 +59,7 @@ public class ReviewControllerTest {
     public void testAddReviewControllerFail() {
         String input = createReviewJson(1.2, 10.4, 3.6, 4.8);
         JsonNode result = controller.addReview(input);
-        Assertions.assertEquals(false, result.get("success").asBoolean());
+        Assertions.assertFalse(result.get("success").asBoolean());
         Assertions.assertEquals("Review rating parameter <Service> out of range.", result.get("data").asText());
     }
 }

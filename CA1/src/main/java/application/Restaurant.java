@@ -6,7 +6,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import static application.Utils.convertToString;
 
@@ -34,26 +37,6 @@ public class Restaurant {
         this.reviews = new ArrayList<>();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public User getManager() {
-        return manager;
-    }
-
-    public LocalTime getStartTime() {
-        return startTime;
-    }
-
-    public LocalTime getEndTime() {
-        return endTime;
-    }
-
     public Table getTable(int tableNumber) {
         for (Table t : tables) {
             if (t.getTableNumber() == tableNumber) {
@@ -71,17 +54,13 @@ public class Restaurant {
         reviews.add(review);
     }
 
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
     public List<JsonNode> showAvailableTables() {
         List<JsonNode> availableTables = new ArrayList<>();
 
         for (Table t : tables) {
             List<Reservation> reservations = t.getReservations();
             if (!reservations.isEmpty()) {
-                Map<LocalDate, List<LocalTime>> reservationDate = t.findReservationsDate();
+                Map<LocalDate, List<LocalTime>> reservationDate = t.getReservationsDate();
                 Map<LocalDate, List<LocalTime>> availableHours = findAvailableHours(reservationDate);
                 List<String> timeAndDate = convertToString(availableHours);
                 availableTables.add(t.toJson(timeAndDate));
@@ -111,6 +90,30 @@ public class Restaurant {
         }
 
         return availableHours;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public User getManager() {
+        return manager;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    public List<Review> getReviews() {
+        return reviews;
     }
 
     public JsonNode toJson() {

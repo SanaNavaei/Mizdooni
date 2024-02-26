@@ -21,8 +21,6 @@ public class MizDooni {
 
     public void addUser(String username, String password, String email, Address address,
                         User.Role role) throws InvalidEmailFormat, InvalidUsernameFormat, DuplicatedUsernameEmail {
-        User user = new User(username, password, email, address, role);
-
         if (!validateUsername(username)) {
             throw new InvalidUsernameFormat();
         }
@@ -33,41 +31,41 @@ public class MizDooni {
             throw new DuplicatedUsernameEmail();
         }
 
+        User user = new User(username, password, email, address, role);
         users.add(user);
     }
 
     public void addRestaurant(String name, String manager, String type, LocalTime startTime, LocalTime endTime,
                               String description, Address address) throws DuplicatedRestaurantName, ManagerNotFound, InvalidWorkingTime {
-        User managerUser = findManager(manager, users);
-        Restaurant restaurant = new Restaurant(name, managerUser, type, startTime, endTime, description, address);
+        User managerUser = findUser(manager, users);
 
         if (findRestaurantByName(name, restaurants) != null) {
             throw new DuplicatedRestaurantName();
         }
-        if (managerUser == null) {
+        if (managerUser == null || managerUser.getRole() != User.Role.manager) {
             throw new ManagerNotFound();
         }
         if (!validateWorkingTime(startTime) || !validateWorkingTime(endTime)) {
             throw new InvalidWorkingTime();
         }
 
+        Restaurant restaurant = new Restaurant(name, managerUser, type, startTime, endTime, description, address);
         restaurants.add(restaurant);
     }
 
     public void addTable(int tableNumber, String restaurantName, String manager, String seatsNumber)
             throws DuplicatedTableNumber, InvalidSeatsNumber, RestaurantNotFound, ManagerNotFound, InvalidManagerRestaurant {
-        User managerUser = findManager(manager, users);
+        User managerUser = findUser(manager, users);
         int seatsNumberInt = (int) Double.parseDouble(seatsNumber);
-        Table table = new Table(tableNumber, restaurantName, seatsNumberInt);
         Restaurant restaurant = findRestaurantByName(restaurantName, restaurants);
 
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
-        if (managerUser == null) {
+        if (managerUser == null || managerUser.getRole() != User.Role.manager) {
             throw new ManagerNotFound();
         }
-        if (!validateManagerRestaurant(managerUser, restaurant)) {
+        if (!restaurant.getManager().equals(managerUser)) {
             throw new InvalidManagerRestaurant();
         }
         if (restaurant.getTable(tableNumber) != null) {
@@ -77,6 +75,7 @@ public class MizDooni {
             throw new InvalidSeatsNumber();
         }
 
+        Table table = new Table(tableNumber, restaurantName, seatsNumberInt);
         restaurant.addTable(table);
     }
 

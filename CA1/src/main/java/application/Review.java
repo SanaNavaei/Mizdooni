@@ -1,10 +1,7 @@
 package application;
 
-import lombok.Getter;
-
 import java.time.LocalDateTime;
 
-@Getter
 public class Review {
     private double foodRate;
     private double serviceRate;
@@ -20,5 +17,25 @@ public class Review {
         this.overallRate = overallRate;
         this.comment = comment;
         this.datetime = datetime;
+    }
+
+    public double getFoodRate() {
+        return foodRate;
+    }
+
+    public double getServiceRate() {
+        return serviceRate;
+    }
+
+    public double getAmbianceRate() {
+        return ambianceRate;
+    }
+
+    public double getOverallRate() {
+        return overallRate;
+    }
+
+    public String getComment() {
+        return comment;
     }
 }

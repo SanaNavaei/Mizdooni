@@ -53,7 +53,7 @@ public class ReservationControllerTest {
     public void testAddReservationControllerSuccess() {
         String input = createReservationJson("client", "restaurant", 1, datetime);
         JsonNode result = controller.reserveTable(input);
-        Assertions.assertEquals(true, result.get("success").asBoolean());
+        Assertions.assertTrue(result.get("success").asBoolean());
         Assertions.assertEquals(table.getReservations().get(0).getReservationNumber(), result.get("data").get("reservationNumber").asInt());
     }
 
@@ -62,9 +62,9 @@ public class ReservationControllerTest {
     public void testAddReservationControllerFail() {
         String input = createReservationJson("client", "restaurant", 1, datetime);
         JsonNode result = controller.reserveTable(input);
-        Assertions.assertEquals(true, result.get("success").asBoolean());
+        Assertions.assertTrue(result.get("success").asBoolean());
         result = controller.reserveTable(input);
-        Assertions.assertEquals(false, result.get("success").asBoolean());
+        Assertions.assertFalse(result.get("success").asBoolean());
         Assertions.assertEquals("Table is already reserved.", result.get("data").asText());
     }
 }

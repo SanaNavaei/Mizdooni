@@ -2,6 +2,7 @@ package application;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class User {
     public enum Role {
@@ -43,7 +44,7 @@ public class User {
     }
 
     public List<Reservation> getReservations() {
-        return reservations.stream().filter(r -> !r.isCancelled()).toList();
+        return reservations.stream().filter(r -> !r.isCancelled()).collect(Collectors.toList());
     }
 
     public String getUsername() {
