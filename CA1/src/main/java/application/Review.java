@@ -1,7 +1,10 @@
 package application;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
+@Getter
 public class Review {
     private double foodRate;
     private double serviceRate;

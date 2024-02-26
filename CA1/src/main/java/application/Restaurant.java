@@ -71,6 +71,10 @@ public class Restaurant {
         reviews.add(review);
     }
 
+    public List<Review> getReviews() {
+        return reviews;
+    }
+
     public List<JsonNode> showAvailableTables() {
         List<JsonNode> availableTables = new ArrayList<>();
 
