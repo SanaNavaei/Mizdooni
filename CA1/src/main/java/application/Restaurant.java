@@ -6,11 +6,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static application.Utils.convertToTime;
+import static application.Utils.convertToString;
 
 public class Restaurant {
     private String name;
@@ -79,28 +77,30 @@ public class Restaurant {
         for (Table t : tables) {
             List<Reservation> reservations = t.getReservations();
             if (!reservations.isEmpty()) {
-                Map<LocalDate, List<Integer>> reservationDate = t.findReservationsDate();
-                Map<LocalDate, List<Integer>> availableHours = findAvailableHours(reservationDate);
-                List<String> TimeAndDate = convertToTime(availableHours);
-                availableTables.add(t.toJson(TimeAndDate));
+                Map<LocalDate, List<LocalTime>> reservationDate = t.findReservationsDate();
+                Map<LocalDate, List<LocalTime>> availableHours = findAvailableHours(reservationDate);
+                List<String> timeAndDate = convertToString(availableHours);
+                availableTables.add(t.toJson(timeAndDate));
             }
         }
 
         return availableTables;
     }
 
-    public Map<LocalDate, List<Integer>> findAvailableHours(Map<LocalDate, List<Integer>> reservationDate) {
-        Map<LocalDate, List<Integer>> availableHours;
-        availableHours = reservationDate;
+    public Map<LocalDate, List<LocalTime>> findAvailableHours(Map<LocalDate, List<LocalTime>> reservationDate) {
+        Map<LocalDate, List<LocalTime>> availableHours = new TreeMap<>();
         int start = startTime.getHour();
         int end = endTime.getHour();
 
-        for (LocalDate date : reservationDate.keySet()) {
-            List<Integer> hours = reservationDate.get(date);
-            List<Integer> available = new ArrayList<>();
+        for (Map.Entry<LocalDate, List<LocalTime>> entry : reservationDate.entrySet()) {
+            LocalDate date = entry.getKey();
+            List<LocalTime> hours = entry.getValue();
+
+            List<LocalTime> available = new ArrayList<>();
             for (int i = start; i <= end; i++) {
-                if (!hours.contains(i)) {
-                    available.add(i);
+                LocalTime hour = LocalTime.of(i, 0);
+                if (!hours.contains(hour)) {
+                    available.add(hour);
                 }
             }
             availableHours.put(date, available);
