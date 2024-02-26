@@ -17,12 +17,11 @@ import java.util.List;
 public class Controller {
     final private MizDooni mizdooni;
     final private ObjectMapper objectMapper;
-    final private DateTimeFormatter datetimeFormatter;
+    static public DateTimeFormatter datetimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
     public Controller(MizDooni mizdooni) {
         this.mizdooni = mizdooni;
         this.objectMapper = new ObjectMapper();
-        this.datetimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     }
 
     private JsonNode stringToJson(String json) {
@@ -148,7 +147,7 @@ public class Controller {
             success = false;
             data = TextNode.valueOf("Invalid datetime format");
         } catch (UserNotFound | ManagerReservationNotAllowed | InvalidWorkingTime | RestaurantNotFound | TableNotFound |
-                 InvalidDateTime | ReservationNotInOpenTimes | TableAlreadyReserved ex) {
+                 DateTimeInThePast | ReservationNotInOpenTimes | TableAlreadyReserved ex) {
             success = false;
             data = TextNode.valueOf(ex.getMessage());
         }

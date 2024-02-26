@@ -48,6 +48,14 @@ public class Reservation {
         return table;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
     public JsonNode toJson() {
         ObjectNode node = new ObjectMapper().createObjectNode();
         node.put("reservationNumber", reservationNumber);

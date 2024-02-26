@@ -82,7 +82,7 @@ public class MizDooni {
 
     public Reservation reserveTable(String username, String restaurantName, int tableNumber, LocalDateTime datetime)
             throws UserNotFound, ManagerReservationNotAllowed, InvalidWorkingTime, RestaurantNotFound, TableNotFound,
-            InvalidDateTime, ReservationNotInOpenTimes, TableAlreadyReserved {
+            DateTimeInThePast, ReservationNotInOpenTimes, TableAlreadyReserved {
         User user = findUser(username, users);
         if (user == null) {
             throw new UserNotFound();
@@ -95,7 +95,7 @@ public class MizDooni {
             throw new InvalidWorkingTime();
         }
         if (datetime.isBefore(LocalDateTime.now())) {
-            throw new InvalidDateTime();
+            throw new DateTimeInThePast();
         }
 
         Restaurant restaurant = findRestaurantByName(restaurantName, restaurants);
