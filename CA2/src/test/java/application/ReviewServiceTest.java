@@ -4,6 +4,7 @@ import exceptions.InvalidReviewRating;
 import exceptions.ManagerCannotReview;
 import exceptions.RestaurantNotFound;
 import exceptions.UserNotFound;
+import exceptions.UserHasNotReserved;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +38,7 @@ public class ReviewServiceTest {
 
     @Test
     @DisplayName("Add review successfully")
-    public void testAddReviewSuccessfully() throws UserNotFound, ManagerCannotReview, RestaurantNotFound, InvalidReviewRating {
+    public void testAddReviewSuccessfully() throws UserNotFound, ManagerCannotReview, RestaurantNotFound, InvalidReviewRating, UserHasNotReserved {
         mizdooni.addReview("client", "restaurant", 1.2, 2.4, 3.6, 4.8, "Comment.");
         List<Review> reviews = restaurant.getReviews();
         Assertions.assertEquals(1, reviews.size());
@@ -71,7 +72,7 @@ public class ReviewServiceTest {
     @ParameterizedTest
     @ValueSource(doubles = {0, 0.5, 1, 4.5, 5})
     @DisplayName("Add review with valid ratings")
-    public void testAddReviewValidRatings(double rating) throws UserNotFound, ManagerCannotReview, RestaurantNotFound, InvalidReviewRating {
+    public void testAddReviewValidRatings(double rating) throws UserNotFound, ManagerCannotReview, RestaurantNotFound, InvalidReviewRating, UserHasNotReserved {
         mizdooni.addReview("client", "restaurant", rating, rating, rating, rating, "Comment.");
     }
 

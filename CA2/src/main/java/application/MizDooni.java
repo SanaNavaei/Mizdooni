@@ -175,7 +175,7 @@ public class MizDooni {
     }
 
     public void addReview(String username, String restaurantName, double foodRate, double serviceRate, double ambianceRate,
-                          double overallRate, String comment) throws UserNotFound, ManagerCannotReview, RestaurantNotFound, InvalidReviewRating {
+                          double overallRate, String comment) throws UserNotFound, ManagerCannotReview, RestaurantNotFound, InvalidReviewRating, UserHasNotReserved {
         User user = findUser(username, users);
         if (user == null) {
             throw new UserNotFound();
@@ -187,6 +187,9 @@ public class MizDooni {
         Restaurant restaurant = findRestaurantByName(restaurantName, restaurants);
         if (restaurant == null) {
             throw new RestaurantNotFound();
+        }
+        if (!user.checkUserReserved(restaurant)) {
+            throw new UserHasNotReserved();
         }
 
         if (foodRate < 0 || foodRate > 5) {

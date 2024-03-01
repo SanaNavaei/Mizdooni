@@ -50,9 +50,9 @@ public class Restaurant {
         tables.add(table);
     }
 
-    public void addReview(Review review) {
+    public void addReview(Review review){
         for (Review r : reviews) {
-            if (r.getUser().getUsername().equals(review.getUser().getUsername())) {
+            if (r.getUser().equals(review.getUser())) {
                 reviews.remove(r);
                 break;
             }

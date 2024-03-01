@@ -1,5 +1,6 @@
 package application;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -57,5 +58,9 @@ public class User {
 
     public Role getRole() {
         return role;
+    }
+
+    public boolean checkUserReserved(Restaurant restaurant) {
+        return reservations.stream().anyMatch(r -> !r.isCancelled() && r.getDateTime().isBefore(LocalDateTime.now()) && r.getRestaurant().equals(restaurant));
     }
 }
