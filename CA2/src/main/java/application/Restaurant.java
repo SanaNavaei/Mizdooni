@@ -51,6 +51,12 @@ public class Restaurant {
     }
 
     public void addReview(Review review) {
+        for (Review r : reviews) {
+            if (r.getUser().getUsername().equals(review.getUser().getUsername())) {
+                reviews.remove(r);
+                break;
+            }
+        }
         reviews.add(review);
     }
 

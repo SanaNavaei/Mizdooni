@@ -9,8 +9,10 @@ public class Review {
     private double overallRate;
     private String comment;
     private LocalDateTime datetime;
+    private User user;
 
-    public Review(double foodRate, double serviceRate, double ambianceRate, double overallRate, String comment, LocalDateTime datetime) {
+    public Review(User user, double foodRate, double serviceRate, double ambianceRate, double overallRate, String comment, LocalDateTime datetime) {
+        this.user = user;
         this.foodRate = foodRate;
         this.serviceRate = serviceRate;
         this.ambianceRate = ambianceRate;
@@ -37,5 +39,9 @@ public class Review {
 
     public String getComment() {
         return comment;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

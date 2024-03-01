@@ -202,7 +202,7 @@ public class MizDooni {
             throw new InvalidReviewRating("Overall");
         }
 
-        Review review = new Review(foodRate, serviceRate, ambianceRate, overallRate, comment, LocalDateTime.now());
+        Review review = new Review(user, foodRate, serviceRate, ambianceRate, overallRate, comment, LocalDateTime.now());
         restaurant.addReview(review);
     }
 
