@@ -18,7 +18,8 @@ enum Command {
     searchRestaurantsByName,
     searchRestaurantsByType,
     showAvailableTables,
-    addReview;
+    addReview,
+    showAverageRating;
 
     static private Map<String, Command> map = Map.ofEntries(
             Map.entry("addUser", addUser),
@@ -30,7 +31,8 @@ enum Command {
             Map.entry("searchRestaurantsByName", searchRestaurantsByName),
             Map.entry("searchRestaurantsByType", searchRestaurantsByType),
             Map.entry("showAvailableTables", showAvailableTables),
-            Map.entry("addReview", addReview)
+            Map.entry("addReview", addReview),
+            Map.entry("showAverageRating", showAverageRating)
     );
 
     static public Command fromString(String str) {
@@ -80,6 +82,7 @@ public class CommandInterface {
             case searchRestaurantsByType -> controller.searchRestaurantsByType(data);
             case showAvailableTables -> controller.showAvailableTables(data);
             case addReview -> controller.addReview(data);
+            case showAverageRating -> controller.showAverageRating(data);
         };
     }
 }

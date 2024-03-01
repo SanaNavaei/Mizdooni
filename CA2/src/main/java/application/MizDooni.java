@@ -205,4 +205,13 @@ public class MizDooni {
         Review review = new Review(foodRate, serviceRate, ambianceRate, overallRate, comment, LocalDateTime.now());
         restaurant.addReview(review);
     }
+
+    public List<JsonNode> showAverageRating(String restaurantName) throws RestaurantNotFound {
+        Restaurant restaurant = findRestaurantByName(restaurantName, restaurants);
+        if (restaurant == null) {
+            throw new RestaurantNotFound();
+        }
+
+        return findAverageRating(restaurant);
+    }
 }

@@ -287,4 +287,23 @@ public class Controller {
 
         return createResultJson(success, data);
     }
+
+    public JsonNode showAverageRating(String json) {
+        JsonNode node = stringToJson(json);
+        String restaurantName = node.get("restaurantName").asText();
+
+        boolean success;
+        JsonNode data;
+
+        try {
+            List<JsonNode> ratings = mizdooni.showAverageRating(restaurantName);
+            success = true;
+            data = objectMapper.createObjectNode().set("averageRatings", objectMapper.valueToTree(ratings));
+        } catch (RestaurantNotFound ex) {
+            success = false;
+            data = TextNode.valueOf(ex.getMessage());
+        }
+
+        return createResultJson(success, data);
+    }
 }

@@ -1,5 +1,8 @@
 package application;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -73,5 +76,35 @@ public class Utils {
             }
         }
         return timeAndDate;
+    }
+
+    static public List<JsonNode> findAverageRating(Restaurant restaurant) {
+        List<JsonNode> averageRating = new ArrayList<>();
+        List<Review> reviews = restaurant.getReviews();
+
+        double food = 0;
+        double service = 0;
+        double ambiance = 0;
+        double overall = 0;
+
+        for (Review r : reviews) {
+            food += r.getFoodRate();
+            service += r.getServiceRate();
+            ambiance += r.getAmbianceRate();
+            overall += r.getOverallRate();
+        }
+
+        if (reviews.size() != 0) {
+            food /= reviews.size();
+            service /= reviews.size();
+            ambiance /= reviews.size();
+            overall /= reviews.size();
+        }
+
+        averageRating.add(new ObjectMapper().createObjectNode().put("Food", food));
+        averageRating.add(new ObjectMapper().createObjectNode().put("Service", service));
+        averageRating.add(new ObjectMapper().createObjectNode().put("Ambiance", ambiance));
+        averageRating.add(new ObjectMapper().createObjectNode().put("Overall", overall));
+        return averageRating;
     }
 }
