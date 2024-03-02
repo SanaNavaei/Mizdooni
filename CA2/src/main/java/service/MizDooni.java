@@ -41,6 +41,10 @@ public class MizDooni {
         return false;
     }
 
+    public void logout() {
+        currentUser = null;
+    }
+
     public void addUser(String username, String password, String email, Address address,
                         User.Role role) throws InvalidEmailFormat, InvalidUsernameFormat, DuplicatedUsernameEmail {
         if (!validateUsername(username)) {
