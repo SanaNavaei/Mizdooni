@@ -8,7 +8,7 @@ import service.MizDooni;
 
 import java.io.IOException;
 
-@WebFilter(urlPatterns = {"/kir/*"})
+@WebFilter(urlPatterns = {"/*"})
 public class AuthenticationFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws ServletException, IOException {

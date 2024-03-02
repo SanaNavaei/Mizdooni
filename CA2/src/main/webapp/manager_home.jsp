@@ -7,7 +7,7 @@
 </head>
 
 <body>
-  <h1>Welcome {user_name} <a href="/logout" style="color: red">Log Out</a></h1>
+  <h1>Welcome ${username} <a href="/logout" style="color: red">Log Out</a></h1>
 
   <h2>Your Restaurant Information:</h2>
   <ul>

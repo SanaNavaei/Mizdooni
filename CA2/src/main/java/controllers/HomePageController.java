@@ -20,6 +20,7 @@ public class HomePageController extends HttpServlet {
         } else {
             page = "manager_home.jsp";
         }
+        request.setAttribute("username", MizDooni.getInstance().getCurrentUser().getUsername());
         request.getRequestDispatcher(page).forward(request, response);
     }
 }
