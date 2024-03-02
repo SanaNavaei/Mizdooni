@@ -1,0 +1,28 @@
+[
+    {
+        "name": "restaurant1",
+        "managerUsername": "user2",
+        "type": "Iranian",
+        "startTime": "08:00",
+        "endTime": "23:00",
+        "description": "Open seven days a week",
+        "address": {
+            "country": "Iran",
+            "city": "Tehran",
+            "street": "North Kargar"
+        }
+    },
+    {
+        "name": "restaurant2",
+        "managerUsername": "user2",
+        "type": "Iranian",
+        "startTime": "07:00",
+        "endTime": "22:00",
+        "description": "Open seven days a week",
+        "address": {
+            "country": "Iran",
+            "city": "Tehran",
+            "street": "North Kargar"
+        }
+    }
+]

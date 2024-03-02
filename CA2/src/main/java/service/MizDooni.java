@@ -1,6 +1,7 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import database.DataLoader;
 import database.Database;
 import exceptions.*;
 import model.*;
@@ -20,6 +21,7 @@ public class MizDooni {
     private MizDooni() {
         db = Database.getInstance();
         currentUser = null;
+        new DataLoader().read();
     }
 
     public static MizDooni getInstance() {

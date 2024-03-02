@@ -1,0 +1,22 @@
+[
+    {
+        "role": "client",
+        "username": "user1",
+        "password": "pass1",
+        "email": "email1@mail.com",
+        "address": {
+            "country": "Iran",
+            "city": "Sari"
+        }
+    },
+    {
+        "role": "manager",
+        "username": "user2",
+        "password": "pass2",
+        "email": "email2@mail.com",
+        "address": {
+            "country": "Iran",
+            "city": "Karaj"
+        }
+    }
+]
