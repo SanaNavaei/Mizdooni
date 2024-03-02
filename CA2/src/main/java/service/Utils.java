@@ -1,4 +1,7 @@
-package application;
+package service;
+
+import model.Restaurant;
+import model.User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
