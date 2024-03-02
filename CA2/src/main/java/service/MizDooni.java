@@ -32,6 +32,10 @@ public class MizDooni {
         return currentUser;
     }
 
+    public List<Restaurant> getRestaurants() {
+        return db.restaurants;
+    }
+
     public boolean login(String username, String password) {
         User user = findUser(username, db.users);
         if (user != null && user.checkPassword(password)) {

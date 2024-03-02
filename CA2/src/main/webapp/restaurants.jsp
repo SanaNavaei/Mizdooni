@@ -1,3 +1,6 @@
+<%@ page import="java.util.List" %>
+<%@ page import="model.Restaurant" %>
+<%@ page import="model.Rating" %>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +10,7 @@
 </head>
 
 <body>
-  <p id="username">username: ali <a href="/">Home</a> <a href="/logout" style="color: red">Log Out</a></p>
+  <p id="username">username: ${username} <a href="/">Home</a> <a href="/logout" style="color: red">Log Out</a></p>
   <br><br>
 
   <form action="" method="POST">
@@ -38,28 +41,24 @@
       <th>Ambiance Score</th>
       <th>Overall Score</th>
     </tr>
-    <tr>
-      <td>1</td>
-      <td><a href="/restaurants/1">Fast Food</a></td>
-      <td>Tehran</td>
-      <td>Italian</td>
-      <td>8:00 - 23:00</td>
-      <td>3.45</td>
-      <td>4.45</td>
-      <td>3.5</td>
-      <td>4.75</td>
-    </tr>
-    <tr>
-      <td>14</td>
-      <td><a href="/restaurants/14">Akbar Agha</a></td>
-      <td>Esfahan</td>
-      <td>Iranian</td>
-      <td>8:00 - 22:30</td>
-      <td>2.45</td>
-      <td>3.45</td>
-      <td>4.5</td>
-      <td>4.75</td>
-    </tr>
+
+    <%
+      List<Restaurant> restaurants = (List<Restaurant>) request.getAttribute("restaurants");
+      for (var i = 0; i < restaurants.size(); i++) {
+        Rating rating = restaurants.get(i).getAverageRating();
+    %>
+      <tr>
+        <td><%=restaurants.get(i).getId()%></td>
+        <td><a href="/restaurant/<%=restaurants.get(i).getId()%>"><%=restaurants.get(i).getName()%></a></td>
+        <td><%=restaurants.get(i).getCity()%></td>
+        <td><%=restaurants.get(i).getType()%></td>
+        <td><%=restaurants.get(i).getTime()%></td>
+        <td><%=rating.service%></td>
+        <td><%=rating.food%></td>
+        <td><%=rating.ambiance%></td>
+        <td><%=rating.overall%></td>
+      </tr>
+    <% } %>
   </table>
 </body>
 

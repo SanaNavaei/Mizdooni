@@ -14,6 +14,8 @@ import java.util.TreeMap;
 import static service.Utils.convertToString;
 
 public class Restaurant {
+    private static int idCounter = 0;
+    private int id;
     private String name;
     private User manager;
     private String type;
@@ -26,6 +28,7 @@ public class Restaurant {
 
     public Restaurant(String name, User manager, String type, LocalTime startTime, LocalTime endTime,
                       String description, Address address) {
+        this.id = idCounter++;
         this.name = name;
         this.manager = manager;
         this.type = type;
@@ -118,6 +121,10 @@ public class Restaurant {
         return average;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -140,6 +147,14 @@ public class Restaurant {
 
     public List<Review> getReviews() {
         return reviews;
+    }
+
+    public String getCity() {
+        return address.getCity();
+    }
+
+    public String getTime () {
+        return startTime + " - " + endTime;
     }
 
     public JsonNode toJson() {
