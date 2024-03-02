@@ -190,7 +190,7 @@ public class Controller {
             }
             success = true;
             data = objectMapper.createObjectNode().set("reservationHistory", objectMapper.valueToTree(reserveJsons));
-        } catch (Exception ex) {
+        } catch (UserNotFound ex) {
             success = false;
             data = TextNode.valueOf(ex.getMessage());
         }
@@ -280,7 +280,8 @@ public class Controller {
             mizdooni.addReview(username, restaurantName, foodRate, serviceRate, ambianceRate, overallRate, comment);
             success = true;
             data = TextNode.valueOf("Review added successfully.");
-        } catch (Exception ex) {
+        } catch (UserNotFound | ManagerCannotReview | RestaurantNotFound | InvalidReviewRating |
+                 UserHasNotReserved ex) {
             success = false;
             data = TextNode.valueOf(ex.getMessage());
         }
@@ -296,9 +297,11 @@ public class Controller {
         JsonNode data;
 
         try {
-            List<JsonNode> ratings = mizdooni.showAverageRating(restaurantName);
+            Rating ratings = mizdooni.showAverageRating(restaurantName);
+            List<JsonNode> ratingsJsons = new ArrayList<>();
+            ratingsJsons.add(ratings.toJson());
             success = true;
-            data = objectMapper.createObjectNode().set("averageRatings", objectMapper.valueToTree(ratings));
+            data = objectMapper.createObjectNode().set("averageRating", objectMapper.valueToTree(ratingsJsons));
         } catch (RestaurantNotFound ex) {
             success = false;
             data = TextNode.valueOf(ex.getMessage());

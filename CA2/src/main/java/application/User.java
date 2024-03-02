@@ -35,6 +35,12 @@ public class User {
         reservations.add(reservation);
     }
 
+    public boolean checkReserved(Restaurant restaurant) {
+        return reservations.stream().anyMatch(r -> !r.isCancelled() &&
+                r.getDateTime().isBefore(LocalDateTime.now()) &&
+                r.getRestaurant().equals(restaurant));
+    }
+
     public Reservation getReservation(int reservationNumber) {
         for (Reservation r : reservations) {
             if (r.getReservationNumber() == reservationNumber && !r.isCancelled()) {
@@ -58,9 +64,5 @@ public class User {
 
     public Role getRole() {
         return role;
-    }
-
-    public boolean checkUserReserved(Restaurant restaurant) {
-        return reservations.stream().anyMatch(r -> !r.isCancelled() && r.getDateTime().isBefore(LocalDateTime.now()) && r.getRestaurant().equals(restaurant));
     }
 }

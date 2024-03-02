@@ -188,7 +188,7 @@ public class MizDooni {
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
-        if (!user.checkUserReserved(restaurant)) {
+        if (!user.checkReserved(restaurant)) {
             throw new UserHasNotReserved();
         }
 
@@ -209,12 +209,12 @@ public class MizDooni {
         restaurant.addReview(review);
     }
 
-    public List<JsonNode> showAverageRating(String restaurantName) throws RestaurantNotFound {
+    public Rating showAverageRating(String restaurantName) throws RestaurantNotFound {
         Restaurant restaurant = findRestaurantByName(restaurantName, restaurants);
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
 
-        return findAverageRating(restaurant);
+        return restaurant.getAverageRating();
     }
 }

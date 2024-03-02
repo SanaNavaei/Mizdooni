@@ -98,6 +98,26 @@ public class Restaurant {
         return availableHours;
     }
 
+     public Rating getAverageRating() {
+        Rating average = new Rating();
+
+        for (Review r : reviews) {
+            average.food += r.getRating().food;
+            average.service += r.getRating().service;
+            average.ambiance += r.getRating().ambiance;
+            average.overall += r.getRating().overall;
+        }
+
+        if (!reviews.isEmpty()) {
+            average.food /= reviews.size();
+            average.service /= reviews.size();
+            average.ambiance /= reviews.size();
+            average.overall /= reviews.size();
+        }
+
+        return average;
+    }
+
     public String getName() {
         return name;
     }
