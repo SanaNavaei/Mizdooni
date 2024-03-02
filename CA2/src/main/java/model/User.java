@@ -54,6 +54,10 @@ public class User {
         return reservations.stream().filter(r -> !r.isCancelled()).collect(Collectors.toList());
     }
 
+    public boolean checkPassword(String pass) {
+        return password.equals(pass);
+    }
+
     public String getUsername() {
         return username;
     }

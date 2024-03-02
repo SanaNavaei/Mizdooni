@@ -32,6 +32,15 @@ public class MizDooni {
         return currentUser;
     }
 
+    public boolean login(String username, String password) {
+        User user = findUser(username, db.users);
+        if (user != null && user.checkPassword(password)) {
+            currentUser = user;
+            return true;
+        }
+        return false;
+    }
+
     public void addUser(String username, String password, String email, Address address,
                         User.Role role) throws InvalidEmailFormat, InvalidUsernameFormat, DuplicatedUsernameEmail {
         if (!validateUsername(username)) {
