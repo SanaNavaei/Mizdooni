@@ -71,6 +71,15 @@ public class Utils {
         return restaurants.stream().filter(r -> r.getCity().equals(city)).collect(Collectors.toList());
     }
 
+    static public Restaurant findRestaurantByManager(String manager, List<Restaurant> restaurants) {
+        for (Restaurant r : restaurants) {
+            if (r.getManager().getUsername().equals(manager)) {
+                return r;
+            }
+        }
+        return null;
+    }
+
     static public List<String> convertToString(Map<LocalDate, List<LocalTime>> availableHours) {
         List<String> timeAndDate = new ArrayList<>();
         for (Map.Entry<LocalDate, List<LocalTime>> entry : availableHours.entrySet()) {

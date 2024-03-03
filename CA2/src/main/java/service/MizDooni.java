@@ -200,6 +200,10 @@ public class MizDooni {
         return restaurants;
     }
 
+    public Restaurant searchRestaurantByManager(String manager) {
+        return findRestaurantByManager(manager, db.restaurants);
+    }
+
     public List<JsonNode> showAvailableTables(String restaurantName) throws RestaurantNotFound {
         Restaurant restaurant = findRestaurantByName(restaurantName, db.restaurants);
         if (restaurant == null) {

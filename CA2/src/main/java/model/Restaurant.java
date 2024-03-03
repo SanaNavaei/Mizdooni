@@ -53,7 +53,7 @@ public class Restaurant {
         tables.add(table);
     }
 
-    public void addReview(Review review){
+    public void addReview(Review review) {
         for (Review r : reviews) {
             if (r.getUser().equals(review.getUser())) {
                 reviews.remove(r);
@@ -101,7 +101,7 @@ public class Restaurant {
         return availableHours;
     }
 
-     public Rating getAverageRating() {
+    public Rating getAverageRating() {
         Rating average = new Rating();
 
         for (Review r : reviews) {
@@ -149,6 +149,10 @@ public class Restaurant {
         return reviews;
     }
 
+    public List<Table> getTables() {
+        return tables;
+    }
+
     public String getCity() {
         return address.getCity();
     }
@@ -165,7 +169,7 @@ public class Restaurant {
         return description;
     }
 
-    public String getTime () {
+    public String getTime() {
         return startTime + " - " + endTime;
     }
 

@@ -7,7 +7,8 @@
 </head>
 
 <body style="text-align:center">
-    <h1>400<br>{Error Message}</h1>
+    <h1>400</h1>
+    <p>${errorMessage}</p>
 </body>
 
 </html>
