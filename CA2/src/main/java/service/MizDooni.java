@@ -177,22 +177,23 @@ public class MizDooni {
         return user.getReservations();
     }
 
-    public List<Restaurant> searchRestaurantsByName(String restaurantName) throws RestaurantNotFound {
-        List<Restaurant> results = findRestaurantsByName(restaurantName, db.restaurants);
-        if (results.isEmpty()) {
-            throw new RestaurantNotFound();
-        }
-
-        return results;
+    public List<Restaurant> searchRestaurantsByName(String restaurantName) {
+        return findRestaurantsByName(restaurantName, db.restaurants);
     }
 
-    public List<Restaurant> searchRestaurantsByType(String restaurantType) throws RestaurantNotFound {
-        List<Restaurant> results = findRestaurantsByType(restaurantType, db.restaurants);
-        if (results.isEmpty()) {
-            throw new RestaurantNotFound();
-        }
+    public List<Restaurant> searchRestaurantsByType(String restaurantType) {
+        return findRestaurantsByType(restaurantType, db.restaurants);
+    }
 
-        return results;
+    public List<Restaurant> searchRestaurantsByCity(String city) {
+        return findRestaurantsByCity(city, db.restaurants);
+    }
+
+    public List<Restaurant> sortRestaurantsByRate() {
+        List<Restaurant> restaurants = db.restaurants;
+        restaurants.sort((r1, r2) -> Double.compare(r2.getAverageRating().overall, r1.getAverageRating().overall));
+
+        return restaurants;
     }
 
     public List<JsonNode> showAvailableTables(String restaurantName) throws RestaurantNotFound {

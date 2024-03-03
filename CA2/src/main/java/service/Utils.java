@@ -60,11 +60,15 @@ public class Utils {
     }
 
     static public List<Restaurant> findRestaurantsByName(String name, List<Restaurant> restaurants) {
-        return restaurants.stream().filter(r -> r.getName().contains(name)).collect(Collectors.toList());
+        return restaurants.stream().filter(r -> r.getName().equals(name)).collect(Collectors.toList());
     }
 
     static public List<Restaurant> findRestaurantsByType(String type, List<Restaurant> restaurants) {
         return restaurants.stream().filter(r -> r.getType().equals(type)).collect(Collectors.toList());
+    }
+
+    static public List<Restaurant> findRestaurantsByCity(String city, List<Restaurant> restaurants) {
+        return restaurants.stream().filter(r -> r.getCity().equals(city)).collect(Collectors.toList());
     }
 
     static public List<String> convertToString(Map<LocalDate, List<LocalTime>> availableHours) {
