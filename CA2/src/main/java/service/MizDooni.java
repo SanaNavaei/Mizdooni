@@ -32,6 +32,10 @@ public class MizDooni {
         return currentUser;
     }
 
+    public Restaurant getRestaurant(int restaurantId) {
+        return db.restaurants.stream().filter(r -> r.getId() == restaurantId).findFirst().orElse(null);
+    }
+
     public List<Restaurant> getRestaurants() {
         return db.restaurants;
     }

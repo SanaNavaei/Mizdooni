@@ -153,6 +153,18 @@ public class Restaurant {
         return address.getCity();
     }
 
+    public String getCountry() {
+        return address.getCountry();
+    }
+
+    public String getStreet() {
+        return address.getStreet();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public String getTime () {
         return startTime + " - " + endTime;
     }

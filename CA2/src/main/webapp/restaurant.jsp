@@ -1,3 +1,6 @@
+<%@ page import="model.Restaurant" %>
+<%@ page import="model.Rating" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,24 +10,28 @@
 </head>
 
 <body>
-  <p id="username">username: ali <a href="/">Home</a> <a href="/logout" style="color: red">Log Out</a></p>
+  <p id="username">username: ${username} <a href="/">Home</a> <a href="/logout" style="color: red">Log Out</a></p>
   <br>
 
+  <%
+    Restaurant restaurant = (Restaurant) request.getAttribute("restaurant");
+    Rating rating = restaurant.getAverageRating();
+  %>
   <h2>Restaurant Info:</h2>
   <ul>
-    <li id="id">Id: 1</li>
-    <li id="name">Name: Fast Food</li>
-    <li id="type">Type: Italian</li>
-    <li id="time">Time: 08:00 - 23:00</li>
+    <li id="id">Id: <%=restaurant.getId()%></li>
+    <li id="name">Name: <%=restaurant.getName()%></li>
+    <li id="type">Type: <%=restaurant.getType()%></li>
+    <li id="time">Time: <%=restaurant.getTime()%></li>
     <li id="rate">Scores:</li>
     <ul>
-      <li>Food: 3.45</li>
-      <li>Service: 2.5</li>
-      <li>Ambiance: 4.59</li>
-      <li>Overall: 4.1</li>
+      <li>Food: <%=rating.food%></li>
+      <li>Service: <%=rating.service%></li>
+      <li>Ambiance: <%=rating.ambiance%></li>
+      <li>Overall: <%=rating.overall%></li>
     </ul>
-    <li id="address">Address: North Kargar, Tehran, Iran</li>
-    <li id="description">Description: Best food you can eat. Best Italian food</li>
+    <li id="address">Address: <%=restaurant.getStreet()%>, <%=restaurant.getCity()%>, <%=restaurant.getCountry()%></li>
+    <li id="description">Description: <%=restaurant.getDescription()%></li>
   </ul>
 
   <table border="1" cellpadding="10">

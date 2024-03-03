@@ -49,7 +49,7 @@
     %>
       <tr>
         <td><%=restaurants.get(i).getId()%></td>
-        <td><a href="/restaurant/<%=restaurants.get(i).getId()%>"><%=restaurants.get(i).getName()%></a></td>
+        <td><a href="/restaurants/<%=restaurants.get(i).getId()%>"><%=restaurants.get(i).getName()%></a></td>
         <td><%=restaurants.get(i).getCity()%></td>
         <td><%=restaurants.get(i).getType()%></td>
         <td><%=restaurants.get(i).getTime()%></td>
