@@ -14,10 +14,6 @@ public class RestaurantsController extends HttpServlet {
     private MizDooni mizdooni = MizDooni.getInstance();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (mizdooni.getCurrentUser() == null) {
-            response.sendRedirect("/login");
-            return;
-        }
         request.setAttribute("username", mizdooni.getCurrentUser().getUsername());
         request.setAttribute("restaurants", mizdooni.getRestaurants());
         request.getRequestDispatcher("restaurants.jsp").forward(request, response);
@@ -25,7 +21,6 @@ public class RestaurantsController extends HttpServlet {
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        request.setAttribute("username", mizdooni.getCurrentUser().getUsername());
 
         switch (action) {
             case "search_by_type":
@@ -46,8 +41,12 @@ public class RestaurantsController extends HttpServlet {
             case "sort_by_rate":
                 request.setAttribute("restaurants", mizdooni.sortRestaurantsByRate());
                 break;
+            default:
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+                return;
         }
 
+        request.setAttribute("username", mizdooni.getCurrentUser().getUsername());
         request.getRequestDispatcher("restaurants.jsp").forward(request, response);
     }
 }

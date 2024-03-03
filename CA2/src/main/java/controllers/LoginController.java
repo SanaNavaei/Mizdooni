@@ -25,15 +25,14 @@ public class LoginController extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         if (username == null || username.isBlank()) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            request.getRequestDispatcher("errors/400.jsp").forward(request, response);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
         if (password == null || password.isBlank()) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            request.getRequestDispatcher("errors/400.jsp").forward(request, response);
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
+
         if (mizdooni.login(username, password)) {
             response.sendRedirect("/");
         } else {

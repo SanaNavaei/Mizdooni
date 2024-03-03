@@ -33,7 +33,7 @@
   <h1>Welcome to MizDooni</h1>
 
   <% if (request.getAttribute("wrong") != null) { %>
-  <p>meowmeow</p>
+  <p style="color: red; font-weight: bold;">Invalid Credentials</p>
   <% } %>
 
   <form method="post" action="">
