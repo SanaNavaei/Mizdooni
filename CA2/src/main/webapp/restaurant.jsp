@@ -1,6 +1,11 @@
 <%@ page import="model.Restaurant" %>
 <%@ page import="model.Rating" %>
 
+<%
+  Restaurant restaurant = (Restaurant) request.getAttribute("restaurant");
+  Rating rating = restaurant.getAverageRating();
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,10 +18,6 @@
   <p id="username">username: ${username} <a href="/">Home</a> <a href="/logout" style="color: red">Log Out</a></p>
   <br>
 
-  <%
-    Restaurant restaurant = (Restaurant) request.getAttribute("restaurant");
-    Rating rating = restaurant.getAverageRating();
-  %>
   <h2>Restaurant Info:</h2>
   <ul>
     <li id="id">Id: <%=restaurant.getId()%></li>

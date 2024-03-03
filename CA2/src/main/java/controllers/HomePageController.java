@@ -17,28 +17,50 @@ public class HomePageController extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User.Role role = mizdooni.getCurrentUser().getRole();
-        String manager = mizdooni.getCurrentUser().getUsername();
-        Restaurant restaurant = mizdooni.searchRestaurantByManager(manager);
-        String page;
-        if (role == User.Role.client) {
-            page = "client_home.jsp";
-        } else {
-            request.setAttribute("restaurant", restaurant);
-            request.setAttribute("tables", restaurant.getTables());
-            page = "manager_home.jsp";
+        String username = mizdooni.getCurrentUser().getUsername();
+
+        String page = null;
+        switch (role) {
+            case client:
+                page = "client_home.jsp";
+                break;
+            case manager:
+                Restaurant restaurant = mizdooni.searchRestaurantByManager(username);
+                request.setAttribute("restaurant", restaurant);
+                request.setAttribute("tables", restaurant.getTables());
+                page = "manager_home.jsp";
+                break;
         }
-        request.setAttribute("username", mizdooni.getCurrentUser().getUsername());
+
+        request.setAttribute("username", username);
         request.getRequestDispatcher(page).forward(request, response);
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int tableNumber = Integer.parseInt(request.getParameter("table_number"));
+        int tableNumber;
+        try {
+            tableNumber = Integer.parseUnsignedInt(request.getParameter("table_number"));
+        } catch (NumberFormatException ex) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
         String seatsNumber = request.getParameter("seats_number");
-        String manager = mizdooni.getCurrentUser().getUsername();
-        Restaurant restaurant = mizdooni.searchRestaurantByManager(manager);
+        if (seatsNumber == null || seatsNumber.isBlank()) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+
+        User.Role role = mizdooni.getCurrentUser().getRole();
+        String username = mizdooni.getCurrentUser().getUsername();
+        Restaurant restaurant = mizdooni.searchRestaurantByManager(username);
+
+        if (role != User.Role.manager) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+            return;
+        }
 
         try {
-            mizdooni.addTable(tableNumber, restaurant.getName(), manager, seatsNumber);
+            mizdooni.addTable(tableNumber, restaurant.getName(), username, seatsNumber);
             response.sendRedirect("/");
         } catch (Exception ex) {
             request.setAttribute("errorMessage", ex.getMessage());

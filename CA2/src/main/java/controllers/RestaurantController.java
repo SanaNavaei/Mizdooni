@@ -19,7 +19,7 @@ public class RestaurantController extends HttpServlet {
         int restaurantId;
         try {
             restaurantId = Integer.parseUnsignedInt(restaurantIdStr);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException ex) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }

@@ -1,6 +1,12 @@
 <%@ page import="model.Restaurant" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Table" %>
+
+<%
+  Restaurant restaurant = (Restaurant) request.getAttribute("restaurant");
+  List<Table> tables = (List<Table>) request.getAttribute("tables");
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,10 +18,6 @@
 <body>
   <h1>Welcome ${username} <a href="/logout" style="color: red">Log Out</a></h1>
 
-  <%
-    Restaurant restaurant = (Restaurant) request.getAttribute("restaurant");
-    List<Table> tables = (List<Table>) request.getAttribute("tables");
-  %>
   <h2>Your Restaurant Information:</h2>
   <ul>
     <li id="id">Id: <%=restaurant.getId()%></li>
