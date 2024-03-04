@@ -1,9 +1,14 @@
+<%@ page import="java.util.List" %>
 <%@ page import="model.Restaurant" %>
 <%@ page import="model.Rating" %>
+<%@ page import="model.Review" %>
+<%@ page import="model.Table" %>
 
 <%
   Restaurant restaurant = (Restaurant) request.getAttribute("restaurant");
-  Rating rating = restaurant.getAverageRating();
+  Rating averageRating = restaurant.getAverageRating();
+  List<Review> reviews = restaurant.getReviews();
+  List<Table> tables = restaurant.getTables();
 %>
 
 <!DOCTYPE html>
@@ -26,10 +31,10 @@
     <li id="time">Time: <%=restaurant.getTime()%></li>
     <li id="rate">Scores:</li>
     <ul>
-      <li>Food: <%=rating.food%></li>
-      <li>Service: <%=rating.service%></li>
-      <li>Ambiance: <%=rating.ambiance%></li>
-      <li>Overall: <%=rating.overall%></li>
+      <li>Food: <%=averageRating.food%></li>
+      <li>Service: <%=averageRating.service%></li>
+      <li>Ambiance: <%=averageRating.ambiance%></li>
+      <li>Overall: <%=averageRating.overall%></li>
     </ul>
     <li id="address">Address: <%=restaurant.getStreet()%>, <%=restaurant.getCity()%>, <%=restaurant.getCountry()%></li>
     <li id="description">Description: <%=restaurant.getDescription()%></li>
@@ -42,9 +47,9 @@
         <form action="" method="post">
           <label>Table:</label>
           <select id="table_number" name="table_number">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
+            <% for (Table t : tables) { %>
+            <option value="<%=t.getTableNumber()%>"><%=t.getTableNumber()%></option>
+            <% } %>
           </select>
           <label>Date & Time:</label>
           <input type="datetime-local" id="date_time" name="date_time">
@@ -93,15 +98,21 @@
       <th>Ambiance Rate</th>
       <th>Overall Rate</th>
     </tr>
-    <tr>
-      <td>user1</td>
-      <td>Food was not bad</td>
-      <td>2022-07-25</td>
-      <td>4.5</td>
-      <td>3</td>
-      <td>4.5</td>
-      <td>4</td>
-    </tr>
+
+    <%
+      for (Review r : reviews) {
+        Rating rating = r.getRating();
+    %>
+      <tr>
+        <td><%=r.getUser().getUsername()%></td>
+        <td><%=r.getComment()%></td>
+        <td><%=r.getDatetime().toLocalDate().toString()%></td>
+        <td><%=rating.food%></td>
+        <td><%=rating.service%></td>
+        <td><%=rating.ambiance%></td>
+        <td><%=rating.overall%></td>
+      </tr>
+    <% } %>
   </table>
 </body>
 

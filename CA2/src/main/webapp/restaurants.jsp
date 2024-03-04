@@ -2,6 +2,10 @@
 <%@ page import="model.Restaurant" %>
 <%@ page import="model.Rating" %>
 
+<%
+  List<Restaurant> restaurants = (List<Restaurant>) request.getAttribute("restaurants");
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,7 +48,6 @@
     </tr>
 
     <%
-      List<Restaurant> restaurants = (List<Restaurant>) request.getAttribute("restaurants");
       for (Restaurant r : restaurants) {
         Rating rating = r.getAverageRating();
     %>

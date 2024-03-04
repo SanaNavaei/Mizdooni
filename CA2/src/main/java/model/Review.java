@@ -27,6 +27,10 @@ public class Review {
         return comment;
     }
 
+    public LocalDateTime getDatetime() {
+        return datetime;
+    }
+
     public User getUser() {
         return user;
     }
