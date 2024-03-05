@@ -41,6 +41,9 @@ public class RestaurantController extends HttpServlet {
         }
 
         switch (action) {
+            case "reserve":
+                reserve(request, response, restaurant);
+                break;
             case "feedback":
                 feedback(request, response, restaurant);
                 break;
@@ -63,6 +66,31 @@ public class RestaurantController extends HttpServlet {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
         return restaurant;
+    }
+
+    private void reserve(HttpServletRequest request, HttpServletResponse response, Restaurant restaurant) throws ServletException, IOException {
+        int tableNumber;
+        LocalDateTime datetime;
+        DateTimeFormatter htmlDatetimeFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        try {
+            tableNumber = Integer.parseUnsignedInt(request.getParameter("table_number"));
+            datetime = LocalDateTime.parse(request.getParameter("date_time"), htmlDatetimeFormat);
+        } catch (Exception ex) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
+
+        String username = mizdooni.getCurrentUser().getUsername();
+        String restaurantName = restaurant.getName();
+
+        try {
+            mizdooni.reserveTable(username, restaurantName, tableNumber, datetime);
+        } catch (Exception ex) {
+            request.setAttribute("errorMessage", ex.getMessage());
+            request.getRequestDispatcher("/errors/error.jsp").forward(request, response);
+            return;
+        }
+        response.sendRedirect("/reservations");
     }
 
     private void feedback(HttpServletRequest request, HttpServletResponse response, Restaurant restaurant) throws ServletException, IOException {
