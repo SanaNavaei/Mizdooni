@@ -1,9 +1,11 @@
-<%@ page import="model.Restaurant" %>
 <%@ page import="java.util.List" %>
+<%@ page import="model.Restaurant" %>
+<%@ page import="model.Address" %>
 <%@ page import="model.Table" %>
 
 <%
   Restaurant restaurant = (Restaurant) request.getAttribute("restaurant");
+  Address address = restaurant.getAddress();
   List<Table> tables = (List<Table>) request.getAttribute("tables");
 %>
 
@@ -23,9 +25,9 @@
     <li id="id">Id: <%=restaurant.getId()%></li>
     <li id="name">Name: <%=restaurant.getName()%></li>
     <li id="type">Type: <%=restaurant.getType()%></li>
-    <li id="time">Time: <%=restaurant.getTime()%></li>
+    <li id="time">Time: <%=restaurant.getWorkingTime()%></li>
     <li id="description">Description: <%=restaurant.getDescription()%></li>
-    <li id="address">Address: <%=restaurant.getStreet()%>, <%=restaurant.getCity()%>, <%=restaurant.getCountry()%></li>
+    <li id="address">Address: <%=address.getStreet()%>, <%=address.getCity()%>, <%=address.getCountry()%></li>
     <li id="tables">Tables:</li>
     <ul>
       <% for (Table t : tables) { %>

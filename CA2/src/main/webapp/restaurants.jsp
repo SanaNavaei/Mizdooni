@@ -54,9 +54,9 @@
       <tr>
         <td><%=r.getId()%></td>
         <td><a href="/restaurants/<%=r.getId()%>"><%=r.getName()%></a></td>
-        <td><%=r.getCity()%></td>
+        <td><%=r.getAddress().getCity()%></td>
         <td><%=r.getType()%></td>
-        <td><%=r.getTime()%></td>
+        <td><%=r.getWorkingTime()%></td>
         <td><%=rating.service%></td>
         <td><%=rating.food%></td>
         <td><%=rating.ambiance%></td>

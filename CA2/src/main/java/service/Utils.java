@@ -68,7 +68,7 @@ public class Utils {
     }
 
     static public List<Restaurant> findRestaurantsByCity(String city, List<Restaurant> restaurants) {
-        return restaurants.stream().filter(r -> r.getCity().equals(city)).collect(Collectors.toList());
+        return restaurants.stream().filter(r -> r.getAddress().getCity().equals(city)).collect(Collectors.toList());
     }
 
     static public Restaurant findRestaurantByManager(String manager, List<Restaurant> restaurants) {

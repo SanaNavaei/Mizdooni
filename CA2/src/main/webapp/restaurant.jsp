@@ -1,11 +1,13 @@
 <%@ page import="java.util.List" %>
 <%@ page import="model.Restaurant" %>
+<%@ page import="model.Address" %>
 <%@ page import="model.Rating" %>
 <%@ page import="model.Review" %>
 <%@ page import="model.Table" %>
 
 <%
   Restaurant restaurant = (Restaurant) request.getAttribute("restaurant");
+  Address address = restaurant.getAddress();
   Rating averageRating = restaurant.getAverageRating();
   List<Review> reviews = restaurant.getReviews();
   List<Table> tables = restaurant.getTables();
@@ -28,7 +30,7 @@
     <li id="id">Id: <%=restaurant.getId()%></li>
     <li id="name">Name: <%=restaurant.getName()%></li>
     <li id="type">Type: <%=restaurant.getType()%></li>
-    <li id="time">Time: <%=restaurant.getTime()%></li>
+    <li id="time">Time: <%=restaurant.getWorkingTime()%></li>
     <li id="rate">Scores:</li>
     <ul>
       <li>Food: <%=averageRating.food%></li>
@@ -36,7 +38,7 @@
       <li>Ambiance: <%=averageRating.ambiance%></li>
       <li>Overall: <%=averageRating.overall%></li>
     </ul>
-    <li id="address">Address: <%=restaurant.getStreet()%>, <%=restaurant.getCity()%>, <%=restaurant.getCountry()%></li>
+    <li id="address">Address: <%=address.getStreet()%>, <%=address.getCity()%>, <%=address.getCountry()%></li>
     <li id="description">Description: <%=restaurant.getDescription()%></li>
   </ul>
 

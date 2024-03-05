@@ -1,8 +1,6 @@
 package model;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -145,48 +143,23 @@ public class Restaurant {
         return endTime;
     }
 
-    public List<Review> getReviews() {
-        return reviews;
+    public String getDescription() {
+        return description;
+    }
+
+    public Address getAddress() {
+        return address;
     }
 
     public List<Table> getTables() {
         return tables;
     }
 
-    public String getCity() {
-        return address.getCity();
+    public List<Review> getReviews() {
+        return reviews;
     }
 
-    public String getCountry() {
-        return address.getCountry();
-    }
-
-    public String getStreet() {
-        return address.getStreet();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getTime() {
+    public String getWorkingTime() {
         return startTime + " - " + endTime;
-    }
-
-    public JsonNode toJson() {
-        ObjectNode node = new ObjectMapper().createObjectNode();
-        node.put("name", name);
-        node.put("type", type);
-        node.put("startTime", startTime.toString());
-        node.put("endTime", endTime.toString());
-        node.put("description", description);
-
-        ObjectNode address_ = new ObjectMapper().createObjectNode();
-        address_.put("country", address.getCountry());
-        address_.put("city", address.getCity());
-        address_.put("street", address.getStreet());
-        node.set("address", address_);
-
-        return node;
     }
 }
