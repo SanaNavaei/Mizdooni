@@ -15,6 +15,7 @@ public class Database {
     private Database() {
         users = new ArrayList<>();
         restaurants = new ArrayList<>();
+        new DataLoader(this).read();
     }
 
     public static Database getInstance() {

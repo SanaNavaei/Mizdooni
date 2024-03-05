@@ -7,17 +7,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Restaurant;
 import model.User;
-import service.MizDooni;
+import service.RestaurantService;
+import service.UserService;
 
 import java.io.IOException;
 
 @WebServlet("/")
 public class HomePageController extends HttpServlet {
-    private MizDooni mizdooni = MizDooni.getInstance();
+    private UserService userService = UserService.getInstance();
+    private RestaurantService restaurantService = RestaurantService.getInstance();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        User.Role role = mizdooni.getCurrentUser().getRole();
-        String username = mizdooni.getCurrentUser().getUsername();
+        User.Role role = userService.getCurrentUser().getRole();
+        String username = userService.getCurrentUser().getUsername();
 
         String page = null;
         switch (role) {
@@ -25,7 +27,7 @@ public class HomePageController extends HttpServlet {
                 page = "client_home.jsp";
                 break;
             case manager:
-                Restaurant restaurant = mizdooni.searchRestaurantByManager(username);
+                Restaurant restaurant = restaurantService.searchRestaurantByManager(username);
                 request.setAttribute("restaurant", restaurant);
                 request.setAttribute("tables", restaurant.getTables());
                 page = "manager_home.jsp";
@@ -50,9 +52,9 @@ public class HomePageController extends HttpServlet {
             return;
         }
 
-        User.Role role = mizdooni.getCurrentUser().getRole();
-        String username = mizdooni.getCurrentUser().getUsername();
-        Restaurant restaurant = mizdooni.searchRestaurantByManager(username);
+        User.Role role = userService.getCurrentUser().getRole();
+        String username = userService.getCurrentUser().getUsername();
+        Restaurant restaurant = restaurantService.searchRestaurantByManager(username);
 
         if (role != User.Role.manager) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);
@@ -60,7 +62,7 @@ public class HomePageController extends HttpServlet {
         }
 
         try {
-            mizdooni.addTable(tableNumber, restaurant.getName(), username, seatsNumber);
+            restaurantService.addTable(tableNumber, restaurant.getName(), username, seatsNumber);
             response.sendRedirect("/");
         } catch (Exception ex) {
             request.setAttribute("errorMessage", ex.getMessage());

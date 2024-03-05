@@ -17,9 +17,9 @@ public class DataLoader {
     private ObjectMapper objectMapper;
     private Database db;
 
-    public DataLoader() {
+    public DataLoader(Database database) {
         objectMapper = new ObjectMapper();
-        db = Database.getInstance();
+        db = database;
     }
 
     public void read() {

@@ -4,7 +4,7 @@ import jakarta.servlet.*;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import service.MizDooni;
+import service.UserService;
 
 import java.io.IOException;
 
@@ -19,7 +19,7 @@ public class AuthenticationFilter implements Filter {
         }
 
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        if (MizDooni.getInstance().getCurrentUser() == null) {
+        if (UserService.getInstance().getCurrentUser() == null) {
             httpResponse.sendRedirect("/login");
             return;
         }

@@ -5,17 +5,19 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import service.MizDooni;
+import service.ReservationService;
+import service.UserService;
 
 import java.io.IOException;
 
 @WebServlet("/reservations")
 public class ReservationsController extends HttpServlet {
-    private MizDooni mizdooni = MizDooni.getInstance();
+    private UserService userService = UserService.getInstance();
+    private ReservationService reservationService = ReservationService.getInstance();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("username", mizdooni.getCurrentUser().getUsername());
-        request.setAttribute("reservations", mizdooni.getCurrentUser().getReservations());
+        request.setAttribute("username", userService.getCurrentUser().getUsername());
+        request.setAttribute("reservations", userService.getCurrentUser().getReservations());
         request.getRequestDispatcher("/reservations.jsp").forward(request, response);
     }
 
@@ -35,7 +37,7 @@ public class ReservationsController extends HttpServlet {
         }
 
         try {
-            mizdooni.cancelReservation(mizdooni.getCurrentUser().getUsername(), reservationNumber);
+            reservationService.cancelReservation(userService.getCurrentUser().getUsername(), reservationNumber);
         } catch (Exception ex) {
             request.setAttribute("errorMessage", ex.getMessage());
             request.getRequestDispatcher("/errors/error.jsp").forward(request, response);

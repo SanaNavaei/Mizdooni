@@ -5,17 +5,19 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import service.MizDooni;
+import service.RestaurantService;
+import service.UserService;
 
 import java.io.IOException;
 
 @WebServlet("/restaurants")
 public class RestaurantsController extends HttpServlet {
-    private MizDooni mizdooni = MizDooni.getInstance();
+    private UserService userService = UserService.getInstance();
+    private RestaurantService restaurantService = RestaurantService.getInstance();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("username", mizdooni.getCurrentUser().getUsername());
-        request.setAttribute("restaurants", mizdooni.getRestaurants());
+        request.setAttribute("username", userService.getCurrentUser().getUsername());
+        request.setAttribute("restaurants", restaurantService.getRestaurants());
         request.getRequestDispatcher("restaurants.jsp").forward(request, response);
     }
 
@@ -29,28 +31,28 @@ public class RestaurantsController extends HttpServlet {
         switch (action) {
             case "search_by_type":
                 String type = request.getParameter("search");
-                request.setAttribute("restaurants", mizdooni.searchRestaurantsByType(type));
+                request.setAttribute("restaurants", restaurantService.searchRestaurantsByType(type));
                 break;
             case "search_by_name":
                 String name = request.getParameter("search");
-                request.setAttribute("restaurants", mizdooni.searchRestaurantsByName(name));
+                request.setAttribute("restaurants", restaurantService.searchRestaurantsByName(name));
                 break;
             case "search_by_city":
                 String city = request.getParameter("search");
-                request.setAttribute("restaurants", mizdooni.searchRestaurantsByCity(city));
+                request.setAttribute("restaurants", restaurantService.searchRestaurantsByCity(city));
                 break;
             case "clear":
-                request.setAttribute("restaurants", mizdooni.getRestaurants());
+                request.setAttribute("restaurants", restaurantService.getRestaurants());
                 break;
             case "sort_by_rate":
-                request.setAttribute("restaurants", mizdooni.sortRestaurantsByRate());
+                request.setAttribute("restaurants", restaurantService.sortRestaurantsByRate());
                 break;
             default:
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST);
                 return;
         }
 
-        request.setAttribute("username", mizdooni.getCurrentUser().getUsername());
+        request.setAttribute("username", userService.getCurrentUser().getUsername());
         request.getRequestDispatcher("restaurants.jsp").forward(request, response);
     }
 }

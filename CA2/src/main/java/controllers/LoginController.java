@@ -5,16 +5,16 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import service.MizDooni;
+import service.UserService;
 
 import java.io.IOException;
 
 @WebServlet("/login")
 public class LoginController extends HttpServlet {
-    private MizDooni mizdooni = MizDooni.getInstance();
+    private UserService userService = UserService.getInstance();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (mizdooni.getCurrentUser() != null) {
+        if (userService.getCurrentUser() != null) {
             response.sendRedirect("/");
             return;
         }
@@ -33,7 +33,7 @@ public class LoginController extends HttpServlet {
             return;
         }
 
-        if (mizdooni.login(username, password)) {
+        if (userService.login(username, password)) {
             response.sendRedirect("/");
         } else {
             request.setAttribute("wrong", true);

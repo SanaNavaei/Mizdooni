@@ -1,7 +1,6 @@
 package service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import database.DataLoader;
 import database.Database;
 import exceptions.*;
 import model.*;
@@ -12,24 +11,17 @@ import java.util.List;
 
 import static service.Utils.*;
 
-public class MizDooni {
+public class RestaurantService {
     private Database db;
-    private User currentUser;
 
-    private static final MizDooni instance = new MizDooni();
+    private static final RestaurantService instance = new RestaurantService();
 
-    private MizDooni() {
+    private RestaurantService() {
         db = Database.getInstance();
-        currentUser = null;
-        new DataLoader().read();
     }
 
-    public static MizDooni getInstance() {
+    public static RestaurantService getInstance() {
         return instance;
-    }
-
-    public User getCurrentUser() {
-        return currentUser;
     }
 
     public Restaurant getRestaurant(int restaurantId) {
@@ -38,35 +30,6 @@ public class MizDooni {
 
     public List<Restaurant> getRestaurants() {
         return db.restaurants;
-    }
-
-    public boolean login(String username, String password) {
-        User user = findUser(username, db.users);
-        if (user != null && user.checkPassword(password)) {
-            currentUser = user;
-            return true;
-        }
-        return false;
-    }
-
-    public void logout() {
-        currentUser = null;
-    }
-
-    public void addUser(String username, String password, String email, Address address,
-                        User.Role role) throws InvalidEmailFormat, InvalidUsernameFormat, DuplicatedUsernameEmail {
-        if (!validateUsername(username)) {
-            throw new InvalidUsernameFormat();
-        }
-        if (!validateEmail(email)) {
-            throw new InvalidEmailFormat();
-        }
-        if (!userIsTaken(username, email, db.users)) {
-            throw new DuplicatedUsernameEmail();
-        }
-
-        User user = new User(username, password, email, address, role);
-        db.users.add(user);
     }
 
     public void addRestaurant(String name, String manager, String type, LocalTime startTime, LocalTime endTime,
@@ -113,72 +76,13 @@ public class MizDooni {
         restaurant.addTable(table);
     }
 
-    public Reservation reserveTable(String username, String restaurantName, int tableNumber, LocalDateTime datetime)
-            throws UserNotFound, ManagerReservationNotAllowed, InvalidWorkingTime, RestaurantNotFound, TableNotFound,
-            DateTimeInThePast, ReservationNotInOpenTimes, TableAlreadyReserved {
-        User user = findUser(username, db.users);
-        if (user == null) {
-            throw new UserNotFound();
-        }
-        if (user.getRole() == User.Role.manager) {
-            throw new ManagerReservationNotAllowed();
-        }
-
-        if (!validateWorkingTime(datetime.toLocalTime())) {
-            throw new InvalidWorkingTime();
-        }
-        if (datetime.isBefore(LocalDateTime.now())) {
-            throw new DateTimeInThePast();
-        }
-
+    public List<JsonNode> showAvailableTables(String restaurantName) throws RestaurantNotFound {
         Restaurant restaurant = findRestaurantByName(restaurantName, db.restaurants);
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
-        Table table = restaurant.getTable(tableNumber);
-        if (table == null) {
-            throw new TableNotFound();
-        }
-        if (datetime.toLocalTime().isBefore(restaurant.getStartTime()) ||
-                datetime.toLocalTime().isAfter(restaurant.getEndTime())) {
-            throw new ReservationNotInOpenTimes();
-        }
-        if (table.isReserved(datetime)) {
-            throw new TableAlreadyReserved();
-        }
 
-        Reservation reservation = new Reservation(user, restaurant, table, datetime);
-        user.addReservation(reservation);
-        table.addReservation(reservation);
-        return reservation;
-    }
-
-    public void cancelReservation(String username, int reservationNumber)
-            throws UserNotFound, ReservationNotFound, ReservationCannotBeCancelled {
-        User user = findUser(username, db.users);
-        if (user == null) {
-            throw new UserNotFound();
-        }
-
-        Reservation reservation = user.getReservation(reservationNumber);
-        if (reservation == null) {
-            throw new ReservationNotFound();
-        }
-
-        if (reservation.getDateTime().isBefore(LocalDateTime.now())) {
-            throw new ReservationCannotBeCancelled();
-        }
-
-        reservation.cancel();
-    }
-
-    public List<Reservation> showReservationHistory(String username) throws UserNotFound {
-        User user = findUser(username, db.users);
-        if (user == null) {
-            throw new UserNotFound();
-        }
-
-        return user.getReservations();
+        return restaurant.showAvailableTables();
     }
 
     public List<Restaurant> searchRestaurantsByName(String restaurantName) {
@@ -202,15 +106,6 @@ public class MizDooni {
 
     public Restaurant searchRestaurantByManager(String manager) {
         return findRestaurantByManager(manager, db.restaurants);
-    }
-
-    public List<JsonNode> showAvailableTables(String restaurantName) throws RestaurantNotFound {
-        Restaurant restaurant = findRestaurantByName(restaurantName, db.restaurants);
-        if (restaurant == null) {
-            throw new RestaurantNotFound();
-        }
-
-        return restaurant.showAvailableTables();
     }
 
     public void addReview(String username, String restaurantName, double foodRate, double serviceRate, double ambianceRate,

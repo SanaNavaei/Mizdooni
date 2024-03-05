@@ -7,7 +7,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import model.Rating;
 import model.Restaurant;
-import service.MizDooni;
+import service.ReservationService;
+import service.RestaurantService;
+import service.UserService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -15,7 +17,9 @@ import java.time.format.DateTimeFormatter;
 
 @WebServlet("/restaurants/*")
 public class RestaurantController extends HttpServlet {
-    private MizDooni mizdooni = MizDooni.getInstance();
+    private UserService userService = UserService.getInstance();
+    private RestaurantService restaurantService = RestaurantService.getInstance();
+    private ReservationService reservationService = ReservationService.getInstance();
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Restaurant restaurant = getRestaurant(request, response);
@@ -23,7 +27,7 @@ public class RestaurantController extends HttpServlet {
             return;
         }
 
-        request.setAttribute("username", mizdooni.getCurrentUser().getUsername());
+        request.setAttribute("username", userService.getCurrentUser().getUsername());
         request.setAttribute("restaurant", restaurant);
         request.getRequestDispatcher("/restaurant.jsp").forward(request, response);
     }
@@ -61,7 +65,7 @@ public class RestaurantController extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return null;
         }
-        Restaurant restaurant = mizdooni.getRestaurant(restaurantId);
+        Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
         if (restaurant == null) {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -80,11 +84,11 @@ public class RestaurantController extends HttpServlet {
             return;
         }
 
-        String username = mizdooni.getCurrentUser().getUsername();
+        String username = userService.getCurrentUser().getUsername();
         String restaurantName = restaurant.getName();
 
         try {
-            mizdooni.reserveTable(username, restaurantName, tableNumber, datetime);
+            reservationService.reserveTable(username, restaurantName, tableNumber, datetime);
         } catch (Exception ex) {
             request.setAttribute("errorMessage", ex.getMessage());
             request.getRequestDispatcher("/errors/error.jsp").forward(request, response);
@@ -111,7 +115,7 @@ public class RestaurantController extends HttpServlet {
         }
 
         try {
-            mizdooni.addReview(mizdooni.getCurrentUser().getUsername(), restaurant.getName(),
+            restaurantService.addReview(userService.getCurrentUser().getUsername(), restaurant.getName(),
                     rating.food, rating.service, rating.ambiance, rating.overall, comment);
         } catch (Exception ex) {
             request.setAttribute("errorMessage", ex.getMessage());
