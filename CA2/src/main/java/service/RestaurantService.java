@@ -7,7 +7,9 @@ import model.*;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static service.Utils.*;
 
@@ -86,26 +88,26 @@ public class RestaurantService {
     }
 
     public List<Restaurant> searchRestaurantsByName(String restaurantName) {
-        return findRestaurantsByName(restaurantName, db.restaurants);
+        return db.restaurants.stream().filter(r -> r.getName().contains(restaurantName)).collect(Collectors.toList());
     }
 
     public List<Restaurant> searchRestaurantsByType(String restaurantType) {
-        return findRestaurantsByType(restaurantType, db.restaurants);
+        return db.restaurants.stream().filter(r -> r.getType().equals(restaurantType)).collect(Collectors.toList());
     }
 
     public List<Restaurant> searchRestaurantsByCity(String city) {
-        return findRestaurantsByCity(city, db.restaurants);
+        return db.restaurants.stream().filter(r -> r.getAddress().getCity().equals(city)).collect(Collectors.toList());
     }
 
     public List<Restaurant> sortRestaurantsByRate() {
-        List<Restaurant> restaurants = db.restaurants;
+        List<Restaurant> restaurants = new ArrayList<>(db.restaurants);
         restaurants.sort((r1, r2) -> Double.compare(r2.getAverageRating().overall, r1.getAverageRating().overall));
 
         return restaurants;
     }
 
-    public Restaurant searchRestaurantByManager(String manager) {
-        return findRestaurantByManager(manager, db.restaurants);
+    public List<Restaurant> searchRestaurantsByManager(String manager) {
+        return db.restaurants.stream().filter(r -> r.getManager().getUsername().equals(manager)).collect(Collectors.toList());
     }
 
     public void addReview(String username, String restaurantName, double foodRate, double serviceRate, double ambianceRate,

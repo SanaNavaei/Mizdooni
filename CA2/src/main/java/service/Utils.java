@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Utils {
     static public boolean validateUsername(String username) {
@@ -57,27 +56,6 @@ public class Utils {
     static public boolean validateSeatsNumber(String seatsNumber) {
         String seatsNumberFormat = "^[1-9][0-9]*$";
         return seatsNumber.matches(seatsNumberFormat);
-    }
-
-    static public List<Restaurant> findRestaurantsByName(String name, List<Restaurant> restaurants) {
-        return restaurants.stream().filter(r -> r.getName().contains(name)).collect(Collectors.toList());
-    }
-
-    static public List<Restaurant> findRestaurantsByType(String type, List<Restaurant> restaurants) {
-        return restaurants.stream().filter(r -> r.getType().equals(type)).collect(Collectors.toList());
-    }
-
-    static public List<Restaurant> findRestaurantsByCity(String city, List<Restaurant> restaurants) {
-        return restaurants.stream().filter(r -> r.getAddress().getCity().equals(city)).collect(Collectors.toList());
-    }
-
-    static public Restaurant findRestaurantByManager(String manager, List<Restaurant> restaurants) {
-        for (Restaurant r : restaurants) {
-            if (r.getManager().getUsername().equals(manager)) {
-                return r;
-            }
-        }
-        return null;
     }
 
     static public List<String> convertToString(Map<LocalDate, List<LocalTime>> availableHours) {

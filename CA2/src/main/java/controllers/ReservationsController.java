@@ -30,7 +30,7 @@ public class ReservationsController extends HttpServlet {
 
         int reservationNumber;
         try {
-            reservationNumber = Integer.parseUnsignedInt(request.getParameter("reservationNumber"));
+            reservationNumber = Integer.parseUnsignedInt(request.getParameter("reservation_number"));
         } catch (Exception ex) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;

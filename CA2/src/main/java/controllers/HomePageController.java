@@ -11,6 +11,7 @@ import service.RestaurantService;
 import service.UserService;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/")
 public class HomePageController extends HttpServlet {
@@ -27,9 +28,8 @@ public class HomePageController extends HttpServlet {
                 page = "client_home.jsp";
                 break;
             case manager:
-                Restaurant restaurant = restaurantService.searchRestaurantByManager(username);
-                request.setAttribute("restaurant", restaurant);
-                request.setAttribute("tables", restaurant.getTables());
+                List<Restaurant> restaurants = restaurantService.searchRestaurantsByManager(username);
+                request.setAttribute("restaurants", restaurants);
                 page = "manager_home.jsp";
                 break;
         }
@@ -39,13 +39,16 @@ public class HomePageController extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int restaurantId;
         int tableNumber;
         try {
+            restaurantId = Integer.parseUnsignedInt(request.getParameter("restaurant_id"));
             tableNumber = Integer.parseUnsignedInt(request.getParameter("table_number"));
         } catch (NumberFormatException ex) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
+
         String seatsNumber = request.getParameter("seats_number");
         if (seatsNumber == null || seatsNumber.isBlank()) {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST);
@@ -54,7 +57,13 @@ public class HomePageController extends HttpServlet {
 
         User.Role role = userService.getCurrentUser().getRole();
         String username = userService.getCurrentUser().getUsername();
-        Restaurant restaurant = restaurantService.searchRestaurantByManager(username);
+
+        List<Restaurant> restaurants = restaurantService.searchRestaurantsByManager(username);
+        Restaurant restaurant = restaurants.stream().filter(r -> r.getId() == restaurantId).findFirst().orElse(null);
+        if (restaurant == null) {
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
 
         if (role != User.Role.manager) {
             response.sendError(HttpServletResponse.SC_FORBIDDEN);

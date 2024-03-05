@@ -50,7 +50,7 @@
         <td><%=r.getDateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))%></td>
         <td>
           <form action="" method="POST">
-            <input type="hidden" name="reservationNumber" value="<%=r.getReservationNumber()%>">
+            <input type="hidden" name="reservation_number" value="<%=r.getReservationNumber()%>">
             <button type="submit" name="action" value="cancel">Cancel</button>
           </form>
         </td>
