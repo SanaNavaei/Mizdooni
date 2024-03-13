@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Result</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../stylesheets/global.css">
+  <link rel="stylesheet" type="text/css" href="../stylesheets/search_result.css">
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+  <header class="sticky-top">
+    <nav id="navbar" class="navbar navbar-expand bg-white">
+      <div class="container-fluid">
+        <div class="d-flex align-items-center">
+          <a class="navbar-brand ms-4" href="#">
+            <img src="../images/logo.png" height="70" width="90" alt="Mizdooni">
+          </a>
+          <p class="miz-text-red fs-5 m-0 d-none d-md-block">Reserve Table From Anywhere!</p>
+        </div>
+        <button class="rounded-3 border-0 me-5 text-white">Reserve Now!</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flex-grow-1">
+    <div class="container">
+      <div class="row pt-4 px-2 px-sm-0">
+        <p class="px-0 m-0">Results for # Restaurant Name</p>
+      </div>
+      <div id="restaurant-cards" class="row pt-3 px-2">
+        <section class="restaurant-card col rounded-3 px-0 pb-2 position-relative">
+          <div class="stars position-absolute rounded-end-4 d-flex px-2 py-1 justify-content-around">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+          </div>
+          <img class="restaurant-card-pic rounded-top-3 w-100 object-fit-cover" src="../images/restaurants/The-Ivy-Brasserie-1.png" alt="The Ivy Brasserie">
+          <div class="ps-3">
+            <h2 class="fs-6 lh-base pt-1">The Ivy Brasserie</h2>
+            <p class="miz-text-grey fw-medium">2096 reviews</p>
+            <p class="text-black fw-light">Contemporary British</p>
+            <div class="d-flex">
+              <img class="me-2" src="../icons/location.svg" alt="location">
+              <p>Tehran</p>
+            </div>
+            <div class="d-flex">
+              <p class="miz-text-green fw-medium">Open</p>
+              <img class="mx-1" src="../icons/dot.svg" alt="dot">
+              <p>Closes at 11 PM</p>
+            </div>
+          </div>
+        </section>
+        <section class="restaurant-card col rounded-3 px-0 pb-2 position-relative">
+          <div class="stars position-absolute rounded-end-4 d-flex px-2 py-1 justify-content-around">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+          </div>
+          <img class="restaurant-card-pic rounded-top-3 w-100 object-fit-cover" src="../images/restaurants/Halia-Restuarant.png" alt="Halia Restuarant">
+          <div class="ps-3">
+            <h2 class="fs-6 lh-base pt-1">Halia Restaurant</h2>
+            <p class="miz-text-grey fw-medium">12096 reviews</p>
+            <p class="text-black fw-light">Fast Food</p>
+            <div class="d-flex">
+              <img class="me-2" src="../icons/location.svg" alt="location">
+              <p>Karaj</p>
+            </div>
+            <div class="d-flex">
+              <p class="miz-text-red fw-medium">Closed</p>
+              <img class="mx-1" src="../icons/dot.svg" alt="dot">
+              <p>Opens at 10 AM</p>
+            </div>
+          </div>
+        </section>
+        <section class="restaurant-card col rounded-3 px-0 pb-2 position-relative">
+          <div class="stars position-absolute rounded-end-4 d-flex px-2 py-1 justify-content-around">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+          </div>
+          <img class="restaurant-card-pic rounded-top-3 w-100 object-fit-cover" src="../images/restaurants/Eline-Cafe.png" alt="Eline Cafe">
+          <div class="ps-3">
+            <h2 class="fs-6 lh-base pt-1">Eline Cafe</h2>
+            <p class="miz-text-grey fw-medium">0 reviews</p>
+            <p class="text-black fw-light">Sea Food</p>
+            <div class="d-flex">
+              <img class="me-2" src="../icons/location.svg" alt="location">
+              <p>Rasht</p>
+            </div>
+            <div class="d-flex">
+              <p class="miz-text-green fw-medium">Open</p>
+              <img class="mx-1" src="../icons/dot.svg" alt="dot">
+              <p>Closes at 12 PM</p>
+            </div>
+          </div>
+        </section>
+        <section class="restaurant-card col rounded-3 px-0 pb-2 position-relative">
+          <div class="stars position-absolute rounded-end-4 d-flex px-2 py-1 justify-content-around">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+          </div>
+          <img class="restaurant-card-pic rounded-top-3 w-100 object-fit-cover" src="../images/restaurants/Cecconis.png" alt="Cecconi's">
+          <div class="ps-3">
+            <h2 class="fs-6 lh-base pt-1">Cecconi’s</h2>
+            <p class="miz-text-grey fw-medium">2096 reviews</p>
+            <p class="text-black fw-light">Healthy Food</p>
+            <div class="d-flex">
+              <img class="me-2" src="../icons/location.svg" alt="location">
+              <p>Ahvaz</p>
+            </div>
+            <div class="d-flex">
+              <p class="miz-text-green fw-medium">Open</p>
+              <img class="mx-1" src="../icons/dot.svg" alt="dot">
+              <p>Closes at 11 PM</p>
+            </div>
+          </div>
+        </section>
+        <section class="restaurant-card col rounded-3 px-0 pb-2 position-relative">
+          <div class="stars position-absolute rounded-end-4 d-flex px-2 py-1 justify-content-around">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+          </div>
+          <img class="restaurant-card-pic rounded-top-3 w-100 object-fit-cover" src="../images/restaurants/Hard-Rock-Cafe.png" alt="Hard Rock Cafe">
+          <div class="ps-3">
+            <h2 class="fs-6 lh-base pt-1">Hard Rock Cafe</h2>
+            <p class="miz-text-grey fw-medium">2096 reviews</p>
+            <p class="text-black fw-light">Vegetarian Food</p>
+            <div class="d-flex">
+              <img class="me-2" src="../icons/location.svg" alt="location">
+              <p>Tabriz</p>
+            </div>
+            <div class="d-flex">
+              <p class="miz-text-green fw-medium">Open</p>
+              <img class="mx-1" src="../icons/dot.svg" alt="dot">
+              <p>Closes at 11 PM</p>
+            </div>
+          </div>
+        </section>
+        <section class="restaurant-card col rounded-3 px-0 pb-2 position-relative">
+          <div class="stars position-absolute rounded-end-4 d-flex px-2 py-1 justify-content-around">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+          </div>
+          <img class="restaurant-card-pic rounded-top-3 w-100 object-fit-cover" src="../images/restaurants/28-50-Marylebone.png" alt="28 - 50 Marylebone">
+          <div class="ps-3">
+            <h2 class="fs-6 lh-base pt-1">28 - 50 Marylebone</h2>
+            <p class="miz-text-grey fw-medium">2096 reviews</p>
+            <p class="text-black fw-light">Kebab</p>
+            <div class="d-flex">
+              <img class="me-2" src="../icons/location.svg" alt="location">
+              <p>Tehran</p>
+            </div>
+            <div class="d-flex">
+              <p class="miz-text-green fw-medium">Open</p>
+              <img class="mx-1" src="../icons/dot.svg" alt="dot">
+              <p>Closes at 11 PM</p>
+            </div>
+          </div>
+        </section>
+        <section class="restaurant-card col rounded-3 px-0 pb-2 position-relative">
+          <div class="stars position-absolute rounded-end-4 d-flex px-2 py-1 justify-content-around">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+          </div>
+          <img class="restaurant-card-pic rounded-top-3 w-100 object-fit-cover" src="../images/restaurants/Maman-Joon-Felafel.png" alt="Maman Joon Felafel">
+          <div class="ps-3">
+            <h2 class="fs-6 lh-base pt-1">Maman Joon Felafel</h2>
+            <p class="miz-text-grey fw-medium">10000000 reviews</p>
+            <p class="text-black fw-light">Falafel</p>
+            <div class="d-flex">
+              <img class="me-2" src="../icons/location.svg" alt="location">
+              <p>Qom</p>
+            </div>
+            <div class="d-flex">
+              <p class="miz-text-green fw-medium">Open</p>
+              <img class="mx-1" src="../icons/dot.svg" alt="dot">
+              <p>Closes at 11 PM</p>
+            </div>
+          </div>
+        </section>
+        <section class="restaurant-card col rounded-3 px-0 pb-2 position-relative">
+          <div class="stars position-absolute rounded-end-4 d-flex px-2 py-1 justify-content-around">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+          </div>
+          <img class="restaurant-card-pic rounded-top-3 w-100 object-fit-cover" src="../images/restaurants/Dizy-Ali-Daei.png" alt="Dizi Ali Daei">
+          <div class="ps-3">
+            <h2 class="fs-6 lh-base pt-1">Dizy Ali Daei</h2>
+            <p class="miz-text-grey fw-medium">2096 reviews</p>
+            <p class="text-black fw-light">Dizy</p>
+            <div class="d-flex">
+              <img class="me-2" src="../icons/location.svg" alt="location">
+              <p>Boshehr</p>
+            </div>
+            <div class="d-flex">
+              <p class="miz-text-green fw-medium">Open</p>
+              <img class="mx-1" src="../icons/dot.svg" alt="dot">
+              <p>Closes at 11 PM</p>
+            </div>
+          </div>
+        </section>
+        <section class="restaurant-card col rounded-3 px-0 pb-2 position-relative">
+          <div class="stars position-absolute rounded-end-4 d-flex px-2 py-1 justify-content-around">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+          </div>
+          <img class="restaurant-card-pic rounded-top-3 w-100 object-fit-cover" src="../images/restaurants/Orkideh.png" alt="Orkideh">
+          <div class="ps-3">
+            <h2 class="fs-6 lh-base pt-1">Orkideh</h2>
+            <p class="miz-text-grey fw-medium">2096 reviews</p>
+            <p class="text-black fw-light">Iranian Food</p>
+            <div class="d-flex">
+              <img class="me-2" src="../icons/location.svg" alt="location">
+              <p>Sari</p>
+            </div>
+            <div class="d-flex">
+              <p class="miz-text-green fw-medium">Open</p>
+              <img class="mx-1" src="../icons/dot.svg" alt="dot">
+              <p>Closes at 11 PM</p>
+            </div>
+          </div>
+        </section>
+        <section class="restaurant-card col rounded-3 px-0 pb-2 position-relative">
+          <div class="stars position-absolute rounded-end-4 d-flex px-2 py-1 justify-content-around">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+          </div>
+          <img class="restaurant-card-pic rounded-top-3 w-100 object-fit-cover" src="../images/restaurants/Narenjak.png" alt="Narenjak">
+          <div class="ps-3">
+            <h2 class="fs-6 lh-base pt-1">Narenjak</h2>
+            <p class="miz-text-grey fw-medium">2096 reviews</p>
+            <p class="text-black fw-light">Local Food</p>
+            <div class="d-flex">
+              <img class="me-2" src="../icons/location.svg" alt="location">
+              <p>Mashhad</p>
+            </div>
+            <div class="d-flex">
+              <p class="miz-text-green fw-medium">Open</p>
+              <img class="mx-1" src="../icons/dot.svg" alt="dot">
+              <p>Closes at 11 PM</p>
+            </div>
+          </div>
+        </section>
+        <section class="restaurant-card col rounded-3 px-0 pb-2 position-relative">
+          <div class="stars position-absolute rounded-end-4 d-flex px-2 py-1 justify-content-around">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+          </div>
+          <img class="restaurant-card-pic rounded-top-3 w-100 object-fit-cover" src="../images/restaurants/SIRAZ-KADIKOY.png" alt="SIRAZ KADIKOY">
+          <div class="ps-3">
+            <h2 class="fs-6 lh-base pt-1 pt-1">SIRAZ KADIKOY</h2>
+            <p class="miz-text-grey fw-medium">2096 reviews</p>
+            <p class="text-black fw-light">Turkish Food</p>
+            <div class="d-flex">
+              <img class="me-2" src="../icons/location.svg" alt="location">
+              <p>Tehran</p>
+            </div>
+            <div class="d-flex">
+              <p class="miz-text-green fw-medium">Open</p>
+              <img class="mx-1" src="../icons/dot.svg" alt="dot">
+              <p>Closes at 11 PM</p>
+            </div>
+          </div>
+        </section>
+        <section class="restaurant-card col rounded-3 px-0 pb-2 position-relative">
+          <div class="stars position-absolute rounded-end-4 d-flex px-2 py-1 justify-content-around">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="12" height="15">
+          </div>
+          <img class="restaurant-card-pic rounded-top-3 w-100 object-fit-cover" src="../images/restaurants/The-Ivy-Brasserie-2.png" alt="The Ivy Brasserie">
+          <div class="ps-3">
+            <h2 class="fs-6 lh-base pt-1">The Ivy Brasserie</h2>
+            <p class="miz-text-grey fw-medium">2096 reviews</p>
+            <p class="text-black fw-light">Contemporary British</p>
+            <div class="d-flex">
+              <img class="me-2" src="../icons/location.svg" alt="location">
+              <p>Tehran</p>
+            </div>
+            <div class="d-flex">
+              <p class="miz-text-green fw-medium">Open</p>
+              <img class="mx-1" src="../icons/dot.svg" alt="dot">
+              <p>Closes at 11 PM</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer id="footer" class="container-fluid py-2 mt-5">
+    <p class="text-white text-center fw-bold m-0">Copyright &copy; 2024 Mizdooni - All rights reserved.</p>
+  </footer>
+</body>
+
+</html>
