@@ -1,0 +1,42 @@
+@font-face {
+    font-family: 'Spline Sans';
+    font-style: normal;
+    font-weight: 300 700;
+    font-display: swap;
+    src: url('../fonts/spline_sans_variable.woff2') format('woff2 supports variations'),
+         url('../fonts/spline_sans_variable.woff2') format('woff2-variations');
+}
+
+:root {
+    --miz-red: #ED3545;
+    --miz-red-light: #FFF6F7;
+    --miz-red-dark: #861A24;
+    --miz-red-profile: #F0B5BA;
+    --miz-red-bg: #FFFCFC;
+    --miz-text: #303030;
+    --miz-text-grey: #7E7E7E;
+    --miz-text-light: #D4D4D4;
+    --miz-green: #2B9407;
+    --miz-grey: #F5F5F5;
+}
+
+body {
+    font-family: 'Spline Sans', sans-serif;
+    color: var(--miz-text);
+}
+
+.miz-text-grey {
+    color: var(--miz-text-grey)
+}
+
+.miz-text-light {
+    color: var(--miz-text-light)
+}
+
+.miz-text-red {
+    color: var(--miz-red)
+}
+
+.miz-text-green {
+    color: var(--miz-green)
+}
