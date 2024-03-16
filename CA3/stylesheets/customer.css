@@ -24,6 +24,7 @@
     color: var(--miz-text-light);
 }
 
+#reservations th,
 #reservations tr:last-child > td {
     border-bottom: 0;
 }
