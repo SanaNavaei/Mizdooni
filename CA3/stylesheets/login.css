@@ -1,0 +1,35 @@
+body {
+    background-image: none;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+}
+
+#container {
+    width: 100%;
+    background-color: var(--miz-red-bg);
+}
+
+.login-button {
+    background-color: var(--miz-red);
+}
+
+.signup-text {
+    font-size: 0.85rem;
+}
+
+@media (min-width: 768px) {
+    body {
+        background-image: url("../images/login-background.jpg");
+    }
+
+    #container {
+        width: 60%;
+    }
+}
+
+@media (min-width: 1200px) {
+    #container {
+        width: 40%;
+    }
+}
