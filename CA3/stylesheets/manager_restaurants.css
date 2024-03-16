@@ -1,0 +1,8 @@
+#restaurants-list {
+    max-width: 600px;
+    min-height: 400px;
+}
+
+.table-button {
+    background-color: var(--miz-red);
+}
