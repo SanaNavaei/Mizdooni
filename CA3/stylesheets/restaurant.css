@@ -1,0 +1,102 @@
+p {
+    margin: 0;
+}
+
+.open {
+    background-color: var(--miz-green);
+}
+
+.closed {
+    background-color: var(--miz-red);
+}
+
+#restaurant-image {
+    max-height: 300px;
+}
+
+#restaurant {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+#description {
+    text-align: justify;
+}
+
+#reserve-form .form-control,
+#reserve-form .form-select {
+    display: inline-block;
+    width: auto;
+    border: 0;
+    background-color: var(--miz-grey);
+}
+
+#reserve-form .form-select {
+    min-width: 80px;
+}
+
+#reserve-form input[type='date'] {
+    background-image: url("../icons/calendar.svg");
+    background-repeat: no-repeat;
+    background-position: left 0.75rem center;
+    background-size: 21px 22px;
+    padding-left: 2.5rem;
+}
+
+.available-time {
+    --bs-btn-color: var(--miz-red);
+    --bs-btn-border-color: var(--miz-red);
+    --bs-btn-hover-color: white;
+    --bs-btn-hover-bg: var(--miz-red);
+    --bs-btn-hover-border-color: var(--miz-red);
+    --bs-btn-active-color: white;
+    --bs-btn-active-bg: var(--miz-red);
+    --bs-btn-active-border-color: var(--miz-red);
+}
+
+#one-hour-text {
+    font-size: 0.9rem;
+}
+
+#average-review {
+    background-color: var(--miz-red-light);
+}
+
+.stars-text {
+    font-size: 0.75rem;
+}
+
+.average-category {
+    font-size: 0.8rem;
+}
+
+.profile-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--miz-red-profile);
+}
+
+.review-rates {
+    font-size: 0.75rem;
+}
+
+ul.review-pagination {
+    list-style: none;
+    padding: 0;
+}
+
+ul.review-pagination a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    color: var(--miz-text);
+    text-decoration: none;
+    border: 1px solid var(--miz-text-light);
+    border-radius: 50%;
+}
+
+ul.review-pagination li.active a {
+    border: 1px solid var(--miz-red);
+}

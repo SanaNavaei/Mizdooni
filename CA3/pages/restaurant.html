@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant</title>
+  <link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../stylesheets/global.css">
+  <link rel="stylesheet" type="text/css" href="../stylesheets/restaurant.css">
+</head>
+
+<body class="min-vh-100 d-flex flex-column bg-white">
+  <header class="sticky-top">
+    <nav id="navbar" class="navbar navbar-expand bg-white">
+      <div class="container-fluid mx-1 ms-sm-4 me-sm-5">
+        <div class="d-flex align-items-center">
+          <a class="navbar-brand" href="#">
+            <img src="../images/logo.png" height="70" width="87" alt="Mizdooni">
+          </a>
+          <p class="miz-text-red fs-5 m-0 d-none d-md-block">Reserve Table From Anywhere!</p>
+        </div>
+        <button class="rounded-3 border-0 text-white">Reserve Now!</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flex-grow-1">
+    <div class="container pt-5">
+      <article class="row gap-4">
+        <section class="col-lg">
+          <div class="position-relative">
+            <img id="restaurant-image" class="w-100 object-fit-cover rounded-3 border-end-3" src="../images/restaurants/Dizy-Ali-Daei.png" alt="Dizy Ali Daei">
+            <div id="restaurant" class="border-bottom w-100 d-flex justify-content-between align-items-center position-absolute bottom-0 rounded-bottom-3 pt-3 pb-2 ps-2 pe-4">
+              <h1 class="m-0 fw-semibold">Dizy Ali Daei</h1>
+              <p class="open text-white rounded-3 py-1 px-3">Open!</p>
+            </div>
+          </div>
+          <div class="px-2">
+            <table class="table table-borderless align-middle m-0">
+              <tbody>
+                <tr>
+                  <td class="ps-0">
+                    <div class="d-flex align-items-center gap-1">
+                      <img src="../icons/time.svg" alt="time" width="20" height="20">
+                      <p class="fw-light">From 11 AM to 10 PM</p>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-1">
+                      <img src="../icons/review_star.svg" alt="review" width="21" height="22">
+                      <p class="fw-light">160 Reviews</p>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center gap-1">
+                      <img src="../icons/restaurant.svg" alt="review" width="11" height="17">
+                      <p class="fw-light">Dizy</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="d-flex align-items-center pt-2 pb-3">
+              <img class="me-2" src="../icons/location.svg" alt="review">
+              <p class="miz-text-grey fw-light">Iran, Boshehr, Vali-e-Asr Square</p>
+            </div>
+            <p id="description" class="fw-light lh-sm">
+              Ali Daei Dizy restaurant is a cultural oasis in the heart of the city, serving up the best of traditional Iranian cuisine.
+              <br>
+              With a menu that boasts a diverse selection of flavorful dishes such as kebabs, stews, and rice dishes,
+              guests will experience the richness and depth of Persian flavors.
+              The ambiance of the restaurant is warm and inviting,
+              with intricate Persian rugs adorning the walls and the soothing sounds of traditional Iranian music playing in the background.
+              <br>
+              Whether you're looking to indulge in a delicious meal with friends or simply craving a taste of Iran,
+              Ali Daei Dizy restaurant is the perfect spot to satisfy your culinary cravings.
+            </p>
+          </div>
+        </section>
+        <section class="col-lg">
+          <h2 class="fw-semibold fs-5 mb-4">Reserve Table</h2>
+          <form id="reserve-form">
+            <div class="ps-2 ps-sm-0">
+              <label for="people">For</label>
+              <select class="form-select mx-1" name="people" id="people" required>
+                <option value="2" selected>2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+              <span>people,</span>
+              <br class="d-sm-none">
+              <label class="pt-3 pt-sm-0" for="date">on date</label>
+              <input class="form-control mx-1" type="date" name="date" id="date" required>
+            </div>
+
+            <p class="mt-3 mb-2">Available Times for Table #1 (2 Seats)</p>
+            <div class="row row-cols-4 row-cols-md-5 row-cols-lg-4 g-2">
+              <div class="col">
+                <input class="btn-check" type="radio" name="time" value="11:00PM" id="time1" required>
+                <label class="available-time d-block btn" for="time1">11:00 PM</label>
+              </div>
+              <div class="col">
+                <input class="btn-check" type="radio" name="time" value="12:00PM" id="time2">
+                <label class="available-time d-block btn" for="time2">12:00 PM</label>
+              </div>
+              <div class="col">
+                <input class="btn-check" type="radio" name="time" value="13:00PM" id="time3">
+                <label class="available-time d-block btn" for="time3">13:00 PM</label>
+              </div>
+              <div class="col">
+                <input class="btn-check" type="radio" name="time" value="14:00PM" id="time4">
+                <label class="available-time d-block btn" for="time4">14:00 PM</label>
+              </div>
+              <div class="col">
+                <input class="btn-check" type="radio" name="time" value="15:00PM" id="time5">
+                <label class="available-time d-block btn" for="time5">15:00 PM</label>
+              </div>
+              <div class="col">
+                <input class="btn-check" type="radio" name="time" value="18:00PM" id="time6">
+                <label class="available-time d-block btn" for="time6">18:00 PM</label>
+              </div>
+              <div class="col">
+                <input class="btn-check" type="radio" name="time" value="19:00PM" id="time7">
+                <label class="available-time d-block btn" for="time7">19:00 PM</label>
+              </div>
+              <div class="col">
+                <input class="btn-check" type="radio" name="time" value="20:00PM" id="time8">
+                <label class="available-time d-block btn" for="time8">20:00 PM</label>
+              </div>
+            </div>
+
+            <p id="one-hour-text" class="miz-text-red my-2">
+              You will reserve this table only for
+              <span class="text-decoration-underline">one</span>
+              hour, for more time please contact the restaurant.
+            </p>
+            <button type="submit" class="miz-button w-100">Complete the Reservation</button>
+          </form>
+        </section>
+      </article>
+
+      <section id="average-review" class="row rounded-3 p-2 mt-5 mx-1">
+        <div class="col-lg d-flex flex-column align-items-center align-items-lg-start pb-3 pb-lg-0">
+          <p class="fs-5">What 160 people are saying</p>
+          <div class="d-flex align-items-center gap-1">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+            <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+            <img src="../icons/star_empty.svg" alt="star_empty" width="15" height="18">
+            <p class="stars-text miz-text-grey ms-2">4 based on recent ratings</p>
+          </div>
+        </div>
+        <div class="col-lg">
+          <div class="d-flex justify-content-around text-center">
+            <div class="average-category">Food<br><span class="fs-5">4.5</span></div>
+            <div class="average-category">Service<br><span class="fs-5">4.1</span></div>
+            <div class="average-category">Ambiance<br><span class="fs-5">3.8</span></div>
+            <div class="average-category">Overall<br><span class="fs-5">4</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="mt-4">
+        <div class="d-flex justify-content-between align-items-center pb-4">
+          <p>160 Reviews</p>
+          <button class="miz-button">Add Review</button>
+        </div>
+        <div class="d-flex align-items-start gap-2 gap-sm-3">
+          <div class="flex-grow-0">
+            <div class="profile-picture fs-5 d-flex justify-content-center align-items-center">AD</div>
+          </div>
+          <div class="flex-grow-1 pt-sm-2">
+            <div class="d-md-flex justify-content-between align-items-start">
+              <div class="pb-1 pb-md-0">
+                <div class="fs-5">Ali Daei</div>
+                <div class="review-rates d-flex align-items-center">
+                  <div>Food <span class="miz-text-red">5</span></div>
+                  <img class="mx-1" src="../icons/dot.svg" alt="dot">
+                  <div>Service <span class="miz-text-red">5</span></div>
+                  <img class="mx-1" src="../icons/dot.svg" alt="dot">
+                  <div>Ambiance <span class="miz-text-red">5</span></div>
+                  <img class="mx-1" src="../icons/dot.svg" alt="dot">
+                  <div>Overall <span class="miz-text-red">5</span></div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center gap-1">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <p class="stars-text miz-text-grey ms-2">Dined on February 17, 2024</p>
+              </div>
+            </div>
+            <p class="pt-2">Excellent pre-theatre meal. Good food and service. Only small criticism is that music was intrusive.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="d-flex align-items-start gap-2 gap-sm-3">
+          <div class="flex-grow-0">
+            <div class="profile-picture fs-5 d-flex justify-content-center align-items-center">AD</div>
+          </div>
+          <div class="flex-grow-1 pt-sm-2">
+            <div class="d-md-flex justify-content-between align-items-start">
+              <div class="pb-1 pb-md-0">
+                <div class="fs-5">Ali Dari</div>
+                <div class="review-rates d-flex align-items-center">
+                  <div>Food <span class="miz-text-red">4</span></div>
+                  <img class="mx-1" src="../icons/dot.svg" alt="dot">
+                  <div>Service <span class="miz-text-red">4</span></div>
+                  <img class="mx-1" src="../icons/dot.svg" alt="dot">
+                  <div>Ambiance <span class="miz-text-red">4</span></div>
+                  <img class="mx-1" src="../icons/dot.svg" alt="dot">
+                  <div>Overall <span class="miz-text-red">4</span></div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center gap-1">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_empty.svg" alt="star_empty" width="15" height="18">
+                <p class="stars-text miz-text-grey ms-2">Dined on February 17, 2024</p>
+              </div>
+            </div>
+            <p class="pt-2">Excellent pre-theatre meal. Good food and service. Only small criticism is that music was intrusive.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="d-flex align-items-start gap-2 gap-sm-3">
+          <div class="flex-grow-0">
+            <div class="profile-picture fs-5 d-flex justify-content-center align-items-center">AD</div>
+          </div>
+          <div class="flex-grow-1 pt-sm-2">
+            <div class="d-md-flex justify-content-between align-items-start">
+              <div class="pb-1 pb-md-0">
+                <div class="fs-5">Ali Daryaei</div>
+                <div class="review-rates d-flex align-items-center">
+                  <div>Food <span class="miz-text-red">5</span></div>
+                  <img class="mx-1" src="../icons/dot.svg" alt="dot">
+                  <div>Service <span class="miz-text-red">5</span></div>
+                  <img class="mx-1" src="../icons/dot.svg" alt="dot">
+                  <div>Ambiance <span class="miz-text-red">5</span></div>
+                  <img class="mx-1" src="../icons/dot.svg" alt="dot">
+                  <div>Overall <span class="miz-text-red">5</span></div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center gap-1">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <p class="stars-text miz-text-grey ms-2">Dined on February 17, 2024</p>
+              </div>
+            </div>
+            <p class="pt-2">Excellent pre-theatre meal. Good food and service. Only small criticism is that music was intrusive.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="d-flex align-items-start gap-2 gap-sm-3">
+          <div class="flex-grow-0">
+            <div class="profile-picture fs-5 d-flex justify-content-center align-items-center">AD</div>
+          </div>
+          <div class="flex-grow-1 pt-sm-2">
+            <div class="d-md-flex justify-content-between align-items-start">
+              <div class="pb-1 pb-md-0">
+                <div class="fs-5">Ali Daryaei</div>
+                <div class="review-rates d-flex align-items-center">
+                  <div>Food <span class="miz-text-red">5</span></div>
+                  <img class="mx-1" src="../icons/dot.svg" alt="dot">
+                  <div>Service <span class="miz-text-red">5</span></div>
+                  <img class="mx-1" src="../icons/dot.svg" alt="dot">
+                  <div>Ambiance <span class="miz-text-red">5</span></div>
+                  <img class="mx-1" src="../icons/dot.svg" alt="dot">
+                  <div>Overall <span class="miz-text-red">5</span></div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center gap-1">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <p class="stars-text miz-text-grey ms-2">Dined on February 17, 2024</p>
+              </div>
+            </div>
+            <p class="pt-2">Excellent pre-theatre meal. Good food and service. Only small criticism is that music was intrusive.</p>
+          </div>
+        </div>
+        <hr>
+        <div class="d-flex align-items-start gap-2 gap-sm-3">
+          <div class="flex-grow-0">
+            <div class="profile-picture fs-5 d-flex justify-content-center align-items-center">AD</div>
+          </div>
+          <div class="flex-grow-1 pt-sm-2">
+            <div class="d-md-flex justify-content-between align-items-start">
+              <div class="pb-1 pb-md-0">
+                <div class="fs-5">Ali Daryaei</div>
+                <div class="review-rates d-flex align-items-center">
+                  <div>Food <span class="miz-text-red">5</span></div>
+                  <img class="mx-1" src="../icons/dot.svg" alt="dot">
+                  <div>Service <span class="miz-text-red">5</span></div>
+                  <img class="mx-1" src="../icons/dot.svg" alt="dot">
+                  <div>Ambiance <span class="miz-text-red">5</span></div>
+                  <img class="mx-1" src="../icons/dot.svg" alt="dot">
+                  <div>Overall <span class="miz-text-red">5</span></div>
+                </div>
+              </div>
+              <div class="d-flex align-items-center gap-1">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <img src="../icons/star_filled.svg" alt="star_filled" width="15" height="18">
+                <p class="stars-text miz-text-grey ms-2">Dined on February 17, 2024</p>
+              </div>
+            </div>
+            <p class="pt-2">Excellent pre-theatre meal. Good food and service. Only small criticism is that music was intrusive.</p>
+          </div>
+        </div>
+      </section>
+
+      <nav class="mt-5">
+        <ul class="review-pagination d-flex justify-content-center align-items-center gap-2">
+          <li class="active"><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li>&middot; &middot; &middot;</li>
+          <li><a href="#">19</a></li>
+        </ul>
+      </nav>
+    </div>
+  </main>
+
+  <footer id="footer" class="container-fluid py-2 mt-3">
+    <small class="d-block text-white text-center fw-bold m-0">Copyright &copy; 2024 Mizdooni - All rights reserved.</small>
+  </footer>
+</body>
+
+</html>

@@ -69,3 +69,7 @@ body {
     padding: 0.5rem 1.5rem;
     background-color: var(--miz-red);
 }
+
+.form-select {
+    --bs-form-select-bg-img: url("../icons/select.svg");
+}
