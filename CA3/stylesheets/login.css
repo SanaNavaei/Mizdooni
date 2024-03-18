@@ -10,10 +10,6 @@ body {
     background-color: var(--miz-red-bg);
 }
 
-.login-button {
-    background-color: var(--miz-red);
-}
-
 .signup-text {
     font-size: 0.85rem;
 }
