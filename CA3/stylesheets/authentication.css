@@ -10,6 +10,14 @@ body {
     background-color: var(--miz-red-bg);
 }
 
+select option {
+    color: var(--miz-text);
+}
+
+select:invalid {
+    color: var(--miz-text-grey);
+}
+
 .bottom-text {
     font-size: 0.85rem;
 }

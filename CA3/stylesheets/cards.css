@@ -6,15 +6,15 @@
     height: 160px;
 }
 
-.restaurant-card h2,
+.restaurant-card h3,
 .restaurant-card p {
     font-weight: normal;
-    font-size: 10px;
+    font-size: 0.6rem;
     line-height: 1rem;
     margin: 0;
 }
 
-.stars {
+.card-stars {
     top: 0.5rem;
     width: 80px;
     background-color: var(--miz-red-light);

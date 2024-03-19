@@ -8,6 +8,7 @@
 }
 
 :root {
+    --miz-header-height: 80px;
     --miz-red: #ED3545;
     --miz-red-light: #FFF6F7;
     --miz-red-dark: #861A24;
@@ -46,8 +47,12 @@ body {
     color: var(--miz-green);
 }
 
+.text-justify {
+    text-align: justify;
+}
+
 #navbar {
-    height: 80px;
+    height: var(--miz-header-height);
     box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.5);
 }
 
