@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manager Manage</title>
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../stylesheets/global.css">
+  <link rel="stylesheet" type="text/css" href="../stylesheets/manager_manage.css">
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+  <header class="sticky-top">
+    <nav id="navbar" class="navbar navbar-expand bg-white">
+      <div class="container-fluid mx-1 ms-sm-4 me-sm-5">
+        <div class="d-flex align-items-center">
+          <a class="navbar-brand" href="#">
+            <img src="../images/logo.png" height="70" width="87" alt="Mizdooni">
+          </a>
+          <p class="miz-text-red fs-5 m-0 d-none d-md-block">Reserve Table From Anywhere!</p>
+        </div>
+        <div class="d-flex align-items-center">
+          <p class="m-0 pe-1 pe-sm-3 text-center">Welcome, Admin!</p>
+          <button class="rounded-3 border-0 text-white">My Restaurants</button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <section id="restaurant" class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center flex-wrap py-2 ps-3 pe-3 pe-sm-5">
+      <h2 class="miz-text-red-light m-0 fw-normal fs-5">Ali Daei Dizy</h2>
+      <p class="miz-text-red-light m-0">Address: Vali-e-Asr Square, Boshehr, Iran</p>
+    </div>
+  </section>
+
+  <main class="flex-grow-1">
+    <div class="container-fluid h-100">
+      <div class="row h-100 flex-column-reverse">
+        <section id="reservations" class="col-lg-4 h-100 overflow-auto bg-white px-0">
+          <div class="d-flex justify-content-between align-items-center mx-3 py-2">
+            <h2 class="fw-semibold fs-6 m-0">Reservation List</h2>
+            <p id="select-table-text" class="fw-light miz-text-grey text-end fs-7 m-0">Select a table to see its reservations</p>
+          </div>
+          <table id="reservations-table" class="table align-middle custom-border m-0">
+            <tbody class="fw-light">
+              <tr>
+                <td class="custom-border col-1">17:00 Jul 24th</td>
+                <td class="col-1">By Tom Holland</td>
+                <td class="text-center col-1 col-sm-2 col-lg-1 col-xxl-2">Table-2</td>
+              </tr>
+              <tr>
+                <td class="custom-border">17:00 Mar 24th</td>
+                <td>By Tom Holland</td>
+                <td class="text-center">Table-3</td>
+              </tr>
+              <tr class="text-decoration-line-through">
+                <td class="custom-border">17:00 Feb 24th</td>
+                <td>By Tom Holland</td>
+                <td class="text-center">Table-5</td>
+              </tr>
+              <tr class="text-decoration-line-through">
+                <td class="custom-border">17:00 Feb 24th</td>
+                <td>By Tom Holland</td>
+                <td class="text-center">Table-8</td>
+              </tr>
+              <tr class="text-decoration-line-through">
+                <td class="custom-border">17:00 Feb 24th</td>
+                <td>By Tom Holland</td>
+                <td class="text-center">Table-10</td>
+              </tr>
+              <tr class="text-decoration-line-through">
+                <td class="custom-border">17:00 Jan 24th</td>
+                <td>By Tom Holland</td>
+                <td class="text-center">Table-15</td>
+              </tr>
+              <tr class="text-decoration-line-through">
+                <td class="custom-border">17:00 Jan 24th</td>
+                <td>By Tom Holland</td>
+                <td class="text-center">Table-1</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="tables" class="col-lg-8 h-100 overflow-auto p-2">
+          <h2 class="miz-text-red fs-6 fw-normal ps-2 m-0">+Add Table</h2>
+          <div class="container pt-5 pb-3 px-5">
+            <div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-xl-5 row-cols-xxl-6 g-4 text-white">
+              <div class="col">
+                <div class="table-card mx-auto rounded-3 d-flex flex-column justify-content-center gap-1">
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/hashtag.svg" alt="Number" width="19" height="19">
+                    <span>1</span>
+                  </div>
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/seat.svg" alt="Seat" width="22" height="18">
+                    <span>4</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="table-card mx-auto rounded-3 d-flex flex-column justify-content-center gap-1">
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/hashtag.svg" alt="Number" width="19" height="19">
+                    <span>2</span>
+                  </div>
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/seat.svg" alt="Seat" width="22" height="18">
+                    <span>4</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="table-card mx-auto rounded-3 d-flex flex-column justify-content-center gap-1">
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/hashtag.svg" alt="Number" width="19" height="19">
+                    <span>3</span>
+                  </div>
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/seat.svg" alt="Seat" width="22" height="18">
+                    <span>4</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="table-card mx-auto rounded-3 d-flex flex-column justify-content-center gap-1">
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/hashtag.svg" alt="Number" width="19" height="19">
+                    <span>4</span>
+                  </div>
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/seat.svg" alt="Seat" width="22" height="18">
+                    <span>4</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="table-card mx-auto rounded-3 d-flex flex-column justify-content-center gap-1">
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/hashtag.svg" alt="Number" width="19" height="19">
+                    <span>5</span>
+                  </div>
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/seat.svg" alt="Seat" width="22" height="18">
+                    <span>4</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="table-card mx-auto rounded-3 d-flex flex-column justify-content-center gap-1">
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/hashtag.svg" alt="Number" width="19" height="19">
+                    <span>6</span>
+                  </div>
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/seat.svg" alt="Seat" width="22" height="18">
+                    <span>4</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="table-card mx-auto rounded-3 d-flex flex-column justify-content-center gap-1">
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/hashtag.svg" alt="Number" width="19" height="19">
+                    <span>7</span>
+                  </div>
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/seat.svg" alt="Seat" width="22" height="18">
+                    <span>4</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="table-card mx-auto rounded-3 d-flex flex-column justify-content-center gap-1">
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/hashtag.svg" alt="Number" width="19" height="19">
+                    <span>8</span>
+                  </div>
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/seat.svg" alt="Seat" width="22" height="18">
+                    <span>4</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="table-card mx-auto rounded-3 d-flex flex-column justify-content-center gap-1">
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/hashtag.svg" alt="Number" width="19" height="19">
+                    <span>9</span>
+                  </div>
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/seat.svg" alt="Seat" width="22" height="18">
+                    <span>4</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="table-card mx-auto rounded-3 d-flex flex-column justify-content-center gap-1">
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/hashtag.svg" alt="Number" width="19" height="19">
+                    <span>10</span>
+                  </div>
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/seat.svg" alt="Seat" width="22" height="18">
+                    <span>4</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="table-card mx-auto rounded-3 d-flex flex-column justify-content-center gap-1">
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/hashtag.svg" alt="Number" width="19" height="19">
+                    <span>11</span>
+                  </div>
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/seat.svg" alt="Seat" width="22" height="18">
+                    <span>4</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="table-card mx-auto rounded-3 d-flex flex-column justify-content-center gap-1">
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/hashtag.svg" alt="Number" width="19" height="19">
+                    <span>12</span>
+                  </div>
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/seat.svg" alt="Seat" width="22" height="18">
+                    <span>4</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="table-card mx-auto rounded-3 d-flex flex-column justify-content-center gap-1">
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/hashtag.svg" alt="Number" width="19" height="19">
+                    <span>13</span>
+                  </div>
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/seat.svg" alt="Seat" width="22" height="18">
+                    <span>6</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="table-card mx-auto rounded-3 d-flex flex-column justify-content-center gap-1">
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/hashtag.svg" alt="Number" width="19" height="19">
+                    <span>14</span>
+                  </div>
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/seat.svg" alt="Seat" width="22" height="18">
+                    <span>6</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="table-card mx-auto rounded-3 d-flex flex-column justify-content-center gap-1">
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/hashtag.svg" alt="Number" width="19" height="19">
+                    <span>15</span>
+                  </div>
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/seat.svg" alt="Seat" width="22" height="18">
+                    <span>8</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="table-card mx-auto rounded-3 d-flex flex-column justify-content-center gap-1">
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/hashtag.svg" alt="Number" width="19" height="19">
+                    <span>16</span>
+                  </div>
+                  <div class="d-flex justify-content-evenly align-items-center">
+                    <img src="../icons/seat.svg" alt="Seat" width="22" height="18">
+                    <span>10</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer id="footer" class="container-fluid py-2">
+    <small class="d-block text-white text-center fw-bold m-0">Copyright &copy; 2024 Mizdooni - All rights reserved.</small>
+  </footer>
+</body>
+
+</html>

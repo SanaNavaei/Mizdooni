@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../stylesheets/global.css">
+  <link rel="stylesheet" type="text/css" href="../stylesheets/authentication.css">
+</head>
+
+<body class="min-vh-100 d-flex flex-column justify-content-center">
+  <main class="container-fluid px-0 py-4">
+    <div id="container" class="mx-auto px-4 px-sm-5 rounded-4">
+      <div class="d-flex justify-content-between align-items-center pt-4">
+        <h1 class="miz-text-red fs-2 m-0">Welcome Back!</h1>
+        <img src="../images/logo.png" alt="Mizdooni" height="96" width="120">
+      </div>
+      <hr>
+      <form class="px-4 px-sm-5 py-4">
+        <div class="mb-3">
+          <label for="username" class="miz-text-red form-label">Username</label>
+          <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="mb-5">
+          <label for="password" class="miz-text-red form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <button type="submit" class="miz-button w-100 mb-3">Login</button>
+        <p class="bottom-text text-center">Don't have an account? <a href="./signup.html" class="miz-text-red text-decoration-none">Sign up here</a></p>
+      </form>
+    </div>
+  </main>
+</body>
+
+</html>

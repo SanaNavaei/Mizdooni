@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manager Restaurants</title>
+  <link rel="icon" type="image/png" href="../images/logo.png">
+  <link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../stylesheets/global.css">
+  <link rel="stylesheet" type="text/css" href="../stylesheets/manager_restaurants.css">
+</head>
+
+<body class="min-vh-100 d-flex flex-column">
+  <header class="sticky-top">
+    <nav id="navbar" class="navbar navbar-expand bg-white">
+      <div class="container-fluid mx-1 ms-sm-4 me-sm-5">
+        <div class="d-flex align-items-center">
+          <a class="navbar-brand" href="#">
+            <img src="../images/logo.png" height="70" width="87" alt="Mizdooni">
+          </a>
+          <p class="miz-text-red fs-5 m-0 d-none d-md-block">Reserve Table From Anywhere!</p>
+        </div>
+        <div class="d-flex align-items-center">
+          <p class="m-0 pe-1 pe-sm-3 text-center">Welcome, Parna!</p>
+          <button class="rounded-3 border-0 text-white">Reserve Now!</button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flex-grow-1">
+    <div class="container pt-4">
+      <div id="restaurants-list" class="mx-auto bg-white rounded-3 pt-3 pb-1">
+        <div class="d-flex justify-content-between align-items-center px-3">
+          <h2 class="fw-semibold m-0 fs-6">My Restaurants</h2>
+          <button class="miz-button">Add</button>
+        </div>
+        <hr>
+        <div class="table-responsive">
+          <table class="table table-borderless align-middle">
+            <tbody>
+              <tr>
+                <td class="ps-3">Ali Daei Dizy</td>
+                <td class="text-center">Boshehr, Iran</td>
+                <td class="text-end pe-3">
+                  <button class="miz-button">Manage</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer id="footer" class="container-fluid py-2 mt-5">
+    <small class="d-block text-white text-center fw-bold m-0">Copyright &copy; 2024 Mizdooni - All rights reserved.</small>
+  </footer>
+</body>
+
+</html>
