@@ -1,4 +1,3 @@
-import '../assets/stylesheets/App.css';
 import logo from '../assets/images/logo.png'
 
 function App() {
