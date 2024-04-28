@@ -1,10 +1,10 @@
-import App from './pages/App';
-import Error from './pages/errors/Error'
+import Home from './pages/Home';
+import Error from './pages/errors/Error';
 
 const routeArray = [
   {
     path: "/",
-    element: <App />,
+    element: <Home />,
     errorElement: <Error />,
   }
 ]
