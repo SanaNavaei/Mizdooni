@@ -142,7 +142,7 @@ function Home() {
 
       <main class="flex-grow-1">
         <HomeSearch />
-        <Cards description="Top Restaurants in Mizdooni" restaurants={restaurants} />
+        <Cards restaurants={restaurants} />
         <About />
       </main>
     
