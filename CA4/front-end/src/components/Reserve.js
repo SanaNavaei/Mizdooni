@@ -30,9 +30,9 @@ function Reserve({ maxSeatNumber, availableTimes }) {
         <div className="ps-2 ps-sm-0">
           <label htmlFor="people">For</label>
           <select className="form-select mx-1" name="people" id="people">{seatOptions}</select>
-          <span>people,</span>
+          <span>people, </span>
           <br className="d-sm-none" />
-          <label className="pt-3 pt-sm-0" htmlFor="date">on date</label>
+          <label className="pt-3 pt-sm-0" htmlFor="date"> on date </label>
           <input className="form-control mx-1" type="date" name="date" id="date" required onChange={handleDateChange} />
         </div>
 

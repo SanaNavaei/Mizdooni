@@ -20,19 +20,19 @@ function RestaurantDetails({ name, reviews, type, country, city, street, isOpen,
               <td class="ps-0">
                 <div class="d-flex align-items-center gap-1">
                   <img src={Time} alt="Time" width="20" height="20" />
-                    <p class="fw-light">From {startingTime} to {closingTime}</p>
+                    <p class="fw-light my-2">From {startingTime} to {closingTime}</p>
                 </div>
               </td>
               <td>
                 <div class="d-flex align-items-center gap-1">
                   <img src={ReviewStar} alt="Review" width="21" height="22" />
-                    <p class="fw-light">{reviews} Reviews</p>
+                    <p class="fw-light my-2">{reviews} Reviews</p>
                 </div>
               </td>
               <td>
                 <div class="d-flex align-items-center gap-1">
                   <img src={Restaurant} alt="Restaurant" width="11" height="17" />
-                    <p class="fw-light">{type}</p>
+                    <p class="fw-light my-2">{type}</p>
                 </div>
               </td>
             </tr>
@@ -40,7 +40,7 @@ function RestaurantDetails({ name, reviews, type, country, city, street, isOpen,
         </table>
         <div class="d-flex align-items-center pt-2 pb-3">
           <img class="me-2" src={Location} alt="Location" />
-            <p class="miz-text-grey fw-light">{country}, {city}, {street}</p>
+            <p class="miz-text-grey fw-light my-2">{country}, {city}, {street}</p>
         </div>
         <p class="text-justify fw-light lh-sm">{description}</p>
       </div>

@@ -42,7 +42,7 @@ function Review({ reviewerName='', foodRate, serviceRate, ambianceRate, overallR
             {[...Array(5 - starCount)].map((_, index) => (
               <img key={`empty_${index}`} src={EmptyStar} alt="Empty Star" width="15" height="18" />
             ))}
-            <p className="stars-text miz-text-grey ms-2">Dined on {date}</p>
+            <p className="stars-text miz-text-grey ms-2 my-0">Dined on {date}</p>
           </div>
         </div>
         <p className="pt-2">{comment}</p>
