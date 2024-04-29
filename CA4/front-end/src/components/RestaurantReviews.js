@@ -13,10 +13,10 @@ function RestaurantReviews({ restaurant, reviews }) {
         OverallRate={restaurant.OverallRate} 
       />
 
-      <article class="mt-4">
-        <div class="d-flex justify-content-between align-items-center pb-4">
-          <h2 class="fw-normal fs-6">{restaurant.reviews} Reviews</h2>
-          <button class="miz-button">Add Review</button>
+      <article className="mt-4">
+        <div className="d-flex justify-content-between align-items-center pb-4">
+          <h2 className="fw-normal fs-6">{restaurant.reviews} Reviews</h2>
+          <button className="miz-button">Add Review</button>
         </div>
         {reviews.map((review, index) => (
           <div key={index}>
@@ -35,9 +35,9 @@ function RestaurantReviews({ restaurant, reviews }) {
         ))}
       </article>
 
-      <nav class="mt-5">
-        <ul class="review-pagination d-flex justify-content-center align-items-center gap-2">
-          <li class="active"><a href="#">1</a></li>
+      <nav className="mt-5">
+        <ul className="review-pagination d-flex justify-content-center align-items-center gap-2">
+          <li className="active"><a href="#">1</a></li>
           <li><a href="#">2</a></li>
           <li><a href="#">3</a></li>
           <li>&middot; &middot; &middot;</li>

@@ -97,12 +97,12 @@ function Restaurant() {
     }
   ];
   return (
-    <div class="min-vh-100 d-flex flex-column bg-white">
+    <div className="min-vh-100 d-flex flex-column bg-white">
       <Header button="Reserve Now!" />
 
-      <main class="flex-grow-1">
-        <div class="container pt-5">
-          <div class="row gap-4">
+      <main className="flex-grow-1">
+        <div className="container pt-5">
+          <div className="row gap-4">
             <RestaurantDetails {...restaurant} />
             <Reserve {...restaurant} />
             <RestaurantReviews {...{restaurant, reviews}}/>

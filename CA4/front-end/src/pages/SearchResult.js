@@ -140,10 +140,10 @@ function SearchResult() {
   ];
   const restaurant_name = "Restaurant Name";
   return (
-    <div class="min-vh-100 d-flex flex-column">
+    <div className="min-vh-100 d-flex flex-column">
       <Header button="Reserve Now!" />
 
-      <main class="flex-grow-1">
+      <main className="flex-grow-1">
         <Cards restaurant_name={restaurant_name} restaurants={restaurants} />
       </main>
 

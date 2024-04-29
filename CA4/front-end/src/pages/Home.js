@@ -137,10 +137,10 @@ function Home() {
     }
   ];
   return (
-    <div class="min-vh-100 d-flex flex-column bg-white">
+    <div className="min-vh-100 d-flex flex-column bg-white">
       <Header button="Reserve Now!" />
 
-      <main class="flex-grow-1">
+      <main className="flex-grow-1">
         <HomeSearch />
         <Cards restaurants={restaurants} />
         <About />
