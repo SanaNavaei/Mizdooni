@@ -4,7 +4,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import routeArray from './route';
 
-import './assets/stylesheets/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/stylesheets/global.css';
 
 const router = createBrowserRouter(routeArray);
