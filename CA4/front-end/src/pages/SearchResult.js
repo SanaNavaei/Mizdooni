@@ -14,6 +14,8 @@ import Narenjak from 'assets/images/restaurants/Narenjak.png';
 import SIRAZKADIKOY from 'assets/images/restaurants/SIRAZ-KADIKOY.png';
 import TheIvyBrasserie2 from 'assets/images/restaurants/The-Ivy-Brasserie-2.png';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/cards.css'
 
 const restaurants = [

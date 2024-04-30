@@ -5,6 +5,8 @@ import RestaurantReviews from 'components/RestaurantReviews';
 
 import DizyAliDaei from 'assets/images/restaurants/Dizy-Ali-Daei.png';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/restaurant.css';
 
 const restaurant = {

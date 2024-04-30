@@ -1,6 +1,8 @@
 import AuthenticationHeader from 'components/AuthenticationHeader';
 import FormItem from 'components/FormItem';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/authentication.css';
 
 function Signup() {

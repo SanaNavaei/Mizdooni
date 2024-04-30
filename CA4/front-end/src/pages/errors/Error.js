@@ -2,6 +2,8 @@ import { useRouteError } from 'react-router-dom';
 
 import Tree from 'assets/images/errors/tree.png';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/error.css';
 
 function Error() {

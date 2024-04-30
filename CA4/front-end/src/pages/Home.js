@@ -10,6 +10,8 @@ import Cecconis from 'assets/images/restaurants/Cecconis.png';
 import HardRockCafe from 'assets/images/restaurants/Hard-Rock-Cafe.png';
 import TwentyEightFiftyMarylebone from 'assets/images/restaurants/28-50-Marylebone.png';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/cards.css';
 import 'assets/stylesheets/home.css';
 
