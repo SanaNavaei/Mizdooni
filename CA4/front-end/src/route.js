@@ -3,6 +3,7 @@ import SearchResult from 'pages/SearchResult';
 import Restaurant from 'pages/Restaurant';
 import Login from 'pages/Login';
 import Signup from 'pages/Signup';
+import Customer from 'pages/Customer';
 import Error from 'pages/errors/Error';
 
 const routeArray = [
@@ -26,6 +27,10 @@ const routeArray = [
   {
     path: '/signup',
     element: <Signup />,
+  },
+  {
+    path: "/customer",
+    element: <Customer />,
   }
 ];
 
