@@ -1,7 +1,7 @@
-import Time from '../assets/icons/time.svg';
-import ReviewStar from '../assets/icons/review_star.svg';
-import Restaurant from '../assets/icons/restaurant.svg';
-import Location from '../assets/icons/location.svg';
+import Time from 'assets/icons/time.svg';
+import ReviewStar from 'assets/icons/review_star.svg';
+import Restaurant from 'assets/icons/restaurant.svg';
+import Location from 'assets/icons/location.svg';
 
 function RestaurantDetails({ name, reviews, type, country, city, street, isOpen, closingTime, startingTime, image, description }) {
   return (
@@ -20,19 +20,19 @@ function RestaurantDetails({ name, reviews, type, country, city, street, isOpen,
               <td className="ps-0">
                 <div className="d-flex align-items-center gap-1">
                   <img src={Time} alt="Time" width="20" height="20" />
-                    <p className="fw-light my-2">From {startingTime} to {closingTime}</p>
+                    <p className="fw-light ">From {startingTime} to {closingTime}</p>
                 </div>
               </td>
               <td>
                 <div className="d-flex align-items-center gap-1">
                   <img src={ReviewStar} alt="Review" width="21" height="22" />
-                    <p className="fw-light my-2">{reviews} Reviews</p>
+                    <p className="fw-light ">{reviews} Reviews</p>
                 </div>
               </td>
               <td>
                 <div className="d-flex align-items-center gap-1">
                   <img src={Restaurant} alt="Restaurant" width="11" height="17" />
-                    <p className="fw-light my-2">{type}</p>
+                    <p className="fw-light ">{type}</p>
                 </div>
               </td>
             </tr>
@@ -40,7 +40,7 @@ function RestaurantDetails({ name, reviews, type, country, city, street, isOpen,
         </table>
         <div className="d-flex align-items-center pt-2 pb-3">
           <img className="me-2" src={Location} alt="Location" />
-            <p className="miz-text-grey fw-light my-2">{country}, {city}, {street}</p>
+            <p className="miz-text-grey fw-light ">{country}, {city}, {street}</p>
         </div>
         <p className="text-justify fw-light lh-sm">{description}</p>
       </div>

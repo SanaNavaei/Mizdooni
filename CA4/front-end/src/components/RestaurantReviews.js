@@ -1,16 +1,16 @@
-import AverageReview from "./AverageReview";
-import Review from "./Review";
+import AverageReview from './AverageReview';
+import Review from './Review';
 
 function RestaurantReviews({ restaurant, reviews }) {
   return (
     <div>
-      <AverageReview 
+      <AverageReview
         reviews={restaurant.reviews}
         starCount={restaurant.starCount}
-        FoodRate={restaurant.FoodRate} 
-        ServiceRate={restaurant.ServiceRate} 
-        AmbienceRate={restaurant.AmbienceRate} 
-        OverallRate={restaurant.OverallRate} 
+        foodRate={restaurant.foodRate}
+        serviceRate={restaurant.serviceRate}
+        ambienceRate={restaurant.ambienceRate}
+        overallRate={restaurant.overallRate}
       />
 
       <article className="mt-4">

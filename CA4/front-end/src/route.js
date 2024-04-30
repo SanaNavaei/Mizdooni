@@ -1,32 +1,32 @@
-import Home from './pages/Home';
-import SearchResult from './pages/SearchResult';
-import Restaurant from './pages/Restaurant';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import Error from './pages/errors/Error';
+import Home from 'pages/Home';
+import SearchResult from 'pages/SearchResult';
+import Restaurant from 'pages/Restaurant';
+import Login from 'pages/Login';
+import Signup from 'pages/Signup';
+import Error from 'pages/errors/Error';
 
 const routeArray = [
   {
-    path: "/",
+    path: '/',
     element: <Home />,
     errorElement: <Error />,
   },
   {
-    path: "/restaurants",
+    path: '/restaurants',
     element: <SearchResult />,
   },
   {
-    path: "/restaurant",
+    path: '/restaurant',
     element: <Restaurant />
   },
   {
-    path: "/login",
+    path: '/login',
     element: <Login />,
   },
   {
-    path: "/signup",
+    path: '/signup',
     element: <Signup />,
   }
-]
+];
 
 export default routeArray;

@@ -1,6 +1,7 @@
-import Logo from '../assets/images/logo.png'
+import Logo from 'assets/images/logo.png'
+import HeaderInfo from './HeaderInfo';
 
-function Header({ button, user}) {
+function Header() {
   return (
     <header className="sticky-top">
       <nav id="navbar" className="navbar navbar-expand bg-white">
@@ -11,16 +12,11 @@ function Header({ button, user}) {
             </a>
             <p className="miz-text-red fs-5 m-0 d-none d-md-block">Reserve Table From Anywhere!</p>
           </div>
-          <div className="d-flex align-items-center">
-            {user && (
-              <p className="m-0 pe-1 pe-sm-3 text-center">Welcome, {user}!</p>
-            )}
-            <button className="rounded-3 border-0 text-white">{button}</button>
-          </div>
+          <HeaderInfo />
         </div>
       </nav>
     </header>
-  )
+  );
 }
 
 export default Header;

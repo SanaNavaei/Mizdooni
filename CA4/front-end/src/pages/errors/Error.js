@@ -1,11 +1,11 @@
-import { useRouteError } from "react-router-dom";
+import { useRouteError } from 'react-router-dom';
 
-import "../../assets/stylesheets/error.css";
-import Tree from "../../assets/images/errors/tree.png";
+import Tree from 'assets/images/errors/tree.png';
+
+import 'assets/stylesheets/error.css';
 
 function Error() {
-  const { error } = useRouteError();
-  console.error(error);
+  const error = useRouteError();
 
   return (
     <div className="min-vh-100 d-flex flex-column justify-content-center background">

@@ -1,6 +1,6 @@
-import Dot from '../assets/icons/dot.svg';
-import FilledStar from '../assets/icons/star_filled.svg';
-import EmptyStar from '../assets/icons/star_empty.svg';
+import Stars from './Stars'
+
+import Dot from 'assets/icons/dot.svg';
 
 function getInitials(name) {
   const words = name.split(' ');
@@ -36,12 +36,7 @@ function Review({ reviewerName='', foodRate, serviceRate, ambianceRate, overallR
             </div>
           </div>
           <div className="d-flex align-items-center gap-1">
-            {[...Array(starCount)].map((_, index) => (
-              <img key={index} src={FilledStar} alt="Star" width="15" height="18" />
-            ))}
-            {[...Array(5 - starCount)].map((_, index) => (
-              <img key={`empty_${index}`} src={EmptyStar} alt="Empty Star" width="15" height="18" />
-            ))}
+            <Stars count={starCount} size={15} />
             <p className="stars-text miz-text-grey ms-2 my-0">Dined on {date}</p>
           </div>
         </div>

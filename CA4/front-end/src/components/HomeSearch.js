@@ -1,4 +1,4 @@
-import Logo from '../assets/images/logo.png'
+import Logo from 'assets/images/logo.png'
 
 function HomeSearch() {
   return (
@@ -29,7 +29,7 @@ function HomeSearch() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default HomeSearch;
