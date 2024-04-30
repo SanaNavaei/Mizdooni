@@ -5,7 +5,7 @@ import '../assets/stylesheets/authentication.css';
 
 function Login() {
   return (
-    <div className="min-vh-100 d-flex flex-column justify-content-center">
+    <div className="min-vh-100 d-flex flex-column justify-content-center background">
       <main className="container-fluid px-0 py-4">
         <div id="container" className="mx-auto px-4 px-sm-5 rounded-4">
           <div className="d-flex justify-content-between align-items-center pt-4">

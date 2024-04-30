@@ -6,7 +6,7 @@ function Header({ button, user}) {
       <nav id="navbar" className="navbar navbar-expand bg-white">
         <div className="container-fluid mx-1 ms-sm-4 me-sm-5">
           <div className="d-flex align-items-center">
-            <a className="navbar-brand" href="#">
+            <a className="navbar-brand" href="/">
               <img src={Logo} height="70" width="87" alt="Mizdooni" />
             </a>
             <p className="miz-text-red fs-5 m-0 d-none d-md-block">Reserve Table From Anywhere!</p>
