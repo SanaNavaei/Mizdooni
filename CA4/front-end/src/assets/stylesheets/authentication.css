@@ -1,4 +1,4 @@
-.background {
+.background-auth {
     background-image: none;
     background-repeat: no-repeat;
     background-size: cover;
@@ -23,7 +23,7 @@ select:invalid {
 }
 
 @media (min-width: 768px) {
-    .background {
+    .background-auth {
         background-image: url("../images/login-background.jpg");
     }
 

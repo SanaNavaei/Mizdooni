@@ -7,7 +7,7 @@ import 'assets/stylesheets/authentication.css';
 
 function Signup() {
   return (
-    <div className="min-vh-100 d-flex flex-column justify-content-center background">
+    <div className="min-vh-100 d-flex flex-column justify-content-center background-auth">
       <main className="container-fluid px-0 py-4">
         <div id="container" className="mx-auto px-4 px-sm-5 rounded-4">
           <AuthenticationHeader text="Welcome to Mizdooni!" />

@@ -10,7 +10,7 @@ function Error() {
   const error = useRouteError();
 
   return (
-    <div className="min-vh-100 d-flex flex-column justify-content-center background">
+    <div className="min-vh-100 d-flex flex-column justify-content-center background-error">
       <main className="container">
         <div className="row align-items-center py-2">
           <div className="col-md text-center text-md-start">

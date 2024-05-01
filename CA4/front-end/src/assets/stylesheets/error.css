@@ -1,4 +1,4 @@
-.background::after {
+.background-error::after {
     content: "";
     position: absolute;
     inset: 0;
@@ -11,7 +11,7 @@
 }
 
 @media (min-width: 768px) {
-    .background::after {
+    .background-error::after {
         background-image: none;
     }
 }
