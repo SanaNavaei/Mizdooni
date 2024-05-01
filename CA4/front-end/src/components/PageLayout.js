@@ -1,14 +1,15 @@
 import Header from './Header';
 import Footer from './Footer';
 
-function PageLayout({ children }) {
+function PageLayout({ beforeMain, footerMargin, children }) {
   return (
-    <div className="min-vh-100 d-flex flex-column">
+    <div id="page-layout" className="min-vh-100 d-flex flex-column">
       <Header />
+      {beforeMain}
       <main className="flex-grow-1">
         {children}
       </main>
-      <Footer />
+      <Footer margin={footerMargin} />
     </div>
   );
 }

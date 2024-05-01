@@ -7,7 +7,7 @@ main {
     background-color: var(--miz-red);
 }
 
-#reservations {
+#reservations-manager {
     border-top: var(--section-border-size) solid var(--miz-red);
 }
 
@@ -26,6 +26,11 @@ main {
 #reservations-table td:nth-child(1),
 #reservations-table td:nth-child(3) {
     font-size: 0.85rem;
+}
+
+.manage-button-link {
+    border: 0;
+    background-color: transparent;
 }
 
 #tables {
@@ -47,11 +52,11 @@ main {
 }
 
 @media (min-width: 992px) {
-    body {
+    #page-layout {
         height: 100vh;
     }
 
-    #reservations {
+    #reservations-manager {
         border-top: 0;
         border-right: var(--section-border-size) solid var(--miz-red);
     }

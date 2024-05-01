@@ -4,6 +4,7 @@ import Restaurant from 'pages/Restaurant';
 import Login from 'pages/Login';
 import Signup from 'pages/Signup';
 import Customer from 'pages/Customer';
+import Manage from 'pages/Manage';
 import Error from 'pages/errors/Error';
 
 const routeArray = [
@@ -31,6 +32,10 @@ const routeArray = [
   {
     path: "/customer",
     element: <Customer />,
+  },
+  {
+    path: "/manage",
+    element: <Manage />,
   }
 ];
 
