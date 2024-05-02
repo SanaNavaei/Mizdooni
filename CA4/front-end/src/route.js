@@ -5,6 +5,7 @@ import Login from 'pages/Login';
 import Signup from 'pages/Signup';
 import Customer from 'pages/Customer';
 import Manage from 'pages/Manage';
+import Manager from 'pages/Manager';
 import Error from 'pages/errors/Error';
 
 const routeArray = [
@@ -36,6 +37,10 @@ const routeArray = [
   {
     path: "/manage",
     element: <Manage />,
+  },
+  {
+    path: "/manager",
+    element: <Manager />,
   }
 ];
 
