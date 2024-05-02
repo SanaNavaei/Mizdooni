@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import PageLayout from "components/PageLayout";
 import Logout from 'components/Logout';
 import ManagerRestaurants from "components/ManagerRestaurants";
@@ -19,6 +21,10 @@ const restaurants = [
 ];
 
 function Manager() {
+  useEffect(() => {
+    document.title = 'Manager Restaurants';
+  }, []);
+
   return (
     <PageLayout>
       <div class="container pt-4">

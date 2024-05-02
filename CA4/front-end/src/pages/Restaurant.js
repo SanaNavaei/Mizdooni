@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import PageLayout from 'components/PageLayout';
 import RestaurantDetails from 'components/RestaurantDetails';
 import Reserve from 'components/Reserve';
@@ -99,6 +101,10 @@ const reviews = [
 ];
 
 function Restaurant() {
+  useEffect(() => {
+    document.title = 'Restaurant';
+  }, []);
+
   return (
     <PageLayout>
       <div className="container pt-5">

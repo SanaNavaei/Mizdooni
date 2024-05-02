@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import PageLayout from 'components/PageLayout';
 import HomeSearch from 'components/HomeSearch';
 import Cards from 'components/Cards';
@@ -139,6 +141,10 @@ const restaurants = [
 ];
 
 function Home() {
+  useEffect(() => {
+    document.title = 'Home';
+  }, []);
+
   return (
     <PageLayout>
       <HomeSearch />

@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import PageLayout from 'components/PageLayout';
 import Cards from 'components/Cards';
 
@@ -144,6 +146,10 @@ const restaurants = [
 const restaurantName = 'Restaurant Name';
 
 function SearchResult() {
+  useEffect(() => {
+    document.title = 'Search Result';
+  }, []);
+
   return (
     <PageLayout>
       <Cards topText={`Results for #${restaurantName}`} restaurants={restaurants} />

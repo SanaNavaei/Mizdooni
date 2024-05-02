@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import PageLayout from 'components/PageLayout';
 import Logout from 'components/Logout';
 import CustomerReserve from 'components/CustomerReserve';
@@ -6,48 +8,52 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/customer.css';
 
-function Customer() {
-  const user = {
-    username: "Parna",
-    email: "Tom_holland@ut.ac.ir",
-    country: "Iran",
-    city: "Tehran"
-  }
+const user = {
+  username: "Parna",
+  email: "Tom_holland@ut.ac.ir",
+  country: "Iran",
+  city: "Tehran"
+}
 
-  const reserves = [
-    {
-      date: "2024-06-22 16:00",
-      restaurant: "Ali Daei Dizy",
-      table: "12",
-      seats: "4",
-      isCancel: false,
-      isPastTime: false
-    },
-    {
-      date: "2024-02-22 16:00",
-      restaurant: "Ali Daei Dizy",
-      table: "12",
-      seats: "4",
-      isCancel: false,
-      isPastTime: true
-    },
-    {
-      date: "2024-02-22 16:00",
-      restaurant: "Ali Daei Dizy",
-      table: "12",
-      seats: "4",
-      isCancel: false,
-      isPastTime: true
-    },
-    {
-      date: "2024-02-22 16:00",
-      restaurant: "Ali Daei Dizy",
-      table: "12",
-      seats: "4",
-      isCancel: true,
-      isPastTime: true
-    }
-  ]
+const reserves = [
+  {
+    date: "2024-06-22 16:00",
+    restaurant: "Ali Daei Dizy",
+    table: "12",
+    seats: "4",
+    isCancel: false,
+    isPastTime: false
+  },
+  {
+    date: "2024-02-22 16:00",
+    restaurant: "Ali Daei Dizy",
+    table: "12",
+    seats: "4",
+    isCancel: false,
+    isPastTime: true
+  },
+  {
+    date: "2024-02-22 16:00",
+    restaurant: "Ali Daei Dizy",
+    table: "12",
+    seats: "4",
+    isCancel: false,
+    isPastTime: true
+  },
+  {
+    date: "2024-02-22 16:00",
+    restaurant: "Ali Daei Dizy",
+    table: "12",
+    seats: "4",
+    isCancel: true,
+    isPastTime: true
+  }
+]
+
+function Customer() {
+  useEffect(() => {
+    document.title = 'Customer';
+  }, []);
 
   return (
     <PageLayout>

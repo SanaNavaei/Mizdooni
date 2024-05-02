@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import AuthenticationHeader from 'components/AuthenticationHeader';
 import FormItem from 'components/FormItem';
 
@@ -6,6 +8,10 @@ import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/authentication.css';
 
 function Login() {
+  useEffect(() => {
+    document.title = 'Login';
+  }, []);
+
   return (
     <div className="min-vh-100 d-flex flex-column justify-content-center background-auth">
       <main className="container-fluid px-0 py-4">

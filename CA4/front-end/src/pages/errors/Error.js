@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useRouteError } from 'react-router-dom';
 
 import Tree from 'assets/images/errors/tree.png';
@@ -8,6 +9,10 @@ import 'assets/stylesheets/error.css';
 
 function Error() {
   const error = useRouteError();
+
+  useEffect(() => {
+    document.title = 'Error';
+  }, []);
 
   return (
     <div className="min-vh-100 d-flex flex-column justify-content-center background-error">

@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import PageLayout from 'components/PageLayout';
 import RestaurantReservations from 'components/RestaurantReservations';
 import RestaurantTables from 'components/RestaurantTables';
@@ -43,6 +45,10 @@ const restaurantInfo = {
 };
 
 function Manage() {
+  useEffect(() => {
+    document.title = 'Manager Manage';
+  }, []);
+
   const beforeMain = (
     <section id="restaurant" className="container-fluid">
       <div className="d-flex justify-content-between align-items-center flex-wrap py-2 ps-3 pe-3 pe-sm-5">
@@ -56,7 +62,7 @@ function Manage() {
       <div className="container-fluid h-100">
         <div className="row h-100 flex-column-reverse">
           <RestaurantReservations reservations={reservations}/>
-          <RestaurantTables tables={[]}/>
+          <RestaurantTables tables={tables}/>
         </div>
       </div>
     </PageLayout>
