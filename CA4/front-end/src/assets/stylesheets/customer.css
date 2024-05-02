@@ -43,3 +43,7 @@
 .logout-button {
     background-color: var(--miz-red);
 }
+
+#reservations #no-reserve {
+    color: var(--miz-text);
+}

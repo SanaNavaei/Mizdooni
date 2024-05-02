@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const startHours = []
 for (let i = 8; i < 18; i++) {
   const formattedHour = i.toString().padStart(2, '0');
@@ -11,6 +13,21 @@ for (let i = 18; i < 24; i++) {
 }
 
 function AddRestaurantModal() {
+  const [formData, setFormData] = useState({
+    name: '',
+    type: '',
+    country: '',
+    city: '',
+    street: ''
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const isFormFilled = Object.values(formData).every(val => val);
+
   return (
     <div className="modal fade" id="addRestaurant">
       <div className="modal-dialog">
@@ -23,11 +40,11 @@ function AddRestaurantModal() {
             <form>
               <div className="my-3 d-flex justify-content-between">
                 <label htmlFor="name" className="form-label">Name</label>
-                <input type="text" className="form-control w-50" id="name" name="name" required />
+                <input type="text" className="form-control w-50" id="name" name="name" value={formData.name} onChange={handleChange} required />
               </div>
               <div className="mb-3 d-flex justify-content-between">
                 <label htmlFor="type" className="form-label">Type</label>
-                <input type="text" className="form-control w-50" id="type" name="type" required />
+                <input type="text" className="form-control w-50" id="type" name="type" value={formData.type} onChange={handleChange} required />
               </div>
               <div className="mb-3">
                 <label htmlFor="description" className="form-label">Description</label>
@@ -35,15 +52,15 @@ function AddRestaurantModal() {
               </div>
               <div className="mb-3 d-flex justify-content-between">
                 <label htmlFor="country" className="form-label">Country</label>
-                <input type="text" className="form-control w-50" id="country" name="country" required />
+                <input type="text" className="form-control w-50" id="country" name="country" value={formData.country} onChange={handleChange} required />
               </div>
               <div className="mb-3 d-flex justify-content-between">
                 <label htmlFor="city" className="form-label">City</label>
-                <input type="text" className="form-control w-50" id="city" name="city" required />
+                <input type="text" className="form-control w-50" id="city" name="city" value={formData.city} onChange={handleChange} required />
               </div>
               <div className="mb-3 d-flex justify-content-between">
                 <label htmlFor="street" className="form-label">Street</label>
-                <input type="text" className="form-control w-50" id="street" name="street" required />
+                <input type="text" className="form-control w-50" id="street" name="street" value={formData.street} onChange={handleChange} required />
               </div>
               <div className="d-flex justify-content-between mb-3">
                 <label htmlFor="startHour">Start Hour</label>
@@ -53,7 +70,7 @@ function AddRestaurantModal() {
                 <label htmlFor="endHour">End Hour</label>
                 <select className="form-select mx-1 w-50" name="endHour" id="endHour">{endHours}</select>
               </div>
-              <button type="submit" className="miz-button w-100 mb-3" data-bs-dismiss="modal">Add</button>
+              <button type="submit" className="miz-button disabled-button w-100 mb-3" data-bs-dismiss="modal" disabled={!isFormFilled}>Add</button>
             </form>
           </div>
         </div>

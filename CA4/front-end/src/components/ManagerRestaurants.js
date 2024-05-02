@@ -9,6 +9,9 @@ function ManagerRestaurants({ restaurants }) {
       </div>
       <hr />
       <div className="table-responsive">
+        <p className="miz-text-grey text-center fs-5">Add your first restaurant!</p>
+      </div>
+      <div className="table-responsive">
         <table className="table table-borderless align-middle">
           <tbody>
             {restaurants.map((restaurant, index) => (

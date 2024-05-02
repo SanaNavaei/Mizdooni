@@ -1,3 +1,7 @@
+#restaurants-list {
+    min-height: 400px;
+}
+
 #modal-restaurant .form-select,
 #modal-restaurant .form-control {
     display: inline-block;
