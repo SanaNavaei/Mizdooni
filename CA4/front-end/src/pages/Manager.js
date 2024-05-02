@@ -5,7 +5,7 @@ import Logout from 'components/Logout';
 import ManagerRestaurants from "components/ManagerRestaurants";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min';
+import 'bootstrap/dist/js/bootstrap.min.js';
 import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/manager_restaurants.css';
 

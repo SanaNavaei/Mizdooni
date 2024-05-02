@@ -5,6 +5,7 @@ import Logout from 'components/Logout';
 import CustomerReserve from 'components/CustomerReserve';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
 import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/customer.css';
 
@@ -59,28 +60,7 @@ function Customer() {
     <PageLayout>
       <div class="container pt-4">
         <Logout email={user.email} country={user.country} city={user.city} />
-
-        <div class="table-responsive mt-4 rounded-3">
-          <table id="reservations" class="table align-middle m-0">
-            <thead>
-              <tr>
-                <th class="fw-semibold fs-5 px-3 py-2" colspan="5">My Reservations</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reserves.map((reserve) => (
-                <CustomerReserve
-                  time={reserve.date}
-                  name={reserve.restaurant}
-                  table={reserve.table}
-                  seats={reserve.seats}
-                  isCancel={reserve.isCancel}
-                  isPastTime={reserve.isPastTime}
-                />
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <CustomerReserve reserves={reserves} />
       </div>
     </PageLayout>
   );
