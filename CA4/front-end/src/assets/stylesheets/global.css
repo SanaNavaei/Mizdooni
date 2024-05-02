@@ -14,7 +14,7 @@
     --miz-red-dark: #861A24;
     --miz-red-profile: #F0B5BA;
     --miz-red-bg: #FFFCFC;
-    --miz-grey: #D9D9D9;
+    --miz-grey-dark: #D9D9D9;
     --miz-text: #303030;
     --miz-text-grey: #7E7E7E;
     --miz-text-light: #D4D4D4;
@@ -112,5 +112,5 @@ body {
 }
 
 .disabled-button:disabled {
-    background-color: var(--miz-grey);
+    background-color: var(--miz-grey-dark);
 }

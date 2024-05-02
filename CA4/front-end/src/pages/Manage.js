@@ -5,6 +5,7 @@ import RestaurantReservations from 'components/RestaurantReservations';
 import RestaurantTables from 'components/RestaurantTables';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.min.js';
 import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/manager_manage.css';
 

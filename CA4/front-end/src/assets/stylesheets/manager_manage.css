@@ -51,6 +51,12 @@ main {
     box-shadow: none;
 }
 
+#addTableForm .form-control {
+    display: inline-block;
+    border: 0;
+    background-color: var(--miz-grey);
+}
+
 @media (min-width: 992px) {
     #page-layout {
         height: 100vh;
