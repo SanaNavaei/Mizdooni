@@ -1,4 +1,6 @@
-#restaurants-list {
-    max-width: 600px;
-    min-height: 400px;
+#modal-restaurant .form-select,
+#modal-restaurant .form-control {
+    display: inline-block;
+    border: 0;
+    background-color: var(--miz-grey);
 }

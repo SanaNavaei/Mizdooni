@@ -1,9 +1,11 @@
+import AddRestaurantModal from "./AddRestaurantModal";
+
 function ManagerRestaurants({ restaurants }) {
   return (
     <div id="restaurants-list" className="mx-auto bg-white rounded-3 pt-3 pb-1">
       <div className="d-flex justify-content-between align-items-center px-3">
         <h2 className="fw-semibold m-0 fs-6">My Restaurants</h2>
-        <button className="miz-button">Add</button>
+        <button className="miz-button" data-bs-toggle="modal" data-bs-target="#addRestaurant">Add</button>
       </div>
       <hr />
       <div className="table-responsive">
@@ -21,6 +23,7 @@ function ManagerRestaurants({ restaurants }) {
           </tbody>
         </table>
       </div>
+      <AddRestaurantModal />
     </div>
   );
 }
