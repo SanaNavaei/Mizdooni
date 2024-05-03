@@ -1,22 +1,48 @@
+import { useState, useEffect } from 'react';
+
 import AverageReview from './AverageReview';
 import Review from './Review';
 import AddReviewModal from './AddReviewModal';
 
-function RestaurantReviews({ restaurant, reviews }) {
+function RestaurantReviews({ restaurant }) {
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    fetch(`/api/restaurant/${restaurant.id}/reviews`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch restaurant reviews');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setReviews(data);
+        console.log('Success:', data);
+      })
+      .catch(error => {
+        console.error('Error fetching restaurant reviews:', error);
+      });
+  }, [restaurant.id]);
+
   return (
     <div>
       <AverageReview
-        reviews={restaurant.reviews}
+        reviews={restaurant.totalReviews}
         starCount={restaurant.starCount}
-        foodRate={restaurant.foodRate}
-        serviceRate={restaurant.serviceRate}
-        ambienceRate={restaurant.ambienceRate}
-        overallRate={restaurant.overallRate}
+        foodRate={restaurant.averageRating.food}
+        serviceRate={restaurant.averageRating.service}
+        ambienceRate={restaurant.averageRating.ambience}
+        overallRate={restaurant.averageRating.overall}
       />
 
       <article className="mt-4">
         <div className="d-flex justify-content-between align-items-center pb-4">
-          <h2 className="fw-normal fs-6">{restaurant.reviews} Reviews</h2>
+          <h2 className="fw-normal fs-6">{restaurant.totalReviews} Reviews</h2>
           <button className="miz-button" data-bs-toggle="modal" data-bs-target="#addReview">Add Review</button>
         </div>
         {reviews.map((review, index) => (
@@ -35,7 +61,7 @@ function RestaurantReviews({ restaurant, reviews }) {
           </div>
         ))}
       </article>
-      <AddReviewModal restaurantName={restaurant.name}/>
+      <AddReviewModal restaurantName={restaurant.name} />
 
       <nav className="mt-5">
         <ul className="review-pagination d-flex justify-content-center align-items-center gap-2">

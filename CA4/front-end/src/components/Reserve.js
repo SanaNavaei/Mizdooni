@@ -14,13 +14,36 @@ const getCurrentDate = () => {
   return `${year}-${month}-${day}`;
 };
 
-function Reserve({ maxSeatNumber, availableTimes, country, city, street }) {
+function Reserve({ maxSeatsNumber, address }) {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const [selectedSeat, setSelectedSeat] = useState(0);
   const [filteredAvailableTimes, setFilteredAvailableTimes] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
+  const [availableTimes, setAvailableTimes] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/restaurant/available-times', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch available times');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setAvailableTimes(data);
+        console.log('Success:', data);
+      })
+      .catch(error => {
+        console.error('Error fetching available times:', error);
+      });
+  }, []);
 
   useEffect(() => {
     if (selectedDate) {
@@ -37,7 +60,7 @@ function Reserve({ maxSeatNumber, availableTimes, country, city, street }) {
   }, [selectedDate, selectedTime, selectedSeat]);
 
   const seatOptions = [<option key="empty" value=""></option>];
-  for (let i = 1; i <= maxSeatNumber; i++) {
+  for (let i = 1; i <= maxSeatsNumber; i++) {
     seatOptions.push(<option key={i} value={i}>{i}</option>);
   }
 
@@ -116,7 +139,7 @@ function Reserve({ maxSeatNumber, availableTimes, country, city, street }) {
         <button type="submit" className="miz-button disabled-button w-100" data-bs-toggle="modal" data-bs-target="#completeReservation" disabled={isButtonDisabled}>Complete the Reservation</button>
       </form>
 
-      <CompleteReserveModal country={country} city={city} street={street} tableNumber={selectedSeat} time={selectedTime} />
+      <CompleteReserveModal country={address.country} city={address.city} street={address.street} tableNumber={selectedSeat} time={selectedTime} />
     </section>
   );
 }

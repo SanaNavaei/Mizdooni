@@ -3,7 +3,13 @@ import ReviewStar from 'assets/icons/review_star.svg';
 import Restaurant from 'assets/icons/restaurant.svg';
 import Location from 'assets/icons/location.svg';
 
-function RestaurantDetails({ name, reviews, type, country, city, street, isOpen, closingTime, startingTime, image, description }) {
+function RestaurantDetails({ name, totalReviews, type, address, endTime, startTime, image, description }) {
+  const isOpen = () => {
+    const currentTime = new Date();
+    const currentHour = currentTime.getHours();
+    return currentHour >= Number(startTime.split(':')[0]) && currentHour < Number(endTime.split(':')[0]);
+  };
+
   return (
     <section className="col-lg">
       <div className="position-relative">
@@ -20,13 +26,13 @@ function RestaurantDetails({ name, reviews, type, country, city, street, isOpen,
               <td className="ps-0">
                 <div className="d-flex align-items-center gap-1">
                   <img src={Time} alt="Time" width="20" height="20" />
-                    <p className="fw-light ">From {startingTime} to {closingTime}</p>
+                    <p className="fw-light ">From {startTime} to {endTime}</p>
                 </div>
               </td>
               <td>
                 <div className="d-flex align-items-center gap-1">
                   <img src={ReviewStar} alt="Review" width="21" height="22" />
-                    <p className="fw-light ">{reviews} Reviews</p>
+                    <p className="fw-light ">{totalReviews} Reviews</p>
                 </div>
               </td>
               <td>
@@ -40,7 +46,7 @@ function RestaurantDetails({ name, reviews, type, country, city, street, isOpen,
         </table>
         <div className="d-flex align-items-center pt-2 pb-3">
           <img className="me-2" src={Location} alt="Location" />
-            <p className="miz-text-grey fw-light ">{country}, {city}, {street}</p>
+            <p className="miz-text-grey fw-light ">{address.country}, {address.city}, {address.street}</p>
         </div>
         <p className="text-justify fw-light lh-sm">{description}</p>
       </div>
