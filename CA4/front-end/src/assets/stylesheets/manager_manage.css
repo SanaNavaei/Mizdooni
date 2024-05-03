@@ -1,9 +1,9 @@
-main {
+#main_manage {
     --section-border-size: 10px;
     min-height: 0;
 }
 
-#restaurant {
+#restaurant_manage {
     background-color: var(--miz-red);
 }
 

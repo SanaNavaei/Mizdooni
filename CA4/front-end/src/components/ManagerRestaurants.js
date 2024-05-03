@@ -8,9 +8,12 @@ function ManagerRestaurants({ restaurants }) {
         <button className="miz-button" data-bs-toggle="modal" data-bs-target="#addRestaurant">Add</button>
       </div>
       <hr />
-      <div className="table-responsive">
-        <p className="miz-text-grey text-center fs-5">Add your first restaurant!</p>
-      </div>
+      {restaurants.length === 0 &&
+        <div className="table-responsive">
+          <p className="miz-text-grey text-center fs-5">Add your first restaurant!</p>
+        </div>
+      }
+
       <div className="table-responsive">
         <table className="table table-borderless align-middle">
           <tbody>

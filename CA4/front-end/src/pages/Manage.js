@@ -51,7 +51,7 @@ function Manage() {
   }, []);
 
   const beforeMain = (
-    <section id="restaurant" className="container-fluid">
+    <section id="restaurant_manage" className="container-fluid">
       <div className="d-flex justify-content-between align-items-center flex-wrap py-2 ps-3 pe-3 pe-sm-5">
         <h2 className="miz-text-red-light m-0 fw-normal fs-5">{restaurantInfo.name}</h2>
         <p className="miz-text-red-light m-0">{`Address: ${restaurantInfo.street}, ${restaurantInfo.city}, ${restaurantInfo.country}`}</p>
@@ -59,7 +59,7 @@ function Manage() {
     </section>
   );
   return (
-    <PageLayout beforeMain={beforeMain} footerMargin={0}>
+    <PageLayout beforeMain={beforeMain} footerMargin={0} mainId="main_manage">
       <div className="container-fluid h-100">
         <div className="row h-100 flex-column-reverse">
           <RestaurantReservations reservations={reservations}/>
