@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import mizdooni.database.Database;
 import mizdooni.exceptions.*;
 import mizdooni.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -13,18 +15,10 @@ import java.util.stream.Collectors;
 
 import static mizdooni.service.Utils.*;
 
+@Service
 public class RestaurantService {
+    @Autowired
     private Database db;
-
-    private static final RestaurantService instance = new RestaurantService();
-
-    private RestaurantService() {
-        db = Database.getInstance();
-    }
-
-    public static RestaurantService getInstance() {
-        return instance;
-    }
 
     public Restaurant getRestaurant(int restaurantId) {
         return db.restaurants.stream().filter(r -> r.getId() == restaurantId).findFirst().orElse(null);

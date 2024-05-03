@@ -6,26 +6,18 @@ import mizdooni.model.Reservation;
 import mizdooni.model.Restaurant;
 import mizdooni.model.Table;
 import mizdooni.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 import static mizdooni.service.Utils.*;
 
+@Service
 public class ReservationService {
+    @Autowired
     private Database db;
-    private User currentUser;
-
-    private static final ReservationService instance = new ReservationService();
-
-    private ReservationService() {
-        db = Database.getInstance();
-        currentUser = null;
-    }
-
-    public static ReservationService getInstance() {
-        return instance;
-    }
 
     public Reservation reserveTable(String username, String restaurantName, int tableNumber, LocalDateTime datetime)
             throws UserNotFound, ManagerReservationNotAllowed, InvalidWorkingTime, RestaurantNotFound, TableNotFound,
