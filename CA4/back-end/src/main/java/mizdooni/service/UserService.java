@@ -9,8 +9,6 @@ import mizdooni.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import static mizdooni.service.Utils.*;
-
 @Service
 public class UserService {
     @Autowired
@@ -22,12 +20,28 @@ public class UserService {
     }
 
     public boolean login(String username, String password) {
-        User user = findUser(username, db.users);
+        User user = ServiceUtils.findUser(username, db.users);
         if (user != null && user.checkPassword(password)) {
             currentUser = user;
             return true;
         }
         return false;
+    }
+
+    public void signup(String username, String password, String email, Address address,
+                       User.Role role) throws InvalidEmailFormat, InvalidUsernameFormat, DuplicatedUsernameEmail {
+        if (!ServiceUtils.validateUsername(username)) {
+            throw new InvalidUsernameFormat();
+        }
+        if (!ServiceUtils.validateEmail(email)) {
+            throw new InvalidEmailFormat();
+        }
+        if (!ServiceUtils.userIsTaken(username, email, db.users)) {
+            throw new DuplicatedUsernameEmail();
+        }
+
+        User user = new User(username, password, email, address, role);
+        db.users.add(user);
     }
 
     public boolean logout() {
@@ -38,19 +52,11 @@ public class UserService {
         return false;
     }
 
-    public void signup(String username, String password, String email, Address address,
-                        User.Role role) throws InvalidEmailFormat, InvalidUsernameFormat, DuplicatedUsernameEmail {
-        if (!validateUsername(username)) {
-            throw new InvalidUsernameFormat();
-        }
-        if (!validateEmail(email)) {
-            throw new InvalidEmailFormat();
-        }
-        if (!userIsTaken(username, email, db.users)) {
-            throw new DuplicatedUsernameEmail();
-        }
+    public boolean usernameExists(String username) {
+        return ServiceUtils.findUser(username, db.users) != null;
+    }
 
-        User user = new User(username, password, email, address, role);
-        db.users.add(user);
+    public boolean emailExists(String email) {
+        return ServiceUtils.findUserByEmail(email, db.users) != null;
     }
 }

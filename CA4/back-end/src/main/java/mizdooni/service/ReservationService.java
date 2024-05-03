@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static mizdooni.service.Utils.*;
-
 @Service
 public class ReservationService {
     @Autowired
@@ -22,7 +20,7 @@ public class ReservationService {
     public Reservation reserveTable(String username, String restaurantName, int tableNumber, LocalDateTime datetime)
             throws UserNotFound, ManagerReservationNotAllowed, InvalidWorkingTime, RestaurantNotFound, TableNotFound,
             DateTimeInThePast, ReservationNotInOpenTimes, TableAlreadyReserved {
-        User user = findUser(username, db.users);
+        User user = ServiceUtils.findUser(username, db.users);
         if (user == null) {
             throw new UserNotFound();
         }
@@ -30,14 +28,14 @@ public class ReservationService {
             throw new ManagerReservationNotAllowed();
         }
 
-        if (!validateWorkingTime(datetime.toLocalTime())) {
+        if (!ServiceUtils.validateWorkingTime(datetime.toLocalTime())) {
             throw new InvalidWorkingTime();
         }
         if (datetime.isBefore(LocalDateTime.now())) {
             throw new DateTimeInThePast();
         }
 
-        Restaurant restaurant = findRestaurantByName(restaurantName, db.restaurants);
+        Restaurant restaurant = ServiceUtils.findRestaurantByName(restaurantName, db.restaurants);
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
@@ -61,7 +59,7 @@ public class ReservationService {
 
     public void cancelReservation(String username, int reservationNumber)
             throws UserNotFound, ReservationNotFound, ReservationCannotBeCancelled {
-        User user = findUser(username, db.users);
+        User user = ServiceUtils.findUser(username, db.users);
         if (user == null) {
             throw new UserNotFound();
         }
@@ -79,7 +77,7 @@ public class ReservationService {
     }
 
     public List<Reservation> showReservationHistory(String username) throws UserNotFound {
-        User user = findUser(username, db.users);
+        User user = ServiceUtils.findUser(username, db.users);
         if (user == null) {
             throw new UserNotFound();
         }

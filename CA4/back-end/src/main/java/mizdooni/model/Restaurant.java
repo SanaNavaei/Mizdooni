@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import static mizdooni.service.Utils.convertToString;
+import static mizdooni.service.ServiceUtils.convertToString;
 
 public class Restaurant {
     private static int idCounter = 0;

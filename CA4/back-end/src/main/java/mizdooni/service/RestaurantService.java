@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static mizdooni.service.Utils.*;
-
 @Service
 public class RestaurantService {
     @Autowired
@@ -30,15 +28,16 @@ public class RestaurantService {
 
     public void addRestaurant(String name, String manager, String type, LocalTime startTime, LocalTime endTime,
                               String description, Address address) throws DuplicatedRestaurantName, ManagerNotFound, InvalidWorkingTime {
-        User managerUser = findUser(manager, db.users);
+        User managerUser = ServiceUtils.findUser(manager, db.users);
 
-        if (findRestaurantByName(name, db.restaurants) != null) {
+        if (ServiceUtils.findRestaurantByName(name, db.restaurants) != null) {
             throw new DuplicatedRestaurantName();
         }
         if (managerUser == null || managerUser.getRole() != User.Role.manager) {
             throw new ManagerNotFound();
         }
-        if (!validateWorkingTime(startTime) || !validateWorkingTime(endTime)) {
+        if (!ServiceUtils.validateWorkingTime(startTime) ||
+                !ServiceUtils.validateWorkingTime(endTime)) {
             throw new InvalidWorkingTime();
         }
 
@@ -48,9 +47,9 @@ public class RestaurantService {
 
     public void addTable(int tableNumber, String restaurantName, String manager, String seatsNumber)
             throws DuplicatedTableNumber, InvalidSeatsNumber, RestaurantNotFound, ManagerNotFound, InvalidManagerRestaurant {
-        User managerUser = findUser(manager, db.users);
+        User managerUser = ServiceUtils.findUser(manager, db.users);
         int seatsNumberInt = (int) Double.parseDouble(seatsNumber);
-        Restaurant restaurant = findRestaurantByName(restaurantName, db.restaurants);
+        Restaurant restaurant = ServiceUtils.findRestaurantByName(restaurantName, db.restaurants);
 
         if (restaurant == null) {
             throw new RestaurantNotFound();
@@ -64,7 +63,7 @@ public class RestaurantService {
         if (restaurant.getTable(tableNumber) != null) {
             throw new DuplicatedTableNumber();
         }
-        if (!validateSeatsNumber(seatsNumber)) {
+        if (!ServiceUtils.validateSeatsNumber(seatsNumber)) {
             throw new InvalidSeatsNumber();
         }
 
@@ -73,7 +72,7 @@ public class RestaurantService {
     }
 
     public List<JsonNode> showAvailableTables(String restaurantName) throws RestaurantNotFound {
-        Restaurant restaurant = findRestaurantByName(restaurantName, db.restaurants);
+        Restaurant restaurant = ServiceUtils.findRestaurantByName(restaurantName, db.restaurants);
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
@@ -106,7 +105,7 @@ public class RestaurantService {
 
     public void addReview(String username, String restaurantName, double foodRate, double serviceRate, double ambianceRate,
                           double overallRate, String comment) throws UserNotFound, ManagerCannotReview, RestaurantNotFound, InvalidReviewRating, UserHasNotReserved {
-        User user = findUser(username, db.users);
+        User user = ServiceUtils.findUser(username, db.users);
         if (user == null) {
             throw new UserNotFound();
         }
@@ -114,7 +113,7 @@ public class RestaurantService {
             throw new ManagerCannotReview();
         }
 
-        Restaurant restaurant = findRestaurantByName(restaurantName, db.restaurants);
+        Restaurant restaurant = ServiceUtils.findRestaurantByName(restaurantName, db.restaurants);
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
@@ -140,7 +139,7 @@ public class RestaurantService {
     }
 
     public Rating showAverageRating(String restaurantName) throws RestaurantNotFound {
-        Restaurant restaurant = findRestaurantByName(restaurantName, db.restaurants);
+        Restaurant restaurant = ServiceUtils.findRestaurantByName(restaurantName, db.restaurants);
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
