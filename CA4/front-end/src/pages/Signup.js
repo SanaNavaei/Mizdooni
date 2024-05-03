@@ -14,6 +14,7 @@ function Signup() {
 
   const [userError, setUserError] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const [formData, setFormData] = useState({
     username: '',
@@ -26,14 +27,23 @@ function Signup() {
     role: '',
   });
 
-  const validateUsername = async(value) => {
+  useEffect(() => {
+    const isUsernameValid = formData.username.trim() !== '' && userError === '';
+    const isPasswordValid = formData.password.trim() !== '';
+    const isEmailValid = formData.email.trim() !== '' && emailError === '';
+    const isCountryValid = formData.address.country.trim() !== '';
+    const isCityValid = formData.address.city.trim() !== '';
+    const isRoleValid = formData.role !== '';
+    setIsFormValid(isUsernameValid && isPasswordValid && isEmailValid && isCountryValid && isCityValid && isRoleValid);
+  }, [formData]);
+
+  const validateUsername = async() => {
     try {
-      const response = await fetch(`/validate/username?date=${value}`);
+      const response = await fetch(`/api/validate/username?data=${formData.username}`);
       if (response.ok) {
-        setFormData({ ...formData, username: value });
+        setUserError('');
       } else {
         const data = await response.json();
-        setFormData({ ...formData, username: ''});
         setUserError(data.message);
       }
     } catch (error) {
@@ -41,14 +51,13 @@ function Signup() {
     }
   };
 
-  const validateEmail = async(value) => {
+  const validateEmail = async() => {
     try {
-      const response = await fetch(`/validate/email?date=${value}`);
+      const response = await fetch(`/api/validate/email?data=${formData.email}`);
       if (response.ok) {
-        setFormData({ ...formData, email: value });
+        setEmailError('');
       } else {
         const data = await response.json();
-        setFormData({ ...formData, email: ''});
         setEmailError(data.message);
       }
     } catch (error) {
@@ -68,20 +77,14 @@ function Signup() {
         },
       });
     } else {
-      if (name === 'username') {
-        validateUsername(value);
-      } else if (name === 'email') {
-        validateEmail(value);
-      } else {
-        setFormData({ ...formData, [name]: value });
-      }
+      setFormData({ ...formData, [name]: value });
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('/signup', {
+      const response = await fetch('/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -90,7 +93,7 @@ function Signup() {
       });
       if (response.ok) {
         if (formData.role === 'client') {
-          window.location.href = '/cusotmer';
+          window.location.href = '/customer';
         } else if (formData.role === 'manager') {
           window.location.href = '/manager';
         }
@@ -108,9 +111,9 @@ function Signup() {
         <div id="container" className="mx-auto px-4 px-sm-5 rounded-4">
           <AuthenticationHeader text="Welcome to Mizdooni!" />
           <form className="px-3 px-sm-4 px-md-3 py-3" onSubmit={handleSubmit}>
-            <FormItem label="Username" type="text" name="username" value={formData.username} onChange={handleInputChange} error={userError}/>
+            <FormItem label="Username" type="text" name="username" value={formData.username} onChange={handleInputChange} onBlur={validateUsername} error={userError}/>
             <FormItem label="Password" type="password" name="password" value={formData.password} onChange={handleInputChange} />
-            <FormItem label="Email" type="email" name="email" value={formData.email} onChange={handleInputChange} error={emailError}/>
+            <FormItem label="Email" type="email" name="email" value={formData.email} onChange={handleInputChange} onBlur={validateEmail} error={emailError}/>
             <FormItem label="Country" type="text" name="address.country" value={formData.address.country} onChange={handleInputChange} />
             <FormItem label="City" type="text" name="address.city" value={formData.address.city} onChange={handleInputChange} />
             <div className="mb-5">
@@ -121,7 +124,7 @@ function Signup() {
                 <option value="manager">Manager</option>
               </select>
             </div>
-            <button type="submit" className="miz-button w-100 mb-3">Signup</button>
+            <button type="submit" className="miz-button disabled-button w-100 mb-3" disabled={!isFormValid}>Signup</button>
             <p className="bottom-text text-center">Already have an account? <a href="/login" className="miz-text-red text-decoration-none">Login here</a></p>
           </form>
         </div>
