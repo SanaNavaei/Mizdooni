@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import AuthenticationHeader from 'components/AuthenticationHeader';
 import FormItem from 'components/FormItem';
@@ -12,14 +12,44 @@ function Login() {
     document.title = 'Login';
   }, []);
 
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        window.location.href = '/customer';
+      } else {
+        console.log('Failed to login');
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   return (
     <div className="min-vh-100 d-flex flex-column justify-content-center background-auth">
       <main className="container-fluid px-0 py-4">
         <div id="container" className="mx-auto px-4 px-sm-5 rounded-4">
           <AuthenticationHeader text="Welcome Back!" />
-          <form className="px-4 px-sm-5 py-4">
-            <FormItem label="Username" type="text" />
-            <FormItem label="Password" type="password" />
+          <form className="px-4 px-sm-5 py-4" onSubmit={handleSubmit}>
+            <FormItem label="Username" type="text" name="username" value={formData.username} onChange={handleInputChange}/>
+            <FormItem label="Password" type="password" name="password" value={formData.password} onChange={handleInputChange}/>
             <button type="submit" className="miz-button w-100 mt-4 mb-3">Login</button>
             <p className="bottom-text text-center">Don't have an account? <a href="/signup" className="miz-text-red text-decoration-none">Sign up here</a></p>
           </form>

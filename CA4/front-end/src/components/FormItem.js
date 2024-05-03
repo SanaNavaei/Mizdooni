@@ -1,10 +1,11 @@
-function FormItem({ label, type }) {
+function FormItem({ label, type, name, value, onChange, error }) {
   const id = label.toLowerCase();
 
   return (
     <div className="mb-3">
       <label htmlFor={id} className="miz-text-red form-label">{label}</label>
-      <input type={type} className="form-control" id={id} name={id} required />
+      <input type={type} className={`form-control ${error ? 'auth-error' : ''}`} id={id} name={name} value={value} onChange={onChange} required />
+      {error && <p className="miz-text-red py-1 fw-bold">{error}</p>}
     </div>
   );
 }
