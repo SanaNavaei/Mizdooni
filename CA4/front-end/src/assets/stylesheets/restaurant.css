@@ -98,3 +98,25 @@ ul.review-pagination a {
 ul.review-pagination li.active a {
     border: 1px solid var(--miz-red);
 }
+
+#close-reserve {
+    background-color: white;
+    color: var(--miz-red);
+    border: 2px solid var(--miz-red);
+}
+
+#close-reserve:hover {
+    background-color: var(--miz-red);
+    color: white;
+}
+
+.addReviewStar {
+    width: 20px;
+    height: 20px;
+}
+
+#reviewComment {
+    display: inline-block;
+    border: 0;
+    background-color: var(--miz-grey);
+}

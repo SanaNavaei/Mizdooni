@@ -1,5 +1,6 @@
 import AverageReview from './AverageReview';
 import Review from './Review';
+import AddReviewModal from './AddReviewModal';
 
 function RestaurantReviews({ restaurant, reviews }) {
   return (
@@ -16,7 +17,7 @@ function RestaurantReviews({ restaurant, reviews }) {
       <article className="mt-4">
         <div className="d-flex justify-content-between align-items-center pb-4">
           <h2 className="fw-normal fs-6">{restaurant.reviews} Reviews</h2>
-          <button className="miz-button">Add Review</button>
+          <button className="miz-button" data-bs-toggle="modal" data-bs-target="#addReview">Add Review</button>
         </div>
         {reviews.map((review, index) => (
           <div key={index}>
@@ -34,6 +35,7 @@ function RestaurantReviews({ restaurant, reviews }) {
           </div>
         ))}
       </article>
+      <AddReviewModal restaurantName={restaurant.name}/>
 
       <nav className="mt-5">
         <ul className="review-pagination d-flex justify-content-center align-items-center gap-2">
