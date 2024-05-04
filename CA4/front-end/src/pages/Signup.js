@@ -92,10 +92,13 @@ function Signup() {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
+        let res = await response.json();
         localStorage.setItem('username', formData.username);
-        localStorage.setItem('role', response.body.role);
-        localStorage.setItem('id', response.body.id);
-        localStorage.setItem('email', response.body.email);
+        localStorage.setItem('role', formData.role);
+        localStorage.setItem('id', res.data.id);
+        localStorage.setItem('email', formData.email);
+        localStorage.setItem('country', formData.address.country);
+        localStorage.setItem('city', formData.address.city);
 
         if (formData.role === 'client') {
           window.location.href = '/customer';

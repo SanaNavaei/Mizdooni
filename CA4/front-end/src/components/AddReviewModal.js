@@ -34,13 +34,12 @@ function AddReviewModal({ restaurantName, restaurantId }) {
       },
       body: JSON.stringify(formData),
     })
-      .then(response => {
+      .then(async response => {
         if (response.ok) {
           return response.json();
         }
-        return response.json().then(resp => {
-          throw new Error(resp.message);
-        });
+        const resp = await response.json();
+        throw new Error(resp.message);
       })
       .then(data => {
         console.debug(data);

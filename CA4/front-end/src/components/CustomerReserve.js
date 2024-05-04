@@ -1,5 +1,6 @@
 import React from 'react';
 
+import AddReviewModal from './AddReviewModal';
 import CancelReserveModal from './CancelReserveModal';
 
 function CustomerReserve({ reserves }) {
@@ -30,7 +31,7 @@ function CustomerReserve({ reserves }) {
                         <button className="miz-link-button" disabled>Canceled</button>
                       ) : (
                         reserve.isPastTime ? (
-                          <button className="miz-link-button">
+                          <button className="miz-link-button" data-bs-toggle="modal" data-bs-target="#addReview">
                             Add Comment
                           </button>
                         ) : (
@@ -41,6 +42,7 @@ function CustomerReserve({ reserves }) {
                       )}
                     </td>
                   </tr>
+                  <AddReviewModal restaurantName={reserve.restaurant} reserveId={reserve.id}/>
                   <CancelReserveModal restaurantName={reserve.restaurant} />
                 </React.Fragment>
               ))

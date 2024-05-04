@@ -34,12 +34,15 @@ function Login() {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
+        let res = await response.json();
         localStorage.setItem('username', formData.username);
-        localStorage.setItem('role', response.body.role);
-        localStorage.setItem('id', response.body.id);
-        localStorage.setItem('email', response.body.email);
+        localStorage.setItem('role', res.data.role);
+        localStorage.setItem('id', res.data.id);
+        localStorage.setItem('email', res.data.email);
+        localStorage.setItem('country', res.data.address.country);
+        localStorage.setItem('city', res.data.address.city);
         
-        if (response.body.role === 'manager') {
+        if (res.role === 'manager') {
           window.location.href = '/manager';
         } else {
           window.location.href = '/customer';

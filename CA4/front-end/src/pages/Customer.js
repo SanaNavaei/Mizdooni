@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import PageLayout from 'components/PageLayout';
 import Logout from 'components/Logout';
@@ -9,58 +9,42 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/customer.css';
 
-const user = {
-  username: "Parna",
-  email: "Tom_holland@ut.ac.ir",
-  country: "Iran",
-  city: "Tehran"
-}
-
-const reserves = [
-  {
-    date: "2024-06-22 16:00",
-    restaurant: "Ali Daei Dizy",
-    table: "12",
-    seats: "4",
-    isCancel: false,
-    isPastTime: false
-  },
-  {
-    date: "2024-02-22 16:00",
-    restaurant: "Ali Daei Dizy",
-    table: "12",
-    seats: "4",
-    isCancel: false,
-    isPastTime: true
-  },
-  {
-    date: "2024-02-22 16:00",
-    restaurant: "Ali Daei Dizy",
-    table: "12",
-    seats: "4",
-    isCancel: false,
-    isPastTime: true
-  },
-  {
-    date: "2024-02-22 16:00",
-    restaurant: "Ali Daei Dizy",
-    table: "12",
-    seats: "4",
-    isCancel: true,
-    isPastTime: true
-  }
-]
-
 function Customer() {
+  const id = localStorage.getItem('id');
+  const[reservations, setReservations] = useState([]);
+
   useEffect(() => {
     document.title = 'Customer';
   }, []);
 
+  useEffect(() => {
+    fetch(`/api/customer/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          const resp = await response.json();
+          throw new Error(resp.message);
+        }
+      })
+      .then((data) => {
+        setReservations(data.data.reservations);
+      })
+      .catch((error) => {
+        console.error('Error getting reservations:', error.message);
+      });
+  }, [id]);
+
   return (
     <PageLayout>
       <div class="container pt-4">
-        <Logout email={user.email} country={user.country} city={user.city} />
-        <CustomerReserve reserves={reserves} />
+        <Logout />
+        <CustomerReserve reserves={reservations} />
       </div>
     </PageLayout>
   );

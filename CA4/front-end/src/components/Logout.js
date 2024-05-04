@@ -1,8 +1,17 @@
-function Logout({ country, city }) {
+function Logout() {
   const email = localStorage.getItem('email');
+  const city = localStorage.getItem('city');
+  const country = localStorage.getItem('country');
+  const role = localStorage.getItem('role');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    await fetch('/api/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
     localStorage.clear();
     window.location.href = '/login';
   };
@@ -12,7 +21,7 @@ function Logout({ country, city }) {
       <p className="m-0">Your reservations are also emailed to <a className="miz-text-red text-decoration-none" href={`mailto:${email}`}>{email}</a>
       </p>
       <div className="d-flex align-items-center justify-content-between gap-2">
-        {city && country && (
+        {role === 'customer' && (
           <p className="m-0">Address: {city}, {country}</p>
         )}
         <form onSubmit={handleSubmit}>
