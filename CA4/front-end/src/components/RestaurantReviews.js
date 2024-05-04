@@ -3,9 +3,25 @@ import { useState, useEffect } from 'react';
 import AverageReview from './AverageReview';
 import Review from './Review';
 import AddReviewModal from './AddReviewModal';
+import Pagination from './Pagination';
 
 function RestaurantReviews({ restaurant }) {
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState([{
+    rating: {
+      food: 0,
+      service: 0,
+      ambiance: 0,
+      overall: 0,
+    },
+    starCount: 0,
+    comment: '',
+    datetime: '',
+    user: {
+      id: 0,
+      username: '',
+      email: '',
+    },
+  }]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -23,8 +39,9 @@ function RestaurantReviews({ restaurant }) {
         return response.json();
       })
       .then((data) => {
-        setReviews(data.pageList);
-        setTotalPages(data.totalPages);
+        console.debug('Success:', data.data);
+        setReviews(data.data.pageList);
+        setTotalPages(data.data.totalPages);
       })
       .catch(error => {
         console.error('Error fetching restaurant reviews:', error);
@@ -42,7 +59,7 @@ function RestaurantReviews({ restaurant }) {
         starCount={restaurant.starCount}
         foodRate={restaurant.averageRating.food}
         serviceRate={restaurant.averageRating.service}
-        ambienceRate={restaurant.averageRating.ambience}
+        ambianceRate={restaurant.averageRating.ambiance}
         overallRate={restaurant.averageRating.overall}
       />
 
@@ -54,12 +71,12 @@ function RestaurantReviews({ restaurant }) {
         {reviews.map((review, index) => (
           <div key={index}>
             <Review
-              reviewerName={review.reviewerName}
-              foodRate={review.foodRate}
-              serviceRate={review.serviceRate}
-              ambianceRate={review.ambianceRate}
-              overallRate={review.overallRate}
-              date={review.date}
+              reviewerName={review.user.username}
+              foodRate={review.rating.food}
+              serviceRate={review.rating.service}
+              ambianceRate={review.rating.ambiance}
+              overallRate={review.rating.overall}
+              date={review.datetime}
               comment={review.comment}
               starCount={review.starCount}
             />
@@ -67,7 +84,7 @@ function RestaurantReviews({ restaurant }) {
           </div>
         ))}
       </article>
-      <AddReviewModal restaurantName={restaurant.name} />
+      <AddReviewModal restaurantName={restaurant.name} restaurantId={restaurant.id}/>
       <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
     </div>
   )

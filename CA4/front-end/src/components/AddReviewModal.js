@@ -3,36 +3,74 @@ import { useState, useEffect } from 'react';
 import EmptyStar from 'assets/icons/star_empty.svg'
 import FullStar from 'assets/icons/star_filled.svg'
 
-function AddReviewModal({ restaurantName }) {
-  const [qualityRating, setQualityRating] = useState(0);
-  const [serviceRating, setServiceRating] = useState(0);
-  const [ambienceRating, setAmbienceRating] = useState(0);
-  const [overAllRating, setOverAllRating] = useState(0);
+function AddReviewModal({ restaurantName, restaurantId }) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
+  const [error, setError] = useState('');
+  const [formData, setFormData] = useState({
+    rating: {
+      food: 0,
+      service: 0,
+      ambiance: 0,
+      overall: 0,
+    },
+    comment: '',
+  });
 
   useEffect(() => {
-    if (qualityRating !== 0 && serviceRating !== 0 && ambienceRating !== 0 && overAllRating !== 0) {
+    if (formData.rating.food > 0 && formData.rating.service > 0 && formData.rating.ambiance > 0 && formData.rating.overall > 0) {
       setIsSubmitDisabled(false);
     } else {
       setIsSubmitDisabled(true);
     }
-  }, [qualityRating, serviceRating, ambienceRating, overAllRating]);
+  }, [formData]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(restaurantId);
+    fetch(`/api/reviews/${restaurantId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        return response.json().then(resp => {
+          throw new Error(resp.message);
+        });
+      })
+      .then(data => {
+        console.debug(data);
+        setError('');
+        window.location.reload();
+      })
+      .catch(error => {
+        console.error('Error adding review:', error.message);
+        setError(error.message);
+      });
+  }
 
-  const handleQualityClick = (starValue) => {
-    setQualityRating(starValue);
+  const handleCommentChange = (e) => {
+    setFormData({ ...formData, comment: e.target.value });
+  }
+
+  const handleFoodClick = (starValue) => {
+    setFormData({ ...formData, rating: { ...formData.rating, food: starValue } });
   };
 
   const handleServiceClick = (starValue) => {
-    setServiceRating(starValue);
+    setFormData({ ...formData, rating: { ...formData.rating, service: starValue } });
   }
 
-  const handleAmbienceClick = (starValue) => {
-    setAmbienceRating(starValue);
+  const handleAmbianceClick = (starValue) => {
+    setFormData({ ...formData, rating: { ...formData.rating, ambiance: starValue } });
   }
 
-  const handleOverAllClick = (starValue) => {
-    setOverAllRating(starValue);
+  const handleOverallClick = (starValue) => {
+    setFormData({ ...formData, rating: { ...formData.rating, overall: starValue } });
   }
 
   return (
@@ -45,69 +83,72 @@ function AddReviewModal({ restaurantName }) {
           </div>
           <div className="modal-body">
             <p className="miz-text-grey mb-3">Note: Reviews can only be made by diners who have eaten at this restaurant</p>
-            <div className="d-flex justify-content-between mb-3">
-              <p>Food Quality</p>
-              <div>
-                {[...Array(5)].map((_, index) => (
-                  <img
-                    key={index}
-                    className='addReviewStar'
-                    src={index < qualityRating ? FullStar : EmptyStar}
-                    alt={index < qualityRating ? 'Full Star' : 'Empty Star'}
-                    onClick={() => handleQualityClick(index + 1)}
-                  />
-                ))}
+            <form onSubmit={handleSubmit}>
+              <div className="d-flex justify-content-between mb-3">
+                <p>Food Quality</p>
+                <div>
+                  {[...Array(5)].map((_, index) => (
+                    <img
+                      key={index}
+                      className='addReviewStar'
+                      src={index < formData.rating.food ? FullStar : EmptyStar}
+                      alt={index < formData.rating.food ? 'Full Star' : 'Empty Star'}
+                      onClick={() => handleFoodClick(index + 1)}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="d-flex justify-content-between mb-3">
-              <p>Servie</p>
-              <div>
-                {[...Array(5)].map((_, index) => (
-                  <img
-                    key={index}
-                    className='addReviewStar'
-                    src={index < serviceRating ? FullStar : EmptyStar}
-                    alt={index < serviceRating ? 'Full Star' : 'Empty Star'}
-                    onClick={() => handleServiceClick(index + 1)}
-                  />
-                ))}
+              <div className="d-flex justify-content-between mb-3">
+                <p>Service</p>
+                <div>
+                  {[...Array(5)].map((_, index) => (
+                    <img
+                      key={index}
+                      className='addReviewStar'
+                      src={index < formData.rating.service ? FullStar : EmptyStar}
+                      alt={index < formData.rating.service ? 'Full Star' : 'Empty Star'}
+                      onClick={() => handleServiceClick(index + 1)}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="d-flex justify-content-between mb-3">
-              <p>Ambience</p>
-              <div>
-                {[...Array(5)].map((_, index) => (
-                  <img
-                    key={index}
-                    className='addReviewStar'
-                    src={index < ambienceRating ? FullStar : EmptyStar}
-                    alt={index < ambienceRating ? 'Full Star' : 'Empty Star'}
-                    onClick={() => handleAmbienceClick(index + 1)}
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="d-flex justify-content-between mb-3">
-              <p>Overall</p>
-              <div>
-                {[...Array(5)].map((_, index) => (
-                  <img
-                    key={index}
-                    className='addReviewStar'
-                    src={index < overAllRating ? FullStar : EmptyStar}
-                    alt={index < overAllRating ? 'Full Star' : 'Empty Star'}
-                    onClick={() => handleOverAllClick(index + 1)}
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="reviewComment" className="form-label">Comment</label>
-              <textarea className="form-control" id="reviewComment" rows="5" placeholder="Type your review..."></textarea>
-            </div>
+              <div className="d-flex justify-content-between mb-3">
+                <p>Ambiance</p>
+                <div>
+                  {[...Array(5)].map((_, index) => (
+                    <img
+                      key={index}
+                      className='addReviewStar'
+                      src={index < formData.rating.ambiance ? FullStar : EmptyStar}
+                      alt={index < formData.rating.ambiance ? 'Full Star' : 'Empty Star'}
+                      onClick={() => handleAmbianceClick(index + 1)}
+                    />
 
-            <button type="button" className="miz-button disabled-button w-100" disabled={isSubmitDisabled}>Submit Review</button>
-            <button type="button" className="miz-button w-100 mt-3" id="close-reserve" data-bs-dismiss="modal">Cancel</button>
+                  ))}
+                </div>
+              </div>
+              <div className="d-flex justify-content-between mb-3">
+                <p>Overall</p>
+                <div>
+                  {[...Array(5)].map((_, index) => (
+                    <img
+                      key={index}
+                      className='addReviewStar'
+                      src={index < formData.rating.overall ? FullStar : EmptyStar}
+                      alt={index < formData.rating.overall ? 'Full Star' : 'Empty Star'}
+                      onClick={() => handleOverallClick(index + 1)}
+                    />
+                  ))}
+                </div>
+              </div>
+              <div className="mb-3">
+                <label htmlFor="reviewComment" className="form-label">Comment</label>
+                <textarea className="form-control" id="reviewComment" rows="5" onChange={handleCommentChange} placeholder="Type your review..."></textarea>
+              </div>
+              {error && <p className="miz-text-red text-center fw-bold">{error}</p>}
+              <button type="submit" className="miz-button disabled-button w-100" disabled={isSubmitDisabled}>Submit Review</button>
+              <button type="button" className="miz-button w-100 mt-3" id="close-reserve" data-bs-dismiss="modal">Cancel</button>
+            </form>
           </div>
         </div>
       </div>

@@ -19,7 +19,7 @@ const routeArray = [
     element: <SearchResult />,
   },
   {
-    path: '/restaurant/:id',
+    path: '/restaurants/:id',
     element: <Restaurant />
   },
   {
@@ -35,7 +35,7 @@ const routeArray = [
     element: <Customer />,
   },
   {
-    path: "/manage",
+    path: "/manage/:id",
     element: <Manage />,
   },
   {

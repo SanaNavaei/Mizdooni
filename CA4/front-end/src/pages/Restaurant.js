@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useParams } from "react-router-dom";
 
 import PageLayout from 'components/PageLayout';
 import RestaurantDetails from 'components/RestaurantDetails';
@@ -10,14 +11,40 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/restaurant.css';
 
-function Restaurant({ restaurantId }) {
+function Restaurant() {
+  const restaurantId = useParams().id;
+
+  const [restaurant, setRestaurant] = useState({
+    id: 0,
+    name: '',
+    type: '',
+    startTime: '',
+    endTime: '',
+    description: '',
+    address: {
+      country: '',
+      city: '',
+      street: '',
+    },
+    averageRating: {
+      food: 0,
+      service: 0,
+      ambiance: 0,
+      overall: 0,
+    },
+    maxSeatsNumber: 0,
+    starCount: 0,
+    managerUsername: '',
+    image: '',
+    totalReviews: 0,
+  });
+
   useEffect(() => {
     document.title = 'Restaurant';
   }, []);
-  const [restaurant, setRestaurant] = useState({});
 
   useEffect(() => {
-    fetch(`/api/restaurant/${restaurantId}`, {
+    fetch(`/api/restaurants/${restaurantId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -30,8 +57,8 @@ function Restaurant({ restaurantId }) {
         return response.json();
       })
       .then((data) => {
-        setRestaurant(data);
-        console.log('Success:', restaurant);
+        console.debug('Success:', data.data);
+        setRestaurant(data.data);
       })
       .catch(error => {
         console.error('Error fetching restaurant data:', error);
@@ -44,7 +71,7 @@ function Restaurant({ restaurantId }) {
         <div className="row gap-4">
           <RestaurantDetails {...restaurant} />
           <Reserve {...restaurant} />
-          <RestaurantReviews {...{ restaurant }} />
+          <RestaurantReviews restaurant={restaurant} />
         </div>
       </div>
     </PageLayout>
