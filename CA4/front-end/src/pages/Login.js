@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 
 import AuthenticationHeader from 'components/AuthenticationHeader';
 import FormItem from 'components/FormItem';
-import { useAuthContext } from 'components/AuthProvider';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'assets/stylesheets/global.css';
@@ -12,8 +11,6 @@ function Login() {
   useEffect(() => {
     document.title = 'Login';
   }, []);
-
-  const user = useAuthContext().user;
 
   const [formData, setFormData] = useState({
     username: '',
@@ -37,8 +34,16 @@ function Login() {
         body: JSON.stringify(formData),
       });
       if (response.ok) {
-        window.location.href = '/customer';
-        user.setUser(formData.username);
+        localStorage.setItem('username', formData.username);
+        localStorage.setItem('role', response.body.role);
+        localStorage.setItem('id', response.body.id);
+        localStorage.setItem('email', response.body.email);
+        
+        if (response.body.role === 'manager') {
+          window.location.href = '/manager';
+        } else {
+          window.location.href = '/customer';
+        }
       } else {
         console.log('Failed to login');
         setError('Invalid username or password');
