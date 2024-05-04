@@ -42,7 +42,7 @@ function Customer() {
 
   return (
     <PageLayout>
-      <div class="container pt-4">
+      <div className="container pt-4">
         <Logout />
         <CustomerReserve reserves={reservations} />
       </div>

@@ -15,7 +15,7 @@ const routeArray = [
     errorElement: <Error />,
   },
   {
-    path: '/restaurants/:restaurantName',
+    path: '/restaurants',
     element: <SearchResult />,
   },
   {

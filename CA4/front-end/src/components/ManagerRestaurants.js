@@ -2,7 +2,7 @@ import AddRestaurantModal from "./AddRestaurantModal";
 
 function ManagerRestaurants({ restaurants }) {
   const id = localStorage.getItem('id');
-  
+
   return (
     <div id="restaurants-list" className="mx-auto bg-white rounded-3 pt-3 pb-1">
       <div className="d-flex justify-content-between align-items-center px-3">
@@ -10,7 +10,7 @@ function ManagerRestaurants({ restaurants }) {
         <button className="miz-button" data-bs-toggle="modal" data-bs-target="#addRestaurant">Add</button>
       </div>
       <hr />
-      {restaurants.length === 0 &&
+      {restaurants == null &&
         <div className="table-responsive">
           <p className="miz-text-grey text-center fs-5">Add your first restaurant!</p>
         </div>
@@ -19,17 +19,20 @@ function ManagerRestaurants({ restaurants }) {
       <div className="table-responsive">
         <table className="table table-borderless align-middle">
           <tbody>
-            {restaurants.map((restaurant, index) => (
-              <tr key={index}>
-                <td className="ps-3">{restaurant.name}</td>
-                <td className="text-center">{restaurant.location}</td>
-                <td className="text-end pe-3">
-                  <a href={`/manage/${id}`}>
-                    <button className="miz-button">Manage</button>
-                  </a>
-                </td>
-              </tr>
-            ))}
+            {restaurants && restaurants.length > 0 &&
+              restaurants.map((restaurant, index) => (
+                <tr key={index}>
+                  <td className="ps-3">{restaurant.name}</td>
+                  <td className="text-center">{restaurant.location}</td>
+                  <td className="text-end pe-3">
+                    <a href={`/manage/${id}`}>
+                      <button className="miz-button">Manage</button>
+                    </a>
+                  </td>
+                </tr>
+              ))
+            }
+
           </tbody>
         </table>
       </div>

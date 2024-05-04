@@ -42,7 +42,7 @@ function Manager() {
 
   return (
     <PageLayout>
-      <div class="container pt-4">
+      <div className="container pt-4">
         <Logout />
         <ManagerRestaurants restaurants={restaurants} />
       </div>

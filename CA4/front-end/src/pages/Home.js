@@ -18,7 +18,7 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    fetch('/api/restaurants/top', {
+    fetch('/api/restaurants?page=1&sort=rate', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -32,16 +32,16 @@ function Home() {
       })
       .then((data) => {
         console.log('Success:', data);
-        setRestaurants(data);
+        setRestaurants(data.data.pageList);
       })
       .catch(error => {
         console.error('Error fetching restaurants:', error);
       });
-  })
+  }, []);
 
   return (
     <PageLayout>
-      <HomeSearch />
+      {/* <HomeSearch /> */}
       <Cards topText="Top Restaurants in Mizdooni" restaurants={restaurants} />
       <About />
     </PageLayout>

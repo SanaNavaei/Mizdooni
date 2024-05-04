@@ -42,7 +42,7 @@ function Login() {
         localStorage.setItem('country', res.data.address.country);
         localStorage.setItem('city', res.data.address.city);
         
-        if (res.role === 'manager') {
+        if (res.data.role === 'manager') {
           window.location.href = '/manager';
         } else {
           window.location.href = '/customer';

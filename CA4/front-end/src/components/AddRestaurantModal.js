@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
-const startHours = []
+const startHours = [<option></option>]
 for (let i = 8; i < 18; i++) {
   const formattedHour = i.toString().padStart(2, '0');
   startHours.push(<option key={i} value={formattedHour}>{formattedHour}:00</option>);
 }
 
-const endHours = []
+const endHours = [<option></option>]
 for (let i = 18; i < 24; i++) {
   const formattedHour = i.toString().padStart(2, '0');
   endHours.push(<option key={i} value={formattedHour}>{formattedHour}:00</option>);
@@ -17,17 +17,25 @@ function AddRestaurantModal() {
     name: '',
     type: '',
     description: '',
-    startTime: '8:00',
-    endTime: '18:00',
+    startTime: '',
+    endTime: '',
     address: {
       country: '',
       city: '',
       street: ''
     },
+    image: '',
   });
 
   const [nameError, setNameError] = useState('');
   const [isFormFilled, setIsFormFilled] = useState(false);
+
+  const convertToLocalTime = (time) => {
+    const date = new Date();
+    const [hour, minute] = time.split(':');
+    date.setHours(hour, minute);
+    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,7 +48,13 @@ function AddRestaurantModal() {
           [childKey]: value,
         },
       });
-    } else {
+    } else if (name === 'startTime' || name === 'endTime') {
+      setFormData({
+        ...formData,
+        [name]: convertToLocalTime(value),
+      });
+    } 
+    else {
       setFormData({ ...formData,[name]: value });
     }
   };
@@ -61,6 +75,7 @@ function AddRestaurantModal() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("body: ", JSON.stringify(formData));
     try {
       const response = await fetch('/api/restaurants', {
         method: 'POST',
@@ -115,23 +130,23 @@ function AddRestaurantModal() {
               </div>
               <div className="mb-3 d-flex justify-content-between">
                 <label htmlFor="country" className="form-label">Country</label>
-                <input type="text" className="form-control w-50" id="country" name="country" value={formData.address.country} onChange={handleChange} required />
+                <input type="text" className="form-control w-50" id="country" name="address.country" value={formData.address.country} onChange={handleChange} required />
               </div>
               <div className="mb-3 d-flex justify-content-between">
                 <label htmlFor="city" className="form-label">City</label>
-                <input type="text" className="form-control w-50" id="city" name="city" value={formData.address.city} onChange={handleChange} required />
+                <input type="text" className="form-control w-50" id="city" name="address.city" value={formData.address.city} onChange={handleChange} required />
               </div>
               <div className="mb-3 d-flex justify-content-between">
                 <label htmlFor="street" className="form-label">Street</label>
-                <input type="text" className="form-control w-50" id="street" name="street" value={formData.address.street} onChange={handleChange} required />
+                <input type="text" className="form-control w-50" id="street" name="address.street" value={formData.address.street} onChange={handleChange} required />
               </div>
               <div className="d-flex justify-content-between mb-3">
                 <label htmlFor="startHour">Start Hour</label>
-                <select className="form-select mx-1 w-50" name="startHour" id="startHour" onChange={handleChange}>{startHours}</select>
+                <select className="form-select mx-1 w-50" name="startTime" id="startHour" onChange={handleChange}>{startHours}</select>
               </div>
               <div className="d-flex justify-content-between mb-5">
                 <label htmlFor="endHour">End Hour</label>
-                <select className="form-select mx-1 w-50" name="endHour" id="endHour" onChange={handleChange}>{endHours}</select>
+                <select className="form-select mx-1 w-50" name="endTime" id="endHour" onChange={handleChange}>{endHours}</select>
               </div>
               <button type="submit" className="miz-button disabled-button w-100 mb-3" data-bs-dismiss="modal" disabled={!isFormFilled}>Add</button>
             </form>
