@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import mizdooni.response.serializer.HttpStatusSerializer;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
