@@ -61,6 +61,7 @@ public class AuthenticationController {
 
         try {
             userService.signup(username, password, email, address, role);
+            userService.login(username, password);
             return Response.ok("signup successful");
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);

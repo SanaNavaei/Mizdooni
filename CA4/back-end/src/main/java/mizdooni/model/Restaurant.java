@@ -21,11 +21,12 @@ public class Restaurant {
     private LocalTime endTime;
     private String description;
     private Address address;
+    private String imageLink;
     private List<Table> tables;
     private List<Review> reviews;
 
     public Restaurant(String name, User manager, String type, LocalTime startTime, LocalTime endTime,
-                      String description, Address address) {
+                      String description, Address address, String imageLink) {
         this.id = idCounter++;
         this.name = name;
         this.manager = manager;
@@ -34,6 +35,7 @@ public class Restaurant {
         this.endTime = endTime;
         this.description = description;
         this.address = address;
+        this.imageLink = imageLink;
         this.tables = new ArrayList<>();
         this.reviews = new ArrayList<>();
     }
@@ -119,6 +121,14 @@ public class Restaurant {
         return average;
     }
 
+    public int getStarCount() {
+        return getAverageRating().getStarCount();
+    }
+
+    public int getMaxSeatsNumber() {
+        return tables.stream().map(Table::getSeatsNumber).max(Integer::compareTo).orElse(0);
+    }
+
     public int getId() {
         return id;
     }
@@ -143,23 +153,11 @@ public class Restaurant {
         return endTime;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
     public Address getAddress() {
         return address;
     }
 
-    public List<Table> getTables() {
-        return tables;
-    }
-
     public List<Review> getReviews() {
         return reviews;
-    }
-
-    public String getWorkingTime() {
-        return startTime + " - " + endTime;
     }
 }

@@ -22,6 +22,10 @@ public class DataLoader {
 
     private void readUsers() {
         JsonNode usersList = IEApi.getResponse(IEApi.Api.USERS);
+        if (usersList == null) {
+            return;
+        }
+
         for (JsonNode node : usersList) {
             String role = node.get("role").asText();
             String country = node.get("address").get("country").asText();
@@ -39,6 +43,10 @@ public class DataLoader {
 
     private void readRestaurants() {
         JsonNode restaurantsList = IEApi.getResponse(IEApi.Api.RESTAURANTS);
+        if (restaurantsList == null) {
+            return;
+        }
+
         for (JsonNode node : restaurantsList) {
             User manager = getUserByUsername(node.get("managerUsername").asText());
 
@@ -56,7 +64,8 @@ public class DataLoader {
                     startTime,
                     endTime,
                     node.get("description").asText(),
-                    new Address(country, city, street)
+                    new Address(country, city, street),
+                    node.get("image").asText()
             );
             db.restaurants.add(restaurant);
         }
@@ -64,6 +73,10 @@ public class DataLoader {
 
     private void readTables() {
         JsonNode tablesList = IEApi.getResponse(IEApi.Api.TABLES);
+        if (tablesList == null) {
+            return;
+        }
+
         for (JsonNode node : tablesList) {
             Restaurant restaurant = getRestaurantByName(node.get("restaurantName").asText());
 
@@ -76,6 +89,10 @@ public class DataLoader {
 
     private void readReviews() {
         JsonNode reviewsList = IEApi.getResponse(IEApi.Api.REVIEWS);
+        if (reviewsList == null) {
+            return;
+        }
+
         for (JsonNode node : reviewsList) {
             Restaurant restaurant = getRestaurantByName(node.get("restaurantName").asText());
             User user = getUserByUsername(node.get("username").asText());

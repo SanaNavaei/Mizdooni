@@ -60,6 +60,10 @@ public class Table {
         return tableNumber;
     }
 
+    public int getSeatsNumber() {
+        return seatsNumber;
+    }
+
     public List<Reservation> getReservations() {
         return reservations;
     }

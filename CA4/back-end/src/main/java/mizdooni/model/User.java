@@ -3,7 +3,6 @@ package mizdooni.model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class User {
     public enum Role {
@@ -11,6 +10,8 @@ public class User {
         manager,
     }
 
+    private static int idCounter = 0;
+    private int id;
     private String username;
     private String password;
     private String email;
@@ -20,6 +21,7 @@ public class User {
     private List<Reservation> reservations;
 
     public User(String username, String password, String email, Address address, Role role) {
+        this.id = idCounter++;
         this.username = username;
         this.password = password;
         this.email = email;
@@ -51,11 +53,15 @@ public class User {
     }
 
     public List<Reservation> getReservations() {
-        return reservations.stream().filter(r -> !r.isCancelled()).collect(Collectors.toList());
+        return reservations;
     }
 
     public boolean checkPassword(String pass) {
         return password.equals(pass);
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getUsername() {

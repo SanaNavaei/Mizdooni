@@ -8,17 +8,6 @@ public class Review {
     private LocalDateTime datetime;
     private User user;
 
-    public Review(User user, double foodRate, double serviceRate, double ambianceRate, double overallRate, String comment, LocalDateTime datetime) {
-        this.user = user;
-        this.rating = new Rating();
-        this.rating.food = foodRate;
-        this.rating.service = serviceRate;
-        this.rating.ambiance = ambianceRate;
-        this.rating.overall = overallRate;
-        this.comment = comment;
-        this.datetime = datetime;
-    }
-
     public Review(User user, Rating rating, String comment, LocalDateTime datetime) {
         this.user = user;
         this.rating = rating;
@@ -30,12 +19,8 @@ public class Review {
         return rating;
     }
 
-    public String getComment() {
-        return comment;
-    }
-
-    public LocalDateTime getDatetime() {
-        return datetime;
+    public int getStarCount() {
+        return rating.getStarCount();
     }
 
     public User getUser() {

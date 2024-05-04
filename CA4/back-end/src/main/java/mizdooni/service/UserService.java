@@ -36,7 +36,7 @@ public class UserService {
         if (!ServiceUtils.validateEmail(email)) {
             throw new InvalidEmailFormat();
         }
-        if (!ServiceUtils.userIsTaken(username, email, db.users)) {
+        if (ServiceUtils.userIsTaken(username, email, db.users)) {
             throw new DuplicatedUsernameEmail();
         }
 
