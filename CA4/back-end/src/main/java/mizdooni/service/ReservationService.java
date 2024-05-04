@@ -16,11 +16,13 @@ import java.util.List;
 public class ReservationService {
     @Autowired
     private Database db;
+    @Autowired
+    private UserService userService;
 
-    public Reservation reserveTable(String username, String restaurantName, int tableNumber, LocalDateTime datetime)
+    public Reservation reserveTable(int restaurantId, int tableNumber, LocalDateTime datetime)
             throws UserNotFound, ManagerReservationNotAllowed, InvalidWorkingTime, RestaurantNotFound, TableNotFound,
             DateTimeInThePast, ReservationNotInOpenTimes, TableAlreadyReserved {
-        User user = ServiceUtils.findUser(username, db.users);
+        User user = userService.getCurrentUser();
         if (user == null) {
             throw new UserNotFound();
         }
@@ -35,7 +37,7 @@ public class ReservationService {
             throw new DateTimeInThePast();
         }
 
-        Restaurant restaurant = ServiceUtils.findRestaurantByName(restaurantName, db.restaurants);
+        Restaurant restaurant = ServiceUtils.findRestaurant(restaurantId, db.restaurants);
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
@@ -57,9 +59,8 @@ public class ReservationService {
         return reservation;
     }
 
-    public void cancelReservation(String username, int reservationNumber)
-            throws UserNotFound, ReservationNotFound, ReservationCannotBeCancelled {
-        User user = ServiceUtils.findUser(username, db.users);
+    public void cancelReservation(int reservationNumber) throws UserNotFound, ReservationNotFound, ReservationCannotBeCancelled {
+        User user = userService.getCurrentUser();
         if (user == null) {
             throw new UserNotFound();
         }
@@ -76,8 +77,8 @@ public class ReservationService {
         reservation.cancel();
     }
 
-    public List<Reservation> showReservationHistory(String username) throws UserNotFound {
-        User user = ServiceUtils.findUser(username, db.users);
+    public List<Reservation> showReservationHistory() throws UserNotFound {
+        User user = userService.getCurrentUser();
         if (user == null) {
             throw new UserNotFound();
         }

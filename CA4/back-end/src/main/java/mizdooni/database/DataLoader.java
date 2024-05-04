@@ -82,7 +82,7 @@ public class DataLoader {
 
             int tableNumber = node.get("tableNumber").asInt();
             int seatsNumber = node.get("seatsNumber").asInt();
-            Table table = new Table(tableNumber, restaurant.getName(), seatsNumber);
+            Table table = new Table(tableNumber, restaurant.getId(), seatsNumber);
             restaurant.addTable(table);
         }
     }

@@ -38,16 +38,8 @@ public class ServiceUtils {
         return users.stream().anyMatch(u -> u.getUsername().equals(username) || u.getEmail().equals(email));
     }
 
-    static User findUser(String username, List<User> users) {
-        return users.stream().filter(u -> u.getUsername().equals(username)).findFirst().orElse(null);
-    }
-
-    static User findUserByEmail(String email, List<User> users) {
-        return users.stream().filter(u -> u.getEmail().equals(email)).findFirst().orElse(null);
-    }
-
-    static Restaurant findRestaurantByName(String name, List<Restaurant> restaurants) {
-        return restaurants.stream().filter(r -> r.getName().equals(name)).findFirst().orElse(null);
+    static Restaurant findRestaurant(int id, List<Restaurant> restaurants) {
+        return restaurants.stream().filter(r -> r.getId() == id).findFirst().orElse(null);
     }
 
     public static List<String> convertToString(Map<LocalDate, List<LocalTime>> availableHours) {

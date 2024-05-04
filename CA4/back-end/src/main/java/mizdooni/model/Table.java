@@ -14,13 +14,13 @@ import java.util.Map;
 
 public class Table {
     private int tableNumber;
-    private String restaurantName;
+    private int restaurantId;
     private int seatsNumber;
     private List<Reservation> reservations;
 
-    public Table(int tableNumber, String restaurantName, int seatsNumber) {
+    public Table(int tableNumber, int restaurantId, int seatsNumber) {
         this.tableNumber = tableNumber;
-        this.restaurantName = restaurantName;
+        this.restaurantId = restaurantId;
         this.seatsNumber = seatsNumber;
         this.reservations = new ArrayList<>();
     }

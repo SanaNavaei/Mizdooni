@@ -53,17 +53,16 @@ class RestaurantController {
 
     @PostMapping("/restaurants")
     public Response addRestaurant(@RequestBody Map<String, Object> params) {
-        if (!ControllerUtils.containsKeys(params, "name", "managerUsername", "type", "startTime", "endTime", "description", "address", "image")) {
+        if (!ControllerUtils.containsKeys(params, "name", "type", "startTime", "endTime", "description", "address", "image")) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
         }
 
-        String name, managerUsername, type, description, image;
+        String name, type, description, image;
         LocalTime startTime, endTime;
         Address address;
 
         try {
             name = (String) params.get("name");
-            managerUsername = (String) params.get("managerUsername");
             type = (String) params.get("type");
             description = (String) params.get("description");
             image = (String) params.get("image");
@@ -71,7 +70,7 @@ class RestaurantController {
             endTime = LocalTime.parse((String) params.get("endTime"), ControllerUtils.TIME_FORMATTER);
             Map<String, String> addr = (Map<String, String>) params.get("address");
             address = new Address(addr.get("country"), addr.get("city"), addr.get("street"));
-            if (!ControllerUtils.doExist(name, managerUsername, type, description, image,
+            if (!ControllerUtils.doExist(name, type, description, image,
                     address.getCountry(), address.getCity(), address.getStreet())) {
                 throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
             }
@@ -80,7 +79,7 @@ class RestaurantController {
         }
 
         try {
-            restaurantService.addRestaurant(name, managerUsername, type, startTime, endTime, description, address, image);
+            restaurantService.addRestaurant(name, type, startTime, endTime, description, address, image);
             return Response.ok("restaurant added");
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
@@ -89,7 +88,7 @@ class RestaurantController {
 
     @GetMapping("/validate/restaurant-name")
     public Response validateRestaurantName(@RequestParam("data") String name) {
-        if (restaurantService.isRestaurantNameTaken(name)) {
+        if (restaurantService.restaurantExists(name)) {
             throw new ResponseException(HttpStatus.CONFLICT, "restaurant name is taken");
         }
         return Response.ok("restaurant name is available");

@@ -16,9 +16,11 @@ import java.time.LocalDateTime;
 public class ReviewService {
     @Autowired
     private Database db;
+    @Autowired
+    private UserService userService;
 
-    public PagedList<Review> getReviews(String restaurantName, int page) throws RestaurantNotFound {
-        Restaurant restaurant = ServiceUtils.findRestaurantByName(restaurantName, db.restaurants);
+    public PagedList<Review> getReviews(int restaurantId, int page) throws RestaurantNotFound {
+        Restaurant restaurant = ServiceUtils.findRestaurant(restaurantId, db.restaurants);
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
@@ -26,9 +28,9 @@ public class ReviewService {
         return reviews;
     }
 
-    public void addReview(String username, String restaurantName, Rating rating, String comment)
+    public void addReview(int restaurantId, Rating rating, String comment)
             throws UserNotFound, ManagerCannotReview, RestaurantNotFound, InvalidReviewRating, UserHasNotReserved {
-        User user = ServiceUtils.findUser(username, db.users);
+        User user = userService.getCurrentUser();
         if (user == null) {
             throw new UserNotFound();
         }
@@ -36,7 +38,7 @@ public class ReviewService {
             throw new ManagerCannotReview();
         }
 
-        Restaurant restaurant = ServiceUtils.findRestaurantByName(restaurantName, db.restaurants);
+        Restaurant restaurant = ServiceUtils.findRestaurant(restaurantId, db.restaurants);
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }

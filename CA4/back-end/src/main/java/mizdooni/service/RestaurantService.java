@@ -1,9 +1,13 @@
 package mizdooni.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import mizdooni.database.Database;
-import mizdooni.exceptions.*;
-import mizdooni.model.*;
+import mizdooni.exceptions.DuplicatedRestaurantName;
+import mizdooni.exceptions.InvalidWorkingTime;
+import mizdooni.exceptions.ManagerNotFound;
+import mizdooni.model.Address;
+import mizdooni.model.Restaurant;
+import mizdooni.model.RestaurantSearchFilter;
+import mizdooni.model.User;
 import mizdooni.response.PagedList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,9 +20,11 @@ import java.util.stream.Collectors;
 public class RestaurantService {
     @Autowired
     private Database db;
+    @Autowired
+    private UserService userService;
 
     public Restaurant getRestaurant(int restaurantId) {
-        return db.restaurants.stream().filter(r -> r.getId() == restaurantId).findFirst().orElse(null);
+        return ServiceUtils.findRestaurant(restaurantId, db.restaurants);
     }
 
     public PagedList<Restaurant> getRestaurants(int page, RestaurantSearchFilter filter) {
@@ -33,11 +39,11 @@ public class RestaurantService {
         return db.restaurants.stream().filter(r -> r.getManager().getId() == managerId).collect(Collectors.toList());
     }
 
-    public void addRestaurant(String name, String manager, String type, LocalTime startTime, LocalTime endTime,
-                              String description, Address address, String imageLink) throws DuplicatedRestaurantName, ManagerNotFound, InvalidWorkingTime {
-        User managerUser = ServiceUtils.findUser(manager, db.users);
+    public void addRestaurant(String name, String type, LocalTime startTime, LocalTime endTime, String description,
+                              Address address, String imageLink) throws DuplicatedRestaurantName, ManagerNotFound, InvalidWorkingTime {
+        User managerUser = userService.getCurrentUser();
 
-        if (ServiceUtils.findRestaurantByName(name, db.restaurants) != null) {
+        if (restaurantExists(name)) {
             throw new DuplicatedRestaurantName();
         }
         if (managerUser == null || managerUser.getRole() != User.Role.manager) {
@@ -52,42 +58,7 @@ public class RestaurantService {
         db.restaurants.add(restaurant);
     }
 
-    public boolean isRestaurantNameTaken(String name) {
+    public boolean restaurantExists(String name) {
         return db.restaurants.stream().anyMatch(r -> r.getName().equals(name));
-    }
-
-    public void addTable(int tableNumber, String restaurantName, String manager, String seatsNumber)
-            throws DuplicatedTableNumber, InvalidSeatsNumber, RestaurantNotFound, ManagerNotFound, InvalidManagerRestaurant {
-        User managerUser = ServiceUtils.findUser(manager, db.users);
-        int seatsNumberInt = (int) Double.parseDouble(seatsNumber);
-        Restaurant restaurant = ServiceUtils.findRestaurantByName(restaurantName, db.restaurants);
-
-        if (restaurant == null) {
-            throw new RestaurantNotFound();
-        }
-        if (managerUser == null || managerUser.getRole() != User.Role.manager) {
-            throw new ManagerNotFound();
-        }
-        if (!restaurant.getManager().equals(managerUser)) {
-            throw new InvalidManagerRestaurant();
-        }
-        if (restaurant.getTable(tableNumber) != null) {
-            throw new DuplicatedTableNumber();
-        }
-        if (!ServiceUtils.validateSeatsNumber(seatsNumber)) {
-            throw new InvalidSeatsNumber();
-        }
-
-        Table table = new Table(tableNumber, restaurantName, seatsNumberInt);
-        restaurant.addTable(table);
-    }
-
-    public List<JsonNode> showAvailableTables(String restaurantName) throws RestaurantNotFound {
-        Restaurant restaurant = ServiceUtils.findRestaurantByName(restaurantName, db.restaurants);
-        if (restaurant == null) {
-            throw new RestaurantNotFound();
-        }
-
-        return restaurant.showAvailableTables();
     }
 }

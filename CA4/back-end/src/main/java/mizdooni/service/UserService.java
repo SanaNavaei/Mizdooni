@@ -20,7 +20,7 @@ public class UserService {
     }
 
     public boolean login(String username, String password) {
-        User user = ServiceUtils.findUser(username, db.users);
+        User user = db.users.stream().filter(u -> u.getUsername().equals(username)).findFirst().orElse(null);
         if (user != null && user.checkPassword(password)) {
             currentUser = user;
             return true;
@@ -53,10 +53,10 @@ public class UserService {
     }
 
     public boolean usernameExists(String username) {
-        return ServiceUtils.findUser(username, db.users) != null;
+        return db.users.stream().anyMatch(u -> u.getUsername().equals(username));
     }
 
     public boolean emailExists(String email) {
-        return ServiceUtils.findUserByEmail(email, db.users) != null;
+        return db.users.stream().anyMatch(u -> u.getEmail().equals(email));
     }
 }

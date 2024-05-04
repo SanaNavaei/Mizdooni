@@ -8,7 +8,6 @@ import mizdooni.response.Response;
 import mizdooni.response.ResponseException;
 import mizdooni.service.RestaurantService;
 import mizdooni.service.ReviewService;
-import mizdooni.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -23,8 +22,6 @@ class ReviewController {
     private RestaurantService restaurantService;
     @Autowired
     private ReviewService reviewService;
-    @Autowired
-    private UserService userService;
 
     @GetMapping("/reviews/{restaurantId}")
     public Response getReviews(@PathVariable int restaurantId, @RequestParam int page) {
@@ -34,7 +31,7 @@ class ReviewController {
         }
 
         try {
-            PagedList<Review> reviews = reviewService.getReviews(restaurant.getName(), page);
+            PagedList<Review> reviews = reviewService.getReviews(restaurant.getId(), page);
             String message = "reviews for restaurant (" + restaurantId + "): " + restaurant.getName();
             return Response.ok(message, reviews);
         } catch (Exception ex) {
@@ -68,7 +65,7 @@ class ReviewController {
         }
 
         try {
-            reviewService.addReview(userService.getCurrentUser().getUsername(), restaurant.getName(), rating, comment);
+            reviewService.addReview(restaurant.getId(), rating, comment);
             return Response.ok("review added successfully");
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
