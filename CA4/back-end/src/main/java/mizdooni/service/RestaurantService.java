@@ -29,6 +29,10 @@ public class RestaurantService {
         return new PagedList<>(restaurants, page, ServiceUtils.RESTAURANT_PAGE_SIZE);
     }
 
+    public List<Restaurant> getRestaurantsOfManager(int managerId) {
+        return db.restaurants.stream().filter(r -> r.getManager().getId() == managerId).collect(Collectors.toList());
+    }
+
     public void addRestaurant(String name, String manager, String type, LocalTime startTime, LocalTime endTime,
                               String description, Address address, String imageLink) throws DuplicatedRestaurantName, ManagerNotFound, InvalidWorkingTime {
         User managerUser = ServiceUtils.findUser(manager, db.users);
@@ -46,6 +50,10 @@ public class RestaurantService {
 
         Restaurant restaurant = new Restaurant(name, managerUser, type, startTime, endTime, description, address, imageLink);
         db.restaurants.add(restaurant);
+    }
+
+    public boolean isRestaurantNameTaken(String name) {
+        return db.restaurants.stream().anyMatch(r -> r.getName().equals(name));
     }
 
     public void addTable(int tableNumber, String restaurantName, String manager, String seatsNumber)
@@ -81,9 +89,5 @@ public class RestaurantService {
         }
 
         return restaurant.showAvailableTables();
-    }
-
-    public List<Restaurant> searchRestaurantsByManager(String manager) {
-        return db.restaurants.stream().filter(r -> r.getManager().getUsername().equals(manager)).collect(Collectors.toList());
     }
 }

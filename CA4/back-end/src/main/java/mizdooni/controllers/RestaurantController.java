@@ -2,16 +2,17 @@ package mizdooni.controllers;
 
 import mizdooni.model.Address;
 import mizdooni.model.Restaurant;
+import mizdooni.model.RestaurantSearchFilter;
 import mizdooni.response.PagedList;
 import mizdooni.response.Response;
 import mizdooni.response.ResponseException;
-import mizdooni.model.RestaurantSearchFilter;
 import mizdooni.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalTime;
+import java.util.List;
 import java.util.Map;
 
 import static mizdooni.controllers.ControllerUtils.*;
@@ -21,9 +22,9 @@ class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
-    @GetMapping("/restaurants/{id}")
-    public Response getRestaurantById(@PathVariable int id) {
-        Restaurant restaurant = restaurantService.getRestaurant(id);
+    @GetMapping("/restaurants/{restaurantId}")
+    public Response getRestaurant(@PathVariable int restaurantId) {
+        Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
         if (restaurant == null) {
             throw new ResponseException(HttpStatus.NOT_FOUND, RESTAURANT_NOT_FOUND);
         }
@@ -35,6 +36,16 @@ class RestaurantController {
         try {
             PagedList<Restaurant> restaurants = restaurantService.getRestaurants(page, filter);
             return Response.ok("restaurants listed", restaurants);
+        } catch (Exception ex) {
+            throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
+        }
+    }
+
+    @GetMapping("/restaurants/manager/{managerId}")
+    public Response getRestaurantsOfManager(@PathVariable int managerId) {
+        try {
+            List<Restaurant> restaurants = restaurantService.getRestaurantsOfManager(managerId);
+            return Response.ok("manager restaurants listed", restaurants);
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
         }
@@ -74,5 +85,13 @@ class RestaurantController {
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
         }
+    }
+
+    @GetMapping("/validate/restaurant-name")
+    public Response validateRestaurantName(@RequestParam("data") String name) {
+        if (restaurantService.isRestaurantNameTaken(name)) {
+            throw new ResponseException(HttpStatus.CONFLICT, "restaurant name is taken");
+        }
+        return Response.ok("restaurant name is available");
     }
 }

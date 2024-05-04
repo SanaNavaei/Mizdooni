@@ -26,25 +26,25 @@ class ReviewController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/reviews/{restaurant_id}")
-    public Response getReviews(@PathVariable("restaurant_id") int id, @RequestParam int page) {
-        Restaurant restaurant = restaurantService.getRestaurant(id);
+    @GetMapping("/reviews/{restaurantId}")
+    public Response getReviews(@PathVariable int restaurantId, @RequestParam int page) {
+        Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
         if (restaurant == null) {
             throw new ResponseException(HttpStatus.NOT_FOUND, RESTAURANT_NOT_FOUND);
         }
 
         try {
             PagedList<Review> reviews = reviewService.getReviews(restaurant.getName(), page);
-            String message = "reviews for restaurant (" + id + "): " + restaurant.getName();
+            String message = "reviews for restaurant (" + restaurantId + "): " + restaurant.getName();
             return Response.ok(message, reviews);
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
         }
     }
 
-    @PostMapping("/reviews/{restaurant_id}")
-    public Response addReview(@PathVariable("restaurant_id") int id, @RequestBody Map<String, Object> params) {
-        Restaurant restaurant = restaurantService.getRestaurant(id);
+    @PostMapping("/reviews/{restaurantId}")
+    public Response addReview(@PathVariable int restaurantId, @RequestBody Map<String, Object> params) {
+        Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
         if (restaurant == null) {
             throw new ResponseException(HttpStatus.NOT_FOUND, RESTAURANT_NOT_FOUND);
         }
