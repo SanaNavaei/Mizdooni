@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import { useAuthContext } from 'components/AuthProvider';
 
 function HeaderInfo() {
-  const [user, setUser] = useState("");
   const [button, setButton] = useState("Reserve Now!");
+  const user = useAuthContext().user;
 
   return (
     <div className="d-flex align-items-center">

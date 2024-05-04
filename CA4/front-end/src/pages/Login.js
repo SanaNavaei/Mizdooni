@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import AuthenticationHeader from 'components/AuthenticationHeader';
 import FormItem from 'components/FormItem';
+import { useAuthContext } from 'components/AuthProvider';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'assets/stylesheets/global.css';
@@ -12,10 +13,13 @@ function Login() {
     document.title = 'Login';
   }, []);
 
+  const user = useAuthContext().user;
+
   const [formData, setFormData] = useState({
     username: '',
     password: '',
   });
+  const [error, setError] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -34,8 +38,10 @@ function Login() {
       });
       if (response.ok) {
         window.location.href = '/customer';
+        user.setUser(formData.username);
       } else {
         console.log('Failed to login');
+        setError('Invalid username or password');
       }
     } catch (err) {
       console.error(err);
@@ -51,6 +57,7 @@ function Login() {
             <FormItem label="Username" type="text" name="username" value={formData.username} onChange={handleInputChange}/>
             <FormItem label="Password" type="password" name="password" value={formData.password} onChange={handleInputChange}/>
             <button type="submit" className="miz-button w-100 mt-4 mb-3">Login</button>
+            {error && <p className="miz-text-red text-center fw-bold">{error}</p>}
             <p className="bottom-text text-center">Don't have an account? <a href="/signup" className="miz-text-red text-decoration-none">Sign up here</a></p>
           </form>
         </div>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import AuthenticationHeader from 'components/AuthenticationHeader';
 import FormItem from 'components/FormItem';
+import { useAuthContext } from 'components/AuthProvider';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'assets/stylesheets/global.css';
@@ -15,6 +16,7 @@ function Signup() {
   const [userError, setUserError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
+  const user = useAuthContext().user;
 
   const [formData, setFormData] = useState({
     username: '',
@@ -94,8 +96,10 @@ function Signup() {
       if (response.ok) {
         if (formData.role === 'client') {
           window.location.href = '/customer';
+          user.setUser(formData.username);
         } else if (formData.role === 'manager') {
           window.location.href = '/manager';
+          user.setUser(formData.username);
         }
       } else {
         console.log('Failed to signup');
