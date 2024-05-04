@@ -24,19 +24,18 @@ class TableController {
 
     @GetMapping("/tables/{restaurantId}")
     public Response getTables(@PathVariable int restaurantId) {
-        List<Table> tables = tableService.getTables(restaurantId);
-        if (tables == null) {
-            throw new ResponseException(HttpStatus.NOT_FOUND, RESTAURANT_NOT_FOUND);
+        ControllerUtils.checkRestaurant(restaurantId);
+        try {
+            List<Table> tables = tableService.getTables(restaurantId);
+            return Response.ok("tables listed", tables);
+        } catch (Exception ex) {
+            throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
         }
-        return Response.ok("tables listed", tables);
     }
 
     @PostMapping("/tables/{restaurantId}")
     public Response addTable(@PathVariable int restaurantId, @RequestBody Map<String, String> params) {
-        Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
-        if (restaurant == null) {
-            throw new ResponseException(HttpStatus.NOT_FOUND, RESTAURANT_NOT_FOUND);
-        }
+        ControllerUtils.checkRestaurant(restaurantId);
         if (!ControllerUtils.containsKeys(params, "seatsNumber")) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
         }
@@ -49,7 +48,7 @@ class TableController {
         }
 
         try {
-            tableService.addTable(restaurant.getId(), seatsNumber);
+            tableService.addTable(restaurantId, seatsNumber);
             return Response.ok("table added");
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);

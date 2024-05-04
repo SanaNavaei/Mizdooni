@@ -11,7 +11,7 @@ import org.springframework.boot.jackson.JsonMixin;
         getterVisibility = JsonAutoDetect.Visibility.NONE,
         isGetterVisibility = JsonAutoDetect.Visibility.NONE
 )
-public class TableMixin {
+abstract class TableMixin {
     @JsonProperty
     private int tableNumber;
     @JsonProperty

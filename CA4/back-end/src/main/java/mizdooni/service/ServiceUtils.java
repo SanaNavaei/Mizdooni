@@ -29,11 +29,6 @@ public class ServiceUtils {
         return time.getMinute() == 0;
     }
 
-    static boolean validateSeatsNumber(String seatsNumber) {
-        String seatsNumberFormat = "^[1-9][0-9]*$";
-        return seatsNumber.matches(seatsNumberFormat);
-    }
-
     static boolean userIsTaken(String username, String email, List<User> users) {
         return users.stream().anyMatch(u -> u.getUsername().equals(username) || u.getEmail().equals(email));
     }

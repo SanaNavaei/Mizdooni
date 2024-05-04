@@ -24,10 +24,7 @@ class RestaurantController {
 
     @GetMapping("/restaurants/{restaurantId}")
     public Response getRestaurant(@PathVariable int restaurantId) {
-        Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
-        if (restaurant == null) {
-            throw new ResponseException(HttpStatus.NOT_FOUND, RESTAURANT_NOT_FOUND);
-        }
+        Restaurant restaurant = ControllerUtils.checkRestaurant(restaurantId);
         return Response.ok("restaurant found", restaurant);
     }
 
@@ -42,9 +39,9 @@ class RestaurantController {
     }
 
     @GetMapping("/restaurants/manager/{managerId}")
-    public Response getRestaurantsOfManager(@PathVariable int managerId) {
+    public Response getManagerRestaurants(@PathVariable int managerId) {
         try {
-            List<Restaurant> restaurants = restaurantService.getRestaurantsOfManager(managerId);
+            List<Restaurant> restaurants = restaurantService.getManagerRestaurants(managerId);
             return Response.ok("manager restaurants listed", restaurants);
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);

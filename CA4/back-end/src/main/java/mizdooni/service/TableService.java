@@ -18,10 +18,10 @@ public class TableService {
     @Autowired
     private UserService userService;
 
-    public List<Table> getTables(int restaurantId) {
+    public List<Table> getTables(int restaurantId) throws RestaurantNotFound {
         Restaurant restaurant = ServiceUtils.findRestaurant(restaurantId, db.restaurants);
         if (restaurant == null) {
-            return null;
+            throw new RestaurantNotFound();
         }
         return restaurant.getTables();
     }

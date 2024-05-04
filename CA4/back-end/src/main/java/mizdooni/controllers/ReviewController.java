@@ -25,11 +25,7 @@ class ReviewController {
 
     @GetMapping("/reviews/{restaurantId}")
     public Response getReviews(@PathVariable int restaurantId, @RequestParam int page) {
-        Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
-        if (restaurant == null) {
-            throw new ResponseException(HttpStatus.NOT_FOUND, RESTAURANT_NOT_FOUND);
-        }
-
+        Restaurant restaurant = ControllerUtils.checkRestaurant(restaurantId);
         try {
             PagedList<Review> reviews = reviewService.getReviews(restaurant.getId(), page);
             String message = "reviews for restaurant (" + restaurantId + "): " + restaurant.getName();
@@ -41,11 +37,7 @@ class ReviewController {
 
     @PostMapping("/reviews/{restaurantId}")
     public Response addReview(@PathVariable int restaurantId, @RequestBody Map<String, Object> params) {
-        Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
-        if (restaurant == null) {
-            throw new ResponseException(HttpStatus.NOT_FOUND, RESTAURANT_NOT_FOUND);
-        }
-
+        ControllerUtils.checkRestaurant(restaurantId);
         if (!ControllerUtils.containsKeys(params, "comment", "rating")) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
         }
@@ -65,7 +57,7 @@ class ReviewController {
         }
 
         try {
-            reviewService.addReview(restaurant.getId(), rating, comment);
+            reviewService.addReview(restaurantId, rating, comment);
             return Response.ok("review added successfully");
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);

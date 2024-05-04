@@ -35,7 +35,7 @@ public class RestaurantService {
         return new PagedList<>(restaurants, page, ServiceUtils.RESTAURANT_PAGE_SIZE);
     }
 
-    public List<Restaurant> getRestaurantsOfManager(int managerId) {
+    public List<Restaurant> getManagerRestaurants(int managerId) {
         return db.restaurants.stream().filter(r -> r.getManager().getId() == managerId).collect(Collectors.toList());
     }
 

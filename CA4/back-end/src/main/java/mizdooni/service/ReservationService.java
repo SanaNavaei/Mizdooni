@@ -19,6 +19,32 @@ public class ReservationService {
     @Autowired
     private UserService userService;
 
+    public List<Reservation> getReservations(int restaurantId, int tableNumber)
+            throws RestaurantNotFound, ManagerNotFound, TableNotFound {
+        User manager = userService.getCurrentUser();
+        Restaurant restaurant = ServiceUtils.findRestaurant(restaurantId, db.restaurants);
+        if (restaurant == null) {
+            throw new RestaurantNotFound();
+        }
+        if (manager == null || manager.getRole() != User.Role.manager || !restaurant.getManager().equals(manager)) {
+            throw new ManagerNotFound();
+        }
+
+        Table table = restaurant.getTable(tableNumber);
+        if (table == null) {
+            throw new TableNotFound();
+        }
+        return table.getReservations();
+    }
+
+    public List<Reservation> getCustomerReservations() throws UserNotFound {
+        User user = userService.getCurrentUser();
+        if (user == null) {
+            throw new UserNotFound();
+        }
+        return user.getReservations();
+    }
+
     public Reservation reserveTable(int restaurantId, int tableNumber, LocalDateTime datetime)
             throws UserNotFound, ManagerReservationNotAllowed, InvalidWorkingTime, RestaurantNotFound, TableNotFound,
             DateTimeInThePast, ReservationNotInOpenTimes, TableAlreadyReserved {
@@ -75,14 +101,5 @@ public class ReservationService {
         }
 
         reservation.cancel();
-    }
-
-    public List<Reservation> showReservationHistory() throws UserNotFound {
-        User user = userService.getCurrentUser();
-        if (user == null) {
-            throw new UserNotFound();
-        }
-
-        return user.getReservations();
     }
 }

@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
         isGetterVisibility = JsonAutoDetect.Visibility.NONE
 )
 abstract class ReviewMixin {
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime datetime;
 
     @JsonSerialize(using = ReviewUserSerializer.class)
