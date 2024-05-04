@@ -6,9 +6,11 @@ import AddReviewModal from './AddReviewModal';
 
 function RestaurantReviews({ restaurant }) {
   const [reviews, setReviews] = useState([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    fetch(`/api/restaurant/${restaurant.id}/reviews`, {
+    fetch(`/api/reviews/${restaurant.id}?page=${currentPage}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -21,13 +23,17 @@ function RestaurantReviews({ restaurant }) {
         return response.json();
       })
       .then((data) => {
-        setReviews(data);
-        console.log('Success:', data);
+        setReviews(data.pageList);
+        setTotalPages(data.totalPages);
       })
       .catch(error => {
         console.error('Error fetching restaurant reviews:', error);
       });
-  }, [restaurant.id]);
+  }, [restaurant.id, currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div>
@@ -62,17 +68,7 @@ function RestaurantReviews({ restaurant }) {
         ))}
       </article>
       <AddReviewModal restaurantName={restaurant.name} />
-
-      <nav className="mt-5">
-        <ul className="review-pagination d-flex justify-content-center align-items-center gap-2">
-          <li className="active"><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li>&middot; &middot; &middot;</li>
-          <li><a href="#">19</a></li>
-        </ul>
-      </nav>
-
+      <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
     </div>
   )
 }
