@@ -1,6 +1,8 @@
 import AddRestaurantModal from "./AddRestaurantModal";
 
 function ManagerRestaurants({ restaurants }) {
+  const id = localStorage.getItem('id');
+  
   return (
     <div id="restaurants-list" className="mx-auto bg-white rounded-3 pt-3 pb-1">
       <div className="d-flex justify-content-between align-items-center px-3">
@@ -22,7 +24,9 @@ function ManagerRestaurants({ restaurants }) {
                 <td className="ps-3">{restaurant.name}</td>
                 <td className="text-center">{restaurant.location}</td>
                 <td className="text-end pe-3">
-                  <button className="miz-button">Manage</button>
+                  <a href={`/manage/${id}`}>
+                    <button className="miz-button">Manage</button>
+                  </a>
                 </td>
               </tr>
             ))}
