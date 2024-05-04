@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 import PageLayout from "components/PageLayout";
 import Logout from 'components/Logout';
@@ -9,27 +9,41 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/manager_restaurants.css';
 
-const managerEmail = "Tom_Holland@ut.ac.ir";
-const restaurants = [
-  {
-    name: "Ali Daei Dizy",
-    location: "Boshehr, Iran",
-  },
-  {
-    name: "Ali Daei Dizy",
-    location: "Boshehr, Iran",
-  }
-];
-
 function Manager() {
+  const [restaurants, setRestaurants] = useState([]);
+  const id = localStorage.getItem('id');
+
   useEffect(() => {
     document.title = 'Manager Restaurants';
   }, []);
 
+  useEffect(() => {
+    fetch(`/api/restaurants/manager/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(async (response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          const resp = await response.json();
+          throw new Error(resp.message);
+        }
+      })
+      .then((data) => {
+        setRestaurants(data.data.restaurants);
+      })
+      .catch((error) => {
+        console.error('Error getting restaurants:', error.message);
+      });
+  }, [id]);
+
   return (
     <PageLayout>
       <div class="container pt-4">
-        <Logout email={managerEmail} />
+        <Logout />
         <ManagerRestaurants restaurants={restaurants} />
       </div>
     </PageLayout>
