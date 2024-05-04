@@ -5,6 +5,7 @@ import mizdooni.model.Restaurant;
 import mizdooni.response.PagedList;
 import mizdooni.response.Response;
 import mizdooni.response.ResponseException;
+import mizdooni.model.RestaurantSearchFilter;
 import mizdooni.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,9 +31,9 @@ class RestaurantController {
     }
 
     @GetMapping("/restaurants")
-    public Response getRestaurants(@RequestParam int page) {
+    public Response getRestaurants(@RequestParam int page, RestaurantSearchFilter filter) {
         try {
-            PagedList<Restaurant> restaurants = restaurantService.getRestaurants(page);
+            PagedList<Restaurant> restaurants = restaurantService.getRestaurants(page, filter);
             return Response.ok("restaurants listed", restaurants);
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);

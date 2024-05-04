@@ -20,6 +20,15 @@ public class AuthenticationController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/user")
+    public Response user() {
+        User user = userService.getCurrentUser();
+        if (user == null) {
+            throw new ResponseException(HttpStatus.UNAUTHORIZED, "no user logged in");
+        }
+        return Response.ok("current user", user);
+    }
+
     @PostMapping("/login")
     public Response login(@RequestBody Map<String, String> params) {
         String username = params.get("username");
@@ -30,7 +39,7 @@ public class AuthenticationController {
         }
 
         if (userService.login(username, password)) {
-            return Response.ok("login successful");
+            return Response.ok("login successful", userService.getCurrentUser());
         }
         throw new ResponseException(HttpStatus.UNAUTHORIZED, "invalid username or password");
     }
@@ -62,7 +71,7 @@ public class AuthenticationController {
         try {
             userService.signup(username, password, email, address, role);
             userService.login(username, password);
-            return Response.ok("signup successful");
+            return Response.ok("signup successful", userService.getCurrentUser());
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
         }

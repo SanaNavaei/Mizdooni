@@ -3,16 +3,12 @@ package mizdooni.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import mizdooni.database.Database;
 import mizdooni.exceptions.*;
-import mizdooni.model.Address;
-import mizdooni.model.Restaurant;
-import mizdooni.model.Table;
-import mizdooni.model.User;
+import mizdooni.model.*;
 import mizdooni.response.PagedList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,8 +21,12 @@ public class RestaurantService {
         return db.restaurants.stream().filter(r -> r.getId() == restaurantId).findFirst().orElse(null);
     }
 
-    public PagedList<Restaurant> getRestaurants(int page) {
-        return new PagedList<>(db.restaurants, page, ServiceUtils.RESTAURANT_PAGE_SIZE);
+    public PagedList<Restaurant> getRestaurants(int page, RestaurantSearchFilter filter) {
+        List<Restaurant> restaurants = db.restaurants;
+        if (filter != null) {
+            restaurants = filter.filter(restaurants);
+        }
+        return new PagedList<>(restaurants, page, ServiceUtils.RESTAURANT_PAGE_SIZE);
     }
 
     public void addRestaurant(String name, String manager, String type, LocalTime startTime, LocalTime endTime,
@@ -83,26 +83,7 @@ public class RestaurantService {
         return restaurant.showAvailableTables();
     }
 
-    public List<Restaurant> searchRestaurantsByName(String restaurantName) {
-        return db.restaurants.stream().filter(r -> r.getName().contains(restaurantName)).collect(Collectors.toList());
-    }
-
-    public List<Restaurant> searchRestaurantsByType(String restaurantType) {
-        return db.restaurants.stream().filter(r -> r.getType().equals(restaurantType)).collect(Collectors.toList());
-    }
-
-    public List<Restaurant> searchRestaurantsByCity(String city) {
-        return db.restaurants.stream().filter(r -> r.getAddress().getCity().equals(city)).collect(Collectors.toList());
-    }
-
     public List<Restaurant> searchRestaurantsByManager(String manager) {
         return db.restaurants.stream().filter(r -> r.getManager().getUsername().equals(manager)).collect(Collectors.toList());
-    }
-
-    public List<Restaurant> sortRestaurantsByRate() {
-        List<Restaurant> restaurants = new ArrayList<>(db.restaurants);
-        restaurants.sort((r1, r2) -> Double.compare(r2.getAverageRating().overall, r1.getAverageRating().overall));
-
-        return restaurants;
     }
 }
