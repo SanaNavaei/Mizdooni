@@ -3,11 +3,14 @@ package mizdooni.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import mizdooni.database.Database;
 import mizdooni.exceptions.*;
-import mizdooni.model.*;
+import mizdooni.model.Address;
+import mizdooni.model.Restaurant;
+import mizdooni.model.Table;
+import mizdooni.model.User;
+import mizdooni.response.PagedList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +25,12 @@ public class RestaurantService {
         return db.restaurants.stream().filter(r -> r.getId() == restaurantId).findFirst().orElse(null);
     }
 
-    public List<Restaurant> getRestaurants() {
-        return db.restaurants;
+    public PagedList<Restaurant> getRestaurants(int page) {
+        return new PagedList<>(db.restaurants, page, ServiceUtils.RESTAURANT_PAGE_SIZE);
     }
 
     public void addRestaurant(String name, String manager, String type, LocalTime startTime, LocalTime endTime,
-                              String description, Address address) throws DuplicatedRestaurantName, ManagerNotFound, InvalidWorkingTime {
+                              String description, Address address, String imageLink) throws DuplicatedRestaurantName, ManagerNotFound, InvalidWorkingTime {
         User managerUser = ServiceUtils.findUser(manager, db.users);
 
         if (ServiceUtils.findRestaurantByName(name, db.restaurants) != null) {
@@ -41,7 +44,7 @@ public class RestaurantService {
             throw new InvalidWorkingTime();
         }
 
-        Restaurant restaurant = new Restaurant(name, managerUser, type, startTime, endTime, description, address);
+        Restaurant restaurant = new Restaurant(name, managerUser, type, startTime, endTime, description, address, imageLink);
         db.restaurants.add(restaurant);
     }
 
@@ -92,58 +95,14 @@ public class RestaurantService {
         return db.restaurants.stream().filter(r -> r.getAddress().getCity().equals(city)).collect(Collectors.toList());
     }
 
+    public List<Restaurant> searchRestaurantsByManager(String manager) {
+        return db.restaurants.stream().filter(r -> r.getManager().getUsername().equals(manager)).collect(Collectors.toList());
+    }
+
     public List<Restaurant> sortRestaurantsByRate() {
         List<Restaurant> restaurants = new ArrayList<>(db.restaurants);
         restaurants.sort((r1, r2) -> Double.compare(r2.getAverageRating().overall, r1.getAverageRating().overall));
 
         return restaurants;
-    }
-
-    public List<Restaurant> searchRestaurantsByManager(String manager) {
-        return db.restaurants.stream().filter(r -> r.getManager().getUsername().equals(manager)).collect(Collectors.toList());
-    }
-
-    public void addReview(String username, String restaurantName, double foodRate, double serviceRate, double ambianceRate,
-                          double overallRate, String comment) throws UserNotFound, ManagerCannotReview, RestaurantNotFound, InvalidReviewRating, UserHasNotReserved {
-        User user = ServiceUtils.findUser(username, db.users);
-        if (user == null) {
-            throw new UserNotFound();
-        }
-        if (user.getRole() == User.Role.manager) {
-            throw new ManagerCannotReview();
-        }
-
-        Restaurant restaurant = ServiceUtils.findRestaurantByName(restaurantName, db.restaurants);
-        if (restaurant == null) {
-            throw new RestaurantNotFound();
-        }
-        if (!user.checkReserved(restaurant)) {
-            throw new UserHasNotReserved();
-        }
-
-        if (foodRate < 0 || foodRate > 5) {
-            throw new InvalidReviewRating("Food");
-        }
-        if (serviceRate < 0 || serviceRate > 5) {
-            throw new InvalidReviewRating("Service");
-        }
-        if (ambianceRate < 0 || ambianceRate > 5) {
-            throw new InvalidReviewRating("Ambiance");
-        }
-        if (overallRate < 0 || overallRate > 5) {
-            throw new InvalidReviewRating("Overall");
-        }
-
-        Review review = new Review(user, foodRate, serviceRate, ambianceRate, overallRate, comment, LocalDateTime.now());
-        restaurant.addReview(review);
-    }
-
-    public Rating showAverageRating(String restaurantName) throws RestaurantNotFound {
-        Restaurant restaurant = ServiceUtils.findRestaurantByName(restaurantName, db.restaurants);
-        if (restaurant == null) {
-            throw new RestaurantNotFound();
-        }
-
-        return restaurant.getAverageRating();
     }
 }
