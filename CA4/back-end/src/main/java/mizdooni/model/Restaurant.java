@@ -50,6 +50,7 @@ public class Restaurant {
     }
 
     public void addTable(Table table) {
+        table.setTableNumber(tables.size() + 1);
         tables.add(table);
     }
 
@@ -127,6 +128,10 @@ public class Restaurant {
 
     public int getMaxSeatsNumber() {
         return tables.stream().map(Table::getSeatsNumber).max(Integer::compareTo).orElse(0);
+    }
+
+    public List<Table> getTables() {
+        return tables;
     }
 
     public int getId() {

@@ -60,6 +60,10 @@ public class Table {
         return tableNumber;
     }
 
+    public void setTableNumber(int tableNumber) {
+        this.tableNumber = tableNumber;
+    }
+
     public int getSeatsNumber() {
         return seatsNumber;
     }
