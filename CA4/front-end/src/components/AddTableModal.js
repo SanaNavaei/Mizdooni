@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-function AddTableModal({ restaurantId }) {
+function AddTableModal({ restaurantId, reloadTables }) {
   const [inputValue, setInputValue] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);
 
@@ -27,7 +27,7 @@ function AddTableModal({ restaurantId }) {
         body: JSON.stringify({ seatsNumber: inputValue }),
       });
       if (response.ok) {
-        window.location.reload();
+        reloadTables();
       } else {
         console.error('Failed to add table');
       }
@@ -50,7 +50,7 @@ function AddTableModal({ restaurantId }) {
                 <label htmlFor="tableNumber" className="form-label">Number of Seats</label>
                 <input type="number" className="form-control w-50" id="tableNumber" min="1" required value={inputValue} onChange={handleInputChange} />
               </div>
-              <button type="submit" className="miz-button disabled-button w-100" disabled={isDisabled}>Add</button>
+              <button type="submit" className="miz-button disabled-button w-100" disabled={isDisabled} data-bs-dismiss="modal">Add</button>
             </form>
           </div>
         </div>

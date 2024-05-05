@@ -8,7 +8,7 @@ function RestaurantTables({ restaurantId, setTableNumber }) {
   const [tables, setTables] = useState([]);
   const [selectedTable, setSelectedTable] = useState(null);
 
-  useEffect(() => {
+  const reloadTables = () => {
     const fetchTables = async () => {
       try {
         const response = await fetch(`/api/tables/${restaurantId}`);
@@ -24,6 +24,10 @@ function RestaurantTables({ restaurantId, setTableNumber }) {
     };
 
     fetchTables();
+  }
+
+  useEffect(() => {
+    reloadTables();
   }, [restaurantId]);
 
   const noTableText = (
@@ -69,7 +73,7 @@ function RestaurantTables({ restaurantId, setTableNumber }) {
         </div>
       </div>
       {tables.length === 0 && noTableText}
-      <AddTableModal restaurantId={restaurantId} />
+      <AddTableModal restaurantId={restaurantId} reloadTables={reloadTables}/>
     </section >
   );
 }
