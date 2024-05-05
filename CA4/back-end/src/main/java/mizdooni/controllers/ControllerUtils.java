@@ -5,13 +5,19 @@ import mizdooni.response.ResponseException;
 import mizdooni.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
+@Component
 public class ControllerUtils {
-    @Autowired
     private static RestaurantService restaurantService;
+
+    @Autowired
+    public void setRestaurantService(RestaurantService restaurantService) {
+        ControllerUtils.restaurantService = restaurantService;
+    }
 
     static final String PARAMS_MISSING = "parameters missing";
     static final String PARAMS_BAD_TYPE = "bad parameter type";

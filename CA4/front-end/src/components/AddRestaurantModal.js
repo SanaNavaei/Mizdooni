@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 
-const startHours = [<option></option>]
+const startHours = [<option key={0}></option>]
 for (let i = 8; i < 18; i++) {
   const formattedHour = i.toString().padStart(2, '0');
   startHours.push(<option key={i} value={formattedHour}>{formattedHour}:00</option>);
 }
 
-const endHours = [<option></option>]
+const endHours = [<option key={0}></option>]
 for (let i = 18; i < 24; i++) {
   const formattedHour = i.toString().padStart(2, '0');
   endHours.push(<option key={i} value={formattedHour}>{formattedHour}:00</option>);
@@ -24,18 +24,10 @@ function AddRestaurantModal() {
       city: '',
       street: ''
     },
-    image: '',
   });
 
   const [nameError, setNameError] = useState('');
   const [isFormFilled, setIsFormFilled] = useState(false);
-
-  const convertToLocalTime = (time) => {
-    const date = new Date();
-    const [hour, minute] = time.split(':');
-    date.setHours(hour, minute);
-    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,10 +40,11 @@ function AddRestaurantModal() {
           [childKey]: value,
         },
       });
-    } else if (name === 'startTime' || name === 'endTime') {
+    } 
+    else if (name === 'startTime' || name === 'endTime') {
       setFormData({
         ...formData,
-        [name]: convertToLocalTime(value),
+        [name]: value + ':00',
       });
     } 
     else {
@@ -126,7 +119,7 @@ function AddRestaurantModal() {
               </div>
               <div className="mb-3">
                 <label htmlFor="description" className="form-label">Description</label>
-                <textarea className="form-control" rows="5" onChange={handleChange} placeholder="Type about your restaurant..."></textarea>
+                <textarea className="form-control" rows="5" name="description" onChange={handleChange} placeholder="Type about your restaurant..."></textarea>
               </div>
               <div className="mb-3 d-flex justify-content-between">
                 <label htmlFor="country" className="form-label">Country</label>

@@ -50,7 +50,7 @@ class RestaurantController {
 
     @PostMapping("/restaurants")
     public Response addRestaurant(@RequestBody Map<String, Object> params) {
-        if (!ControllerUtils.containsKeys(params, "name", "type", "startTime", "endTime", "description", "address", "image")) {
+        if (!ControllerUtils.containsKeys(params, "name", "type", "startTime", "endTime", "description", "address")) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
         }
 
@@ -62,7 +62,12 @@ class RestaurantController {
             name = (String) params.get("name");
             type = (String) params.get("type");
             description = (String) params.get("description");
-            image = (String) params.get("image");
+            if (params.get("image") == null) {
+                image = "/restaurant-placeholder.jpg";
+            }
+            else {
+                image = (String) params.get("image");
+            }
             startTime = LocalTime.parse((String) params.get("startTime"), ControllerUtils.TIME_FORMATTER);
             endTime = LocalTime.parse((String) params.get("endTime"), ControllerUtils.TIME_FORMATTER);
             Map<String, String> addr = (Map<String, String>) params.get("address");

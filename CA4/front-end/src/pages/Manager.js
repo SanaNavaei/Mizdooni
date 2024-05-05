@@ -33,7 +33,8 @@ function Manager() {
         }
       })
       .then((data) => {
-        setRestaurants(data.data.restaurants);
+        console.log('Data:', data);
+        setRestaurants(data.data);
       })
       .catch((error) => {
         console.error('Error getting restaurants:', error.message);
