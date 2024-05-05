@@ -49,9 +49,9 @@ function RestaurantReservations({ restaurantId, tableNumber }) {
         <tbody className="fw-light">
           {reservations.map((reservation, index) => (
             <tr key={index} className={reservation.cancelled ? 'text-decoration-line-through' : ''}>
-              <td className="custom-border col-1">{reservation.time}</td>
-              <td className="col-1">By {reservation.bookedBy}</td>
-              <td className="text-center col-1 col-sm-2 col-lg-1 col-xxl-2">{`Table-${reservation.table}`}</td>
+              <td className="custom-border col-1">{reservation.datetime}</td>
+              <td className="col-1">By {reservation.user.username}</td>
+              <td className="text-center col-1 col-sm-2 col-lg-1 col-xxl-2">{`Table-${reservation.table.tableNumber}`}</td>
             </tr>
           ))}
         </tbody>

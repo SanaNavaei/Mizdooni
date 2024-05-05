@@ -28,7 +28,6 @@ function AddReviewModal({ restaurantName, restaurantId, reloadReviews }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(restaurantId);
     fetch(`/api/reviews/${restaurantId}`, {
       method: 'POST',
       headers: {

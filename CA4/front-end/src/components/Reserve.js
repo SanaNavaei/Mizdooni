@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import CompleteReserveModal from './CompleteReserveModal';
 
@@ -14,7 +16,7 @@ const getCurrentDate = () => {
   return `${year}-${month}-${day}`;
 };
 
-function Reserve({ maxSeatsNumber, address }) {
+function Reserve({ maxSeatsNumber, address, id }) {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const [selectedSeat, setSelectedSeat] = useState(0);
@@ -22,28 +24,18 @@ function Reserve({ maxSeatsNumber, address }) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [availableTimes, setAvailableTimes] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [reserveData, setReserveData] = useState({
+    people: 0,
+    datetime: '',
+  });
 
   useEffect(() => {
-    fetch('/api/restaurant/available-times', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch available times');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setAvailableTimes(data);
-        console.log('Success:', data);
-      })
-      .catch(error => {
-        console.error('Error fetching available times:', error);
-      });
-  }, []);
+    setReserveData({
+      people: selectedSeat,
+      datetime: `${selectedDate} ${selectedTime}`,
+    });
+  }, [selectedDate, selectedTime, selectedSeat]);
 
   useEffect(() => {
     if (selectedDate) {
@@ -58,6 +50,62 @@ function Reserve({ maxSeatsNumber, address }) {
   useEffect(() => {
     setIsButtonDisabled(!(selectedDate && selectedTime && selectedSeat));
   }, [selectedDate, selectedTime, selectedSeat]);
+
+  useEffect(() => {
+    fetch(`/api/reserves/${id}/available?people=${selectedSeat}&date=${selectedDate}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Failed to fetch available times');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setAvailableTimes(data.data);
+        setShowModal(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching available times:', error);
+      });
+  }, [selectedDate, selectedSeat]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    try {
+      fetch(`/api/reserves/${id}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(reserveData),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Failed to reserve table');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          console.debug('Success:', data);
+          setShowModal(true);
+        })
+        .catch((error) => {
+          toast.error(error.message , {
+            position: 'top-right',
+            autoClose: 3000,
+          });
+        });
+    } catch (error) {
+      toast.error('Failed to reserve table', {
+        position: 'top-right',
+        autoClose: 3000,
+      });
+    }
+  };
 
   const seatOptions = [<option key="empty" value=""></option>];
   for (let i = 1; i <= maxSeatsNumber; i++) {
@@ -91,7 +139,7 @@ function Reserve({ maxSeatsNumber, address }) {
   return (
     <section className="col-lg">
       <h2 className="fw-semibold fs-5 mb-4">Reserve Table</h2>
-      <form id="reserve-form">
+      <form id="reserve-form" onSubmit={handleSubmit}>
         <div className="ps-2 ps-sm-0">
           <label htmlFor="people">For</label>
           <select className="form-select mx-1" name="people" id="people" onChange={handleSeatChange} value={selectedSeat}>{seatOptions}</select>
@@ -139,7 +187,9 @@ function Reserve({ maxSeatsNumber, address }) {
         <button type="submit" className="miz-button disabled-button w-100" data-bs-toggle="modal" data-bs-target="#completeReservation" disabled={isButtonDisabled}>Complete the Reservation</button>
       </form>
 
-      <CompleteReserveModal country={address.country} city={address.city} street={address.street} tableNumber={selectedSeat} time={selectedTime} />
+      {showModal && (
+        <CompleteReserveModal country={address.country} city={address.city} street={address.street} tableNumber={selectedSeat} time={selectedTime} />
+      )}
     </section>
   );
 }

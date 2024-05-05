@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function CancelReserveModal({ restaurantName, reserveId }) {
   const [isChecked, setIsChecked] = useState(false);
@@ -10,12 +12,11 @@ function CancelReserveModal({ restaurantName, reserveId }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`/api/reserves/:${reserveId}/cancel`, {
+    fetch(`/api/reserves/cancel/${reserveId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ reserveId: reserveId, userId: userId }),
     })
       .then(async (response) => {
         if (response.ok) {
@@ -26,10 +27,17 @@ function CancelReserveModal({ restaurantName, reserveId }) {
         }
       })
       .then((data) => {
+        toast.success('Reservation canceled successfully', {
+          position: 'top-right',
+          autoClose: 3000,
+        })
         console.log(data);
       })
       .catch((error) => {
-        console.error('Error:', error);
+        toast.error(error.message, {
+          position: 'top-right',
+          autoClose: 3000,
+        });
       });
   }
 

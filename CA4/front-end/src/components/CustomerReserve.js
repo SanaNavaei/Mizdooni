@@ -21,13 +21,13 @@ function CustomerReserve({ reserves }) {
             ) : (
               reserves.map((reserve, index) => (
                 <React.Fragment key={index}>
-                  <tr key={index} className={reserve.isCancel && reserve.isPastTime ? "cancelled-reservation past-reservation" : reserve.isCancel ? "cancelled-reservation" : reserve.isPastTime ? "past-reservation" : ""}>
-                    <td className="ps-3">{reserve.date}</td>
-                    <td>{reserve.restaurant}</td>
-                    <td>Table-{reserve.table}</td>
-                    <td>{reserve.seats} Seats</td>
+                  <tr key={index} className={reserve.cancelled && reserve.isPastTime ? "cancelled-reservation past-reservation" : reserve.cancelled ? "cancelled-reservation" : reserve.isPastTime ? "past-reservation" : ""}>
+                    <td className="ps-3">{reserve.datetime}</td>
+                    <td>{reserve.restaurant.name}</td>
+                    <td>Table-{reserve.table.tableNumber}</td>
+                    <td>{reserve.table.seatsNumber} Seats</td>
                     <td className="pe-3 text-end">
-                      {reserve.isCancel ? (
+                      {reserve.cancelled ? (
                         <button className="miz-link-button" disabled>Canceled</button>
                       ) : (
                         reserve.isPastTime ? (
@@ -42,8 +42,8 @@ function CustomerReserve({ reserves }) {
                       )}
                     </td>
                   </tr>
-                  <AddReviewModal restaurantName={reserve.restaurant} reserveId={reserve.id}/>
-                  <CancelReserveModal restaurantName={reserve.restaurant} />
+                  <AddReviewModal restaurantName={reserve.restaurant.name} restaurantId={reserve.restaurant.id}/>
+                  <CancelReserveModal restaurantName={reserve.restaurant.name} reserveId={reserve.reservationNumber}/>
                 </React.Fragment>
               ))
             )}

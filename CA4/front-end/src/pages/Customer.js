@@ -18,7 +18,7 @@ function Customer() {
   }, []);
 
   useEffect(() => {
-    fetch(`/api/customer/${id}`, {
+    fetch(`/api/reserves/customer/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ function Customer() {
         }
       })
       .then((data) => {
-        setReservations(data.data.reservations);
+        setReservations(data.data);
       })
       .catch((error) => {
         console.error('Error getting reservations:', error.message);
