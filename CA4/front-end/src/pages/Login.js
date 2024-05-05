@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import AuthenticationHeader from 'components/AuthenticationHeader';
 import FormItem from 'components/FormItem';
@@ -48,7 +50,10 @@ function Login() {
           window.location.href = '/customer';
         }
       } else {
-        console.log('Failed to login');
+        toast.error('Invalid username or password', {
+          position: 'top-right',
+          autoClose: 3000,
+        });
         setError('Invalid username or password');
       }
     } catch (err) {

@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const startHours = [<option key={0}></option>]
 for (let i = 8; i < 18; i++) {
@@ -12,7 +14,7 @@ for (let i = 18; i < 24; i++) {
   endHours.push(<option key={i} value={formattedHour}>{formattedHour}:00</option>);
 }
 
-function AddRestaurantModal() {
+function AddRestaurantModal({ reloadRestaurants }) {
   const [formData, setFormData] = useState({
     name: '',
     type: '',
@@ -79,10 +81,17 @@ function AddRestaurantModal() {
       });
       if (response.ok) {
         setNameError('');
-        window.location.reload();
+        reloadRestaurants();
+        toast.success('Restaurant added successfully', {
+          position: 'top-right',
+          autoClose: 3000,
+        });
       } else {
         const data = await response.json();
-        console.error('Error adding restaurant:', data.message);
+        toast.error(data.message, {
+          position: 'top-right',
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       console.error('Error adding restaurant:', error);

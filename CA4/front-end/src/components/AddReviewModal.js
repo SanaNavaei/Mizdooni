@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import EmptyStar from 'assets/icons/star_empty.svg'
 import FullStar from 'assets/icons/star_filled.svg'
 
-function AddReviewModal({ restaurantName, restaurantId }) {
+function AddReviewModal({ restaurantName, restaurantId, reloadReviews }) {
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
@@ -44,10 +46,17 @@ function AddReviewModal({ restaurantName, restaurantId }) {
       .then(data => {
         console.debug(data);
         setError('');
-        window.location.reload();
+        reloadReviews();
+        toast.success('Review added successfully', {
+          position: 'top-right',
+          autoClose: 3000,
+        });
       })
       .catch(error => {
-        console.error('Error adding review:', error.message);
+        toast.error(error.message, {
+          position: 'top-right',
+          autoClose: 3000,
+        })
         setError(error.message);
       });
   }

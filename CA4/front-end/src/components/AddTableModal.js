@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function AddTableModal({ restaurantId, reloadTables }) {
   const [inputValue, setInputValue] = useState(0);
@@ -28,8 +30,15 @@ function AddTableModal({ restaurantId, reloadTables }) {
       });
       if (response.ok) {
         reloadTables();
+        toast.success('Table added successfully', {
+          position: 'top-right',
+          autoClose: 3000,
+        });
       } else {
-        console.error('Failed to add table');
+        toast.error('Failed to add table', {
+          position: 'top-right',
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       console.error('Error adding table:', error);

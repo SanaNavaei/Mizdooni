@@ -25,7 +25,7 @@ function RestaurantReviews({ restaurant }) {
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
-  useEffect(() => {
+  const reloadReviews = () => {
     fetch(`/api/reviews/${restaurant.id}?page=${currentPage}`, {
       method: 'GET',
       headers: {
@@ -46,6 +46,11 @@ function RestaurantReviews({ restaurant }) {
       .catch(error => {
         console.error('Error fetching restaurant reviews:', error);
       });
+  };
+
+
+  useEffect(() => {
+    reloadReviews();
   }, [restaurant.id, currentPage]);
 
   const handlePageChange = (page) => {
@@ -84,7 +89,7 @@ function RestaurantReviews({ restaurant }) {
           </div>
         ))}
       </article>
-      <AddReviewModal restaurantName={restaurant.name} restaurantId={restaurant.id}/>
+      <AddReviewModal restaurantName={restaurant.name} restaurantId={restaurant.id} reloadReviews={reloadReviews}/>
       <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
     </div>
   )

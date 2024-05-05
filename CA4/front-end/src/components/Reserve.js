@@ -19,7 +19,7 @@ function Reserve({ maxSeatsNumber, address }) {
   const [selectedTime, setSelectedTime] = useState('');
   const [selectedSeat, setSelectedSeat] = useState(0);
   const [filteredAvailableTimes, setFilteredAvailableTimes] = useState([]);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [availableTimes, setAvailableTimes] = useState([]);
 

@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import AuthenticationHeader from 'components/AuthenticationHeader';
 import FormItem from 'components/FormItem';
@@ -106,7 +108,10 @@ function Signup() {
           window.location.href = '/manager';
         }
       } else {
-        console.log('Failed to signup');
+        toast.error('Failed to Signup!', {
+          position: 'top-right',
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       console.log(error.message)

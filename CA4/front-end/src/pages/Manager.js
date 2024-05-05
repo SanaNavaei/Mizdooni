@@ -17,7 +17,7 @@ function Manager() {
     document.title = 'Manager Restaurants';
   }, []);
 
-  useEffect(() => {
+  const reloadRestaurants = () => {
     fetch(`/api/restaurants/manager/${id}`, {
       method: 'GET',
       headers: {
@@ -39,13 +39,17 @@ function Manager() {
       .catch((error) => {
         console.error('Error getting restaurants:', error.message);
       });
+  };
+
+  useEffect(() => {
+    reloadRestaurants();
   }, [id]);
 
   return (
     <PageLayout>
       <div className="container pt-4">
         <Logout />
-        <ManagerRestaurants restaurants={restaurants} />
+        <ManagerRestaurants restaurants={restaurants} reloadRestaurants={reloadRestaurants}/>
       </div>
     </PageLayout>
   );

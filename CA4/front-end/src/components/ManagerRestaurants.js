@@ -1,6 +1,6 @@
 import AddRestaurantModal from "./AddRestaurantModal";
 
-function ManagerRestaurants({ restaurants }) {
+function ManagerRestaurants({ restaurants, reloadRestaurants }) {
   const id = localStorage.getItem('id');
 
   return (
@@ -36,7 +36,7 @@ function ManagerRestaurants({ restaurants }) {
           </tbody>
         </table>
       </div>
-      <AddRestaurantModal />
+      <AddRestaurantModal reloadRestaurants={reloadRestaurants}/>
     </div>
   );
 }
