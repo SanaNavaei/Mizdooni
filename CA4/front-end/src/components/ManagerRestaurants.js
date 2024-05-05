@@ -25,7 +25,7 @@ function ManagerRestaurants({ restaurants }) {
                   <td className="ps-3">{restaurant.name}</td>
                   <td className="text-center">{restaurant.location}</td>
                   <td className="text-end pe-3">
-                    <a href={`/manage/${id}`}>
+                    <a href={`/manage/${restaurant.id}`}>
                       <button className="miz-button">Manage</button>
                     </a>
                   </td>

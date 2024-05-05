@@ -13,7 +13,14 @@ import 'assets/stylesheets/manager_manage.css';
 function Manage() {
   const restaurantId = useParams().id;
   const [tableNumber, setTableNumber] = useState(0);
-  const [restaurantInfo, setRestaurantInfo] = useState({});
+  const [restaurantInfo, setRestaurantInfo] = useState({
+    address: {
+      street: '',
+      city: '',
+      country: '',
+    },
+    name: '',
+  });
 
   useEffect(() => {
     document.title = 'Manager Manage';
@@ -25,6 +32,7 @@ function Manage() {
         const response = await fetch(`/api/restaurants/${restaurantId}`);
         if (response.ok) {
           const data = await response.json();
+          console.log(data.data)
           setRestaurantInfo(data.data);
         } else {
           console.error('Failed to fetch restaurant');
