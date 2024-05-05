@@ -16,7 +16,7 @@ function RestaurantDetails({ name, totalReviews, type, address, endTime, startTi
         <img id="restaurant-image" className="w-100 object-fit-cover rounded-3 border-end-3" src={image} alt={name} />
         <div id="restaurant" className="border-bottom w-100 d-flex justify-content-between align-items-center position-absolute bottom-0 rounded-bottom-3 pt-3 pb-2 ps-2 pe-4">
           <h2 className="fw-semibold">{name}</h2>
-          <p className="open text-white rounded-3 py-1 px-3">{isOpen() ? 'Open!' : 'Closed!'}</p>
+          <p className={`text-white rounded-3 py-1 px-3 ${isOpen() ? 'open' : 'closed'}`}>{isOpen() ? 'Open!' : 'Closed!'}</p>
         </div>
       </div>
       <div className="px-2">

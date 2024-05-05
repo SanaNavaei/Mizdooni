@@ -41,7 +41,7 @@ function Home() {
 
   return (
     <PageLayout>
-      {/* <HomeSearch /> */}
+      <HomeSearch />
       <Cards topText="Top Restaurants in Mizdooni" restaurants={restaurants} />
       <About />
     </PageLayout>
