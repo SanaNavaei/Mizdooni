@@ -3,7 +3,7 @@ package mizdooni.service;
 import mizdooni.database.Database;
 import mizdooni.exceptions.DuplicatedRestaurantName;
 import mizdooni.exceptions.InvalidWorkingTime;
-import mizdooni.exceptions.ManagerNotFound;
+import mizdooni.exceptions.UserNotManager;
 import mizdooni.model.Address;
 import mizdooni.model.Restaurant;
 import mizdooni.model.RestaurantSearchFilter;
@@ -42,21 +42,21 @@ public class RestaurantService {
     }
 
     public int addRestaurant(String name, String type, LocalTime startTime, LocalTime endTime, String description,
-                             Address address, String imageLink) throws DuplicatedRestaurantName, ManagerNotFound, InvalidWorkingTime {
-        User managerUser = userService.getCurrentUser();
+                             Address address, String imageLink) throws DuplicatedRestaurantName, UserNotManager, InvalidWorkingTime {
+        User manager = userService.getCurrentUser();
 
         if (restaurantExists(name)) {
             throw new DuplicatedRestaurantName();
         }
-        if (managerUser == null || managerUser.getRole() != User.Role.manager) {
-            throw new ManagerNotFound();
+        if (manager == null || manager.getRole() != User.Role.manager) {
+            throw new UserNotManager();
         }
         if (!ServiceUtils.validateWorkingTime(startTime) ||
                 !ServiceUtils.validateWorkingTime(endTime)) {
             throw new InvalidWorkingTime();
         }
 
-        Restaurant restaurant = new Restaurant(name, managerUser, type, startTime, endTime, description, address, imageLink);
+        Restaurant restaurant = new Restaurant(name, manager, type, startTime, endTime, description, address, imageLink);
         db.restaurants.add(restaurant);
         return restaurant.getId();
     }

@@ -27,17 +27,17 @@ public class TableService {
     }
 
     public void addTable(int restaurantId, int seatsNumber)
-            throws RestaurantNotFound, ManagerNotFound, InvalidManagerRestaurant {
-        User managerUser = userService.getCurrentUser();
+            throws RestaurantNotFound, UserNotManager, InvalidManagerRestaurant {
+        User manager = userService.getCurrentUser();
         Restaurant restaurant = ServiceUtils.findRestaurant(restaurantId, db.restaurants);
 
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
-        if (managerUser == null || managerUser.getRole() != User.Role.manager) {
-            throw new ManagerNotFound();
+        if (manager == null || manager.getRole() != User.Role.manager) {
+            throw new UserNotManager();
         }
-        if (!restaurant.getManager().equals(managerUser)) {
+        if (!restaurant.getManager().equals(manager)) {
             throw new InvalidManagerRestaurant();
         }
 
