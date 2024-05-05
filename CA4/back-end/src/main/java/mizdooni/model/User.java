@@ -27,7 +27,7 @@ public class User {
         this.email = email;
         this.address = address;
         this.role = role;
-        this.reservationCounter = 1;
+        this.reservationCounter = 0;
         this.reservations = new ArrayList<>();
     }
 

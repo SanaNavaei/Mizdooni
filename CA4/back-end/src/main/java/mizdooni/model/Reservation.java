@@ -50,4 +50,8 @@ public class Reservation {
     public void setReservationNumber(int reservationNumber) {
         this.reservationNumber = reservationNumber;
     }
+
+    public boolean isPastTime() {
+        return datetime.isBefore(LocalDateTime.now());
+    }
 }
