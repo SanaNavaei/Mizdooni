@@ -83,19 +83,20 @@ ul.review-pagination {
     padding: 0;
 }
 
-ul.review-pagination a {
+ul.review-pagination button {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 40px;
     height: 40px;
     color: var(--miz-text);
+    background-color: white;
     text-decoration: none;
     border: 1px solid var(--miz-text-light);
     border-radius: 50%;
 }
 
-ul.review-pagination li.active a {
+ul.review-pagination li.active button {
     border: 1px solid var(--miz-red);
 }
 

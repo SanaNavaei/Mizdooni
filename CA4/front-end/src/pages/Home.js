@@ -18,7 +18,7 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    fetch('/api/restaurants?page=1&sort=rate', {
+    fetch('/api/restaurants?page=1&sort=rating', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
