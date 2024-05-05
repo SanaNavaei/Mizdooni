@@ -1,6 +1,5 @@
 package mizdooni.controllers;
 
-import mizdooni.model.Restaurant;
 import mizdooni.model.Table;
 import mizdooni.response.Response;
 import mizdooni.response.ResponseException;
@@ -13,7 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-import static mizdooni.controllers.ControllerUtils.*;
+import static mizdooni.controllers.ControllerUtils.PARAMS_BAD_TYPE;
+import static mizdooni.controllers.ControllerUtils.PARAMS_MISSING;
 
 @RestController
 class TableController {
@@ -24,7 +24,7 @@ class TableController {
 
     @GetMapping("/tables/{restaurantId}")
     public Response getTables(@PathVariable int restaurantId) {
-        ControllerUtils.checkRestaurant(restaurantId);
+        ControllerUtils.checkRestaurant(restaurantId, restaurantService);
         try {
             List<Table> tables = tableService.getTables(restaurantId);
             return Response.ok("tables listed", tables);
@@ -35,7 +35,7 @@ class TableController {
 
     @PostMapping("/tables/{restaurantId}")
     public Response addTable(@PathVariable int restaurantId, @RequestBody Map<String, String> params) {
-        ControllerUtils.checkRestaurant(restaurantId);
+        ControllerUtils.checkRestaurant(restaurantId, restaurantService);
         if (!ControllerUtils.containsKeys(params, "seatsNumber")) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
         }

@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-import static mizdooni.controllers.ControllerUtils.*;
+import static mizdooni.controllers.ControllerUtils.PARAMS_BAD_TYPE;
+import static mizdooni.controllers.ControllerUtils.PARAMS_MISSING;
 
 @RestController
 class ReviewController {
@@ -25,7 +26,7 @@ class ReviewController {
 
     @GetMapping("/reviews/{restaurantId}")
     public Response getReviews(@PathVariable int restaurantId, @RequestParam int page) {
-        Restaurant restaurant = ControllerUtils.checkRestaurant(restaurantId);
+        Restaurant restaurant = ControllerUtils.checkRestaurant(restaurantId, restaurantService);
         try {
             PagedList<Review> reviews = reviewService.getReviews(restaurant.getId(), page);
             String message = "reviews for restaurant (" + restaurantId + "): " + restaurant.getName();
@@ -37,7 +38,7 @@ class ReviewController {
 
     @PostMapping("/reviews/{restaurantId}")
     public Response addReview(@PathVariable int restaurantId, @RequestBody Map<String, Object> params) {
-        ControllerUtils.checkRestaurant(restaurantId);
+        ControllerUtils.checkRestaurant(restaurantId, restaurantService);
         if (!ControllerUtils.containsKeys(params, "comment", "rating")) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
         }

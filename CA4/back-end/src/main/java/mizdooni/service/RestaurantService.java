@@ -14,6 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,8 +41,8 @@ public class RestaurantService {
         return db.restaurants.stream().filter(r -> r.getManager().getId() == managerId).collect(Collectors.toList());
     }
 
-    public void addRestaurant(String name, String type, LocalTime startTime, LocalTime endTime, String description,
-                              Address address, String imageLink) throws DuplicatedRestaurantName, ManagerNotFound, InvalidWorkingTime {
+    public int addRestaurant(String name, String type, LocalTime startTime, LocalTime endTime, String description,
+                             Address address, String imageLink) throws DuplicatedRestaurantName, ManagerNotFound, InvalidWorkingTime {
         User managerUser = userService.getCurrentUser();
 
         if (restaurantExists(name)) {
@@ -56,9 +58,19 @@ public class RestaurantService {
 
         Restaurant restaurant = new Restaurant(name, managerUser, type, startTime, endTime, description, address, imageLink);
         db.restaurants.add(restaurant);
+        return restaurant.getId();
     }
 
     public boolean restaurantExists(String name) {
         return db.restaurants.stream().anyMatch(r -> r.getName().equals(name));
+    }
+
+    public Set<String> getRestaurantTypes() {
+        return db.restaurants.stream().map(Restaurant::getType).collect(Collectors.toSet());
+    }
+
+    public Map<String, Set<String>> getRestaurantLocations() {
+        return db.restaurants.stream().collect(Collectors.groupingBy(r -> r.getAddress().getCountry(),
+                Collectors.mapping(r -> r.getAddress().getCity(), Collectors.toSet())));
     }
 }

@@ -61,11 +61,12 @@ public class AuthenticationController {
             role = User.Role.valueOf((String) params.get("role"));
             Map<String, String> addr = (Map<String, String>) params.get("address");
             address = new Address(addr.get("country"), addr.get("city"), null);
-            if (!ControllerUtils.doExist(username, password, email, address.getCountry(), address.getCity())) {
-                throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
-            }
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_BAD_TYPE);
+        }
+
+        if (!ControllerUtils.doExist(username, password, email, address.getCountry(), address.getCity())) {
+            throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
         }
 
         try {

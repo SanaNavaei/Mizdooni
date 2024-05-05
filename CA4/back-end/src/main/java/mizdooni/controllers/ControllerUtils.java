@@ -3,7 +3,6 @@ package mizdooni.controllers;
 import mizdooni.model.Restaurant;
 import mizdooni.response.ResponseException;
 import mizdooni.service.RestaurantService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -12,18 +11,13 @@ import java.util.Map;
 
 @Component
 public class ControllerUtils {
-    private static RestaurantService restaurantService;
-
-    @Autowired
-    public void setRestaurantService(RestaurantService restaurantService) {
-        ControllerUtils.restaurantService = restaurantService;
-    }
-
     static final String PARAMS_MISSING = "parameters missing";
     static final String PARAMS_BAD_TYPE = "bad parameter type";
 
     static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
     static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+    static final String PLACEHOLDER_IMAGE = "/restaurant-placeholder.jpg";
 
     static boolean containsKeys(Map<String, ?> params, String... keys) {
         for (String key : keys) {
@@ -43,8 +37,8 @@ public class ControllerUtils {
         return true;
     }
 
-    static Restaurant checkRestaurant(int restaurantId) {
-        Restaurant restaurant = restaurantService.getRestaurant(restaurantId);
+    static Restaurant checkRestaurant(int restaurantId, RestaurantService service) {
+        Restaurant restaurant = service.getRestaurant(restaurantId);
         if (restaurant == null) {
             throw new ResponseException(HttpStatus.NOT_FOUND, "restaurant not found");
         }

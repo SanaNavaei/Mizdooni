@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static mizdooni.controllers.ControllerUtils.*;
 
@@ -24,7 +25,7 @@ class RestaurantController {
 
     @GetMapping("/restaurants/{restaurantId}")
     public Response getRestaurant(@PathVariable int restaurantId) {
-        Restaurant restaurant = ControllerUtils.checkRestaurant(restaurantId);
+        Restaurant restaurant = ControllerUtils.checkRestaurant(restaurantId, restaurantService);
         return Response.ok("restaurant found", restaurant);
     }
 
@@ -62,27 +63,23 @@ class RestaurantController {
             name = (String) params.get("name");
             type = (String) params.get("type");
             description = (String) params.get("description");
-            if (params.get("image") == null) {
-                image = "/restaurant-placeholder.jpg";
-            }
-            else {
-                image = (String) params.get("image");
-            }
+            image = params.get("image") == null ? PLACEHOLDER_IMAGE : (String) params.get("image");
             startTime = LocalTime.parse((String) params.get("startTime"), ControllerUtils.TIME_FORMATTER);
             endTime = LocalTime.parse((String) params.get("endTime"), ControllerUtils.TIME_FORMATTER);
             Map<String, String> addr = (Map<String, String>) params.get("address");
             address = new Address(addr.get("country"), addr.get("city"), addr.get("street"));
-            if (!ControllerUtils.doExist(name, type, description, image,
-                    address.getCountry(), address.getCity(), address.getStreet())) {
-                throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
-            }
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_BAD_TYPE);
         }
 
+        if (!ControllerUtils.doExist(name, type, description, image,
+                address.getCountry(), address.getCity(), address.getStreet())) {
+            throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
+        }
+
         try {
-            restaurantService.addRestaurant(name, type, startTime, endTime, description, address, image);
-            return Response.ok("restaurant added");
+            int id = restaurantService.addRestaurant(name, type, startTime, endTime, description, address, image);
+            return Response.ok("restaurant added", id);
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
         }
@@ -94,5 +91,25 @@ class RestaurantController {
             throw new ResponseException(HttpStatus.CONFLICT, "restaurant name is taken");
         }
         return Response.ok("restaurant name is available");
+    }
+
+    @GetMapping("/restaurants/types")
+    public Response getRestaurantTypes() {
+        try {
+            Set<String> types = restaurantService.getRestaurantTypes();
+            return Response.ok("restaurant types", types);
+        } catch (Exception ex) {
+            throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
+        }
+    }
+
+    @GetMapping("/restaurants/locations")
+    public Response getRestaurantLocations() {
+        try {
+            Map<String, Set<String>> locations = restaurantService.getRestaurantLocations();
+            return Response.ok("restaurant locations", locations);
+        } catch (Exception ex) {
+            throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
+        }
     }
 }
