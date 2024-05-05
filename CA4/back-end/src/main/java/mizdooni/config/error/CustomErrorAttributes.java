@@ -1,4 +1,4 @@
-package mizdooni.response.error;
+package mizdooni.config.error;
 
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;

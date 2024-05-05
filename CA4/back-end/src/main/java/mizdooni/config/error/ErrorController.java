@@ -1,4 +1,4 @@
-package mizdooni.response.error;
+package mizdooni.config.error;
 
 import jakarta.servlet.http.HttpServletRequest;
 import mizdooni.response.Response;
