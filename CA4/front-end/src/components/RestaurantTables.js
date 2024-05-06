@@ -56,16 +56,17 @@ function RestaurantTables({ restaurantId, setTableNumber }) {
         <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-xl-5 row-cols-xxl-6 g-4 text-white">
           {tables.map((table, index) => (
             <div className="col" key={index}>
-              <button className="border-0" onClick={() => handleTable(table.tableNumber)}>
-                <div className="table-card mx-auto rounded-3 d-flex flex-column justify-content-center gap-1" style={{ backgroundColor: selectedTable === table.tableNumber ? '#ED3545ed' : '' }}>
-                  <div className="d-flex justify-content-evenly align-items-center">
-                    <img src={Hashtag} alt="Number" width="19" height="19" />
-                    <span className="text-white">{table.tableNumber}</span>
-                  </div>
-                  <div className="d-flex justify-content-evenly align-items-center">
-                    <img src={Seat} alt="Seat" width="22" height="18" />
-                    <span className="text-white">{table.seatsNumber}</span>
-                  </div>
+              <button
+                className={"table-card border-0 mx-auto rounded-3 d-flex flex-column justify-content-center gap-1" + (selectedTable === table.tableNumber ? " table-card-selected" : "")}
+                onClick={() => handleTable(table.tableNumber)}
+              >
+                <div className="d-flex justify-content-evenly align-items-center">
+                  <img src={Hashtag} alt="Number" width="19" height="19" />
+                  <span className="text-white">{table.tableNumber}</span>
+                </div>
+                <div className="d-flex justify-content-evenly align-items-center">
+                  <img src={Seat} alt="Seat" width="22" height="18" />
+                  <span className="text-white">{table.seatsNumber}</span>
                 </div>
               </button>
             </div>

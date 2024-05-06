@@ -47,6 +47,10 @@
     background-color: var(--miz-red-dark);
 }
 
+.table-card-selected {
+    background-color: var(--miz-red);
+}
+
 #footer {
     box-shadow: none;
 }

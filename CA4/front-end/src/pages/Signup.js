@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 
 import AuthenticationHeader from 'components/AuthenticationHeader';
@@ -138,7 +139,7 @@ function Signup() {
               </select>
             </div>
             <button type="submit" className="miz-button disabled-button w-100 mb-3" disabled={!isFormValid}>Signup</button>
-            <p className="bottom-text text-center">Already have an account? <a href="/login" className="miz-text-red text-decoration-none">Login here</a></p>
+            <p className="bottom-text text-center">Already have an account? <Link to="/login" className="miz-text-red text-decoration-none">Login here</Link></p>
           </form>
         </div>
       </main>

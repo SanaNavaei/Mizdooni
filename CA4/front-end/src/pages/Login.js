@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 
 import AuthenticationHeader from 'components/AuthenticationHeader';
@@ -43,7 +44,7 @@ function Login() {
         localStorage.setItem('email', res.data.email);
         localStorage.setItem('country', res.data.address.country);
         localStorage.setItem('city', res.data.address.city);
-        
+
         if (res.data.role === 'manager') {
           window.location.href = '/manager';
         } else {
@@ -71,7 +72,7 @@ function Login() {
             <FormItem label="Password" type="password" name="password" value={formData.password} onChange={handleInputChange}/>
             <button type="submit" className="miz-button w-100 mt-4 mb-3">Login</button>
             {error && <p className="miz-text-red text-center fw-bold">{error}</p>}
-            <p className="bottom-text text-center">Don't have an account? <a href="/signup" className="miz-text-red text-decoration-none">Sign up here</a></p>
+            <p className="bottom-text text-center">Don't have an account? <Link to="/signup" className="miz-text-red text-decoration-none">Sign up here</Link></p>
           </form>
         </div>
       </main>

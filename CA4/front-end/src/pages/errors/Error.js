@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRouteError } from 'react-router-dom';
+import { Link, useRouteError } from 'react-router-dom';
 
 import Tree from 'assets/images/errors/tree.png';
 
@@ -22,7 +22,7 @@ function Error() {
             <h1 className="pe-2 pe-md-0">:(</h1>
             <h2>Error!</h2>
             <p className="mb-4">{error.statusText || error.message}</p>
-            <a className="miz-button text-decoration-none" href="./home.html">Home Page</a>
+            <Link className="miz-button text-decoration-none" to="/">Home Page</Link>
           </div>
           <div className="col-md d-none d-md-flex justify-content-end">
             <img className="img-fluid" src={Tree} alt="Tree" height="460" width="300" />
