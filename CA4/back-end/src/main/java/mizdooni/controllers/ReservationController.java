@@ -1,5 +1,6 @@
 package mizdooni.controllers;
 
+import mizdooni.filters.LoginRequired;
 import mizdooni.model.Reservation;
 import mizdooni.response.Response;
 import mizdooni.response.ResponseException;
@@ -17,6 +18,7 @@ import java.util.Map;
 import static mizdooni.controllers.ControllerUtils.*;
 
 @RestController
+@LoginRequired
 public class ReservationController {
     @Autowired
     private RestaurantService restaurantService;
