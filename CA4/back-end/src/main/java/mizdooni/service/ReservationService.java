@@ -11,7 +11,12 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationService {
@@ -58,9 +63,31 @@ public class ReservationService {
         return user.getReservations();
     }
 
+    public List<LocalTime> getAvailableTimes(int restaurantId, int people, LocalDate date)
+            throws RestaurantNotFound, DateTimeInThePast, BadPeopleNumber {
+        Restaurant restaurant = ServiceUtils.findRestaurant(restaurantId, db.restaurants);
+        if (restaurant == null) {
+            throw new RestaurantNotFound();
+        }
+
+        if (date.isBefore(LocalDate.now())) {
+            throw new DateTimeInThePast();
+        }
+        if (people <= 0) {
+            throw new BadPeopleNumber();
+        }
+
+        Set<LocalTime> availableTimes = restaurant.getTables().stream()
+                .filter(table -> table.getSeatsNumber() >= people)
+                .flatMap(table -> getAvailableTableTimes(table, date, restaurant).stream())
+                .collect(Collectors.toSet());
+
+        return availableTimes.stream().sorted().toList();
+    }
+
     public Reservation reserveTable(int restaurantId, int people, LocalDateTime datetime)
             throws UserNotFound, ManagerReservationNotAllowed, InvalidWorkingTime, RestaurantNotFound, TableNotFound,
-            DateTimeInThePast, ReservationNotInOpenTimes, TableAlreadyReserved {
+            DateTimeInThePast, ReservationNotInOpenTimes {
         User user = userService.getCurrentUser();
         if (user == null) {
             throw new UserNotFound();
@@ -80,17 +107,14 @@ public class ReservationService {
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
-        // Table table = restaurant.getBestTable(people, datetime);
-        Table table = restaurant.getTable(1);
-        if (table == null) {
-            throw new TableNotFound();
-        }
         if (datetime.toLocalTime().isBefore(restaurant.getStartTime()) ||
                 datetime.toLocalTime().isAfter(restaurant.getEndTime())) {
             throw new ReservationNotInOpenTimes();
         }
-        if (table.isReserved(datetime)) {
-            throw new TableAlreadyReserved();
+
+        Table table = findAvailableTable(restaurant, people, datetime);
+        if (table == null) {
+            throw new TableNotFound();
         }
 
         Reservation reservation = new Reservation(user, restaurant, table, datetime);
@@ -115,5 +139,31 @@ public class ReservationService {
         }
 
         reservation.cancel();
+    }
+
+    private List<LocalTime> getAvailableTableTimes(Table table, LocalDate date, Restaurant restaurant) {
+        Set<LocalTime> reserves = table.getReservations().stream()
+                .filter(r -> r.getDateTime().toLocalDate().equals(date) && !r.isCancelled())
+                .map(r -> r.getDateTime().toLocalTime())
+                .collect(Collectors.toSet());
+
+        List<LocalTime> availableTimes = new ArrayList<>();
+        int startTime = restaurant.getStartTime().getHour();
+        int endTime = restaurant.getEndTime().getHour();
+
+        for (int i = startTime; i <= endTime; i++) {
+            LocalTime time = LocalTime.of(i, 0);
+            if (!reserves.contains(time)) {
+                availableTimes.add(time);
+            }
+        }
+        return availableTimes;
+    }
+
+    private Table findAvailableTable(Restaurant restaurant, int people, LocalDateTime datetime) {
+        return restaurant.getTables().stream()
+                .filter(table -> table.getSeatsNumber() >= people && !table.isReserved(datetime))
+                .min(Comparator.comparingInt(Table::getSeatsNumber))
+                .orElse(null);
     }
 }

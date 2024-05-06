@@ -1,16 +1,8 @@
 package mizdooni.model;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Table {
     private int tableNumber;
@@ -30,30 +22,7 @@ public class Table {
     }
 
     public boolean isReserved(LocalDateTime datetime) {
-        for (Reservation r : reservations) {
-            if (r.getDateTime().equals(datetime) && !r.isCancelled()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Map<LocalDate, List<LocalTime>> getReservationsDate() {
-        Map<LocalDate, List<LocalTime>> reservationsDate = new HashMap<>();
-
-        for (Reservation r : reservations) {
-            if (r.isCancelled()) {
-                continue;
-            }
-            List<LocalTime> reservedHours = reservationsDate.get(r.getDateTime().toLocalDate());
-            if (reservedHours == null) {
-                reservedHours = new ArrayList<>();
-            }
-            reservedHours.add(r.getDateTime().toLocalTime());
-            reservationsDate.put(r.getDateTime().toLocalDate(), reservedHours);
-        }
-
-        return reservationsDate;
+        return reservations.stream().anyMatch(r -> r.getDateTime().equals(datetime) && !r.isCancelled());
     }
 
     public int getTableNumber() {
@@ -70,14 +39,5 @@ public class Table {
 
     public List<Reservation> getReservations() {
         return reservations;
-    }
-
-    public JsonNode toJson(List<String> timeAndDate) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        ObjectNode node = objectMapper.createObjectNode();
-        node.put("tableNumber", tableNumber);
-        node.put("seatsNumber", seatsNumber);
-        node.set("availableTimes", objectMapper.valueToTree(timeAndDate));
-        return node;
     }
 }

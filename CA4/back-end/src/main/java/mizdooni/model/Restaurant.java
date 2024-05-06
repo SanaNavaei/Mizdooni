@@ -1,15 +1,8 @@
 package mizdooni.model;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
-import static mizdooni.service.ServiceUtils.convertToString;
 
 public class Restaurant {
     private static int idCounter = 0;
@@ -41,12 +34,7 @@ public class Restaurant {
     }
 
     public Table getTable(int tableNumber) {
-        for (Table t : tables) {
-            if (t.getTableNumber() == tableNumber) {
-                return t;
-            }
-        }
-        return null;
+        return tables.stream().filter(t -> t.getTableNumber() == tableNumber).findFirst().orElse(null);
     }
 
     public void addTable(Table table) {
@@ -62,44 +50,6 @@ public class Restaurant {
             }
         }
         reviews.add(review);
-    }
-
-    public List<JsonNode> showAvailableTables() {
-        List<JsonNode> availableTables = new ArrayList<>();
-
-        for (Table t : tables) {
-            List<Reservation> reservations = t.getReservations();
-            if (!reservations.isEmpty()) {
-                Map<LocalDate, List<LocalTime>> reservationDate = t.getReservationsDate();
-                Map<LocalDate, List<LocalTime>> availableHours = findAvailableHours(reservationDate);
-                List<String> timeAndDate = convertToString(availableHours);
-                availableTables.add(t.toJson(timeAndDate));
-            }
-        }
-
-        return availableTables;
-    }
-
-    public Map<LocalDate, List<LocalTime>> findAvailableHours(Map<LocalDate, List<LocalTime>> reservationDate) {
-        Map<LocalDate, List<LocalTime>> availableHours = new TreeMap<>();
-        int start = startTime.getHour();
-        int end = endTime.getHour();
-
-        for (Map.Entry<LocalDate, List<LocalTime>> entry : reservationDate.entrySet()) {
-            LocalDate date = entry.getKey();
-            List<LocalTime> hours = entry.getValue();
-
-            List<LocalTime> available = new ArrayList<>();
-            for (int i = start; i <= end; i++) {
-                LocalTime hour = LocalTime.of(i, 0);
-                if (!hours.contains(hour)) {
-                    available.add(hour);
-                }
-            }
-            availableHours.put(date, available);
-        }
-
-        return availableHours;
     }
 
     public Rating getAverageRating() {

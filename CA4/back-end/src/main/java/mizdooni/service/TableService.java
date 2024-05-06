@@ -1,8 +1,9 @@
 package mizdooni.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import mizdooni.database.Database;
-import mizdooni.exceptions.*;
+import mizdooni.exceptions.InvalidManagerRestaurant;
+import mizdooni.exceptions.RestaurantNotFound;
+import mizdooni.exceptions.UserNotManager;
 import mizdooni.model.Restaurant;
 import mizdooni.model.Table;
 import mizdooni.model.User;
@@ -43,14 +44,5 @@ public class TableService {
 
         Table table = new Table(0, restaurantId, seatsNumber);
         restaurant.addTable(table);
-    }
-
-    public List<JsonNode> showAvailableTables(int restaurantId) throws RestaurantNotFound {
-        Restaurant restaurant = ServiceUtils.findRestaurant(restaurantId, db.restaurants);
-        if (restaurant == null) {
-            throw new RestaurantNotFound();
-        }
-
-        return restaurant.showAvailableTables();
     }
 }

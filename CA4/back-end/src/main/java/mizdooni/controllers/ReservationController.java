@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -67,7 +68,13 @@ public class ReservationController {
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_BAD_TYPE);
         }
-        return Response.ok("");
+
+        try {
+            List<LocalTime> availableTimes = reserveService.getAvailableTimes(restaurantId, people, localDate);
+            return Response.ok("available times", availableTimes);
+        } catch (Exception ex) {
+            throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
+        }
     }
 
     @PostMapping("/reserves/{restaurantId}")
