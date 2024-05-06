@@ -7,20 +7,21 @@ import Customer from 'pages/Customer';
 import Manage from 'pages/Manage';
 import Manager from 'pages/Manager';
 import Error from 'pages/errors/Error';
+import ProtectedRoute from 'components/ProtectedRoute';
 
 const routeArray = [
   {
     path: '/',
-    element: <Home />,
+    element: <ProtectedRoute><Home /></ProtectedRoute>,
     errorElement: <Error />,
   },
   {
     path: '/restaurants',
-    element: <SearchResult />,
+    element: <ProtectedRoute><SearchResult /></ProtectedRoute>,
   },
   {
     path: '/restaurants/:id',
-    element: <Restaurant />
+    element: <ProtectedRoute><Restaurant /></ProtectedRoute>,
   },
   {
     path: '/login',
@@ -32,15 +33,15 @@ const routeArray = [
   },
   {
     path: "/customer",
-    element: <Customer />,
+    element: <ProtectedRoute><Customer /></ProtectedRoute>,
   },
   {
     path: "/manage/:id",
-    element: <Manage />,
+    element: <ProtectedRoute><Manage /></ProtectedRoute>,
   },
   {
     path: "/manager",
-    element: <Manager />,
+    element: <ProtectedRoute><Manager /></ProtectedRoute>,
   }
 ];
 
