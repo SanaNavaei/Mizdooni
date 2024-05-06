@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -6,122 +6,114 @@ import CompleteReserveModal from './CompleteReserveModal';
 
 const getCurrentDate = () => {
   const date = new Date();
-  const year = date.getFullYear();
-  let month = date.getMonth() + 1;
-  let day = date.getDate();
-
-  month = month < 10 ? '0' + month : month;
-  day = day < 10 ? '0' + day : day;
-
-  return `${year}-${month}-${day}`;
+  const today = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
+  return today.toISOString().slice(0, 10);
 };
 
-function Reserve({ maxSeatsNumber, address, id }) {
+function Reserve({ maxSeatsNumber, address, id: restaurantId }) {
+  const [selectedPeople, setSelectedPeople] = useState(0);
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
-  const [selectedSeat, setSelectedSeat] = useState(0);
-  const [filteredAvailableTimes, setFilteredAvailableTimes] = useState([]);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [availableTimes, setAvailableTimes] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [reserveData, setReserveData] = useState({
-    people: 0,
-    datetime: '',
-  });
+  const [tableNumber, setTableNumber] = useState(0);
 
   useEffect(() => {
-    setReserveData({
-      people: selectedSeat,
-      datetime: `${selectedDate} ${selectedTime}`,
-    });
-  }, [selectedDate, selectedTime, selectedSeat]);
+    setTableNumber(0);
+    setIsButtonDisabled(!(selectedPeople && selectedDate && selectedTime));
+  }, [selectedPeople, selectedDate, selectedTime]);
 
   useEffect(() => {
-    if (selectedDate) {
-      const filteredTimes = availableTimes.filter(time => time.date === selectedDate);
-      setFilteredAvailableTimes(filteredTimes);
-      setErrorMessage('');
-    } else {
-      setFilteredAvailableTimes([]);
+    if (!selectedPeople || !selectedDate) {
+      setAvailableTimes([]);
+      return;
     }
-  }, [selectedDate, availableTimes]);
+    fetchTimes()
+  }, [selectedPeople, selectedDate]);
 
-  useEffect(() => {
-    setIsButtonDisabled(!(selectedDate && selectedTime && selectedSeat));
-  }, [selectedDate, selectedTime, selectedSeat]);
-
-  useEffect(() => {
-    fetch(`/api/reserves/${id}/available?people=${selectedSeat}&date=${selectedDate}`, {
+  const fetchTimes = () => {
+    const query = new URLSearchParams({ people: selectedPeople, date: selectedDate })
+    fetch(`/api/reserves/${restaurantId}/available?` + query, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
     })
-      .then((response) => {
+      .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch available times');
         }
         return response.json();
       })
-      .then((data) => {
+      .then(data => {
         setAvailableTimes(data.data);
-        setShowModal(false);
       })
-      .catch((error) => {
+      .catch(error => {
+        setAvailableTimes([]);
         console.error('Error fetching available times:', error);
       });
-  }, [selectedDate, selectedSeat]);
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      fetch(`/api/reserves/${id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(reserveData),
+    setShowModal(false);
+    fetch(`/api/reserves/${restaurantId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        people: selectedPeople,
+        datetime: `${selectedDate} ${selectedTime}`
+      }),
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to reserve table');
+        }
+        return response.json();
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Failed to reserve table');
-          }
-          return response.json();
-        })
-        .then((data) => {
-          console.debug('Success:', data);
-          setShowModal(true);
-        })
-        .catch((error) => {
-          toast.error(error.message , {
-            position: 'top-right',
-            autoClose: 3000,
-          });
+      .then(data => {
+        console.debug('Success:', data);
+        setTableNumber(data.data.table.tableNumber);
+        setShowModal(true);
+        fetchTimes();
+      })
+      .catch(error => {
+        toast.error(error.message, {
+          position: 'top-right',
+          autoClose: 3000,
         });
-    } catch (error) {
-      toast.error('Failed to reserve table', {
-        position: 'top-right',
-        autoClose: 3000,
       });
-    }
   };
 
-  const seatOptions = [<option key="empty" value=""></option>];
-  for (let i = 1; i <= maxSeatsNumber; i++) {
-    seatOptions.push(<option key={i} value={i}>{i}</option>);
-  }
+  const handlePeopleChange = (e) => {
+    if (!e.target.value) {
+      setSelectedPeople(0);
+      return;
+    }
+    setSelectedPeople(e.target.value);
+  };
 
   const handleDateChange = (e) => {
+    if (!e.target.value) {
+      setSelectedDate('');
+      return;
+    }
     const selected = new Date(e.target.value);
     const today = new Date();
-    const oneMonthFromNow = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
+    const date = new Date(today.getFullYear(), today.getMonth() + 1, today.getDate());
+    const oneMonthFromNow = new Date(date.getTime() - (date.getTimezoneOffset() * 60000))
 
     if (selected > oneMonthFromNow) {
-      const maxDate = `${oneMonthFromNow.getFullYear()}-${('0' + (oneMonthFromNow.getMonth() + 1)).slice(-2)}-${('0' + oneMonthFromNow.getDate()).slice(-2)}`;
+      const maxDate = oneMonthFromNow.toISOString().slice(0, 10);
+      e.target.value = '';
       setErrorMessage(`The maximum possible date for reservation is ${maxDate}`);
       setSelectedDate('');
     } else {
+      setErrorMessage('');
       setSelectedDate(e.target.value);
     }
   };
@@ -130,19 +122,18 @@ function Reserve({ maxSeatsNumber, address, id }) {
     setSelectedTime(e.target.value);
   };
 
-  const handleSeatChange = (e) => {
-    if (e !== "") {
-      setSelectedSeat(e.target.value);
-    }
-  };
-
   return (
     <section className="col-lg">
       <h2 className="fw-semibold fs-5 mb-4">Reserve Table</h2>
       <form id="reserve-form" onSubmit={handleSubmit}>
         <div className="ps-2 ps-sm-0">
           <label htmlFor="people">For</label>
-          <select className="form-select mx-1" name="people" id="people" onChange={handleSeatChange} value={selectedSeat}>{seatOptions}</select>
+          <select className="form-select mx-1" name="people" id="people" onChange={handlePeopleChange} value={selectedPeople}>
+            <option key="empty" value=""></option>
+            {[...Array(maxSeatsNumber)].map((_, i) => (
+              <option key={i + 1} value={i + 1}>{i + 1}</option>
+            ))}
+          </select>
           <span>people, </span>
           <br className="d-sm-none" />
           <label className="pt-3 pt-sm-0" htmlFor="date"> on date </label>
@@ -153,16 +144,16 @@ function Reserve({ maxSeatsNumber, address, id }) {
           <p className="miz-text-red my-4">{errorMessage}</p>
         )}
 
-        {!errorMessage && selectedDate && (
+        {(!errorMessage && selectedPeople > 0 && selectedDate) ? (
           <>
-            {filteredAvailableTimes.length > 0 ? (
+            {availableTimes.length > 0 ? (
               <>
-                <p className="mt-3 mb-2">Available Times</p>ّ
+                <p className="mt-3 mb-2">Available Times</p>
                 <div className="row row-cols-4 row-cols-md-5 row-cols-lg-4 g-2">
-                  {filteredAvailableTimes.map((time, index) => (
+                  {availableTimes.map((time, index) => (
                     <div key={index} className="col">
-                      <input className="btn-check" type="radio" name="time" value={time.time} id={`time${index + 1}`} required onChange={handleTimeChange} />
-                      <label className="available-time d-block btn" htmlFor={`time${index + 1}`}>{time.time}</label>
+                      <input className="btn-check" type="radio" name="time" value={time} id={`time${index + 1}`} required onChange={handleTimeChange} />
+                      <label className="available-time d-block btn" htmlFor={`time${index + 1}`}>{time}</label>
                     </div>
                   ))}
                 </div>
@@ -173,12 +164,10 @@ function Reserve({ maxSeatsNumber, address, id }) {
                 </p>
               </>
             ) : (
-              <p className="my-4">No Table is available on this date.</p>
+              <p className="my-4">No table is available on this date.</p>
             )}
           </>
-        )}
-
-        {!errorMessage && !selectedDate && (
+        ) : (
           <div>
             <p className="mt-3 mb-2">Available Times</p>
             <p className="miz-text-red my-2">Select the number of people and date.</p>
@@ -188,7 +177,7 @@ function Reserve({ maxSeatsNumber, address, id }) {
       </form>
 
       {showModal && (
-        <CompleteReserveModal country={address.country} city={address.city} street={address.street} tableNumber={selectedSeat} time={selectedTime} />
+        <CompleteReserveModal country={address.country} city={address.city} street={address.street} tableNumber={tableNumber} time={selectedTime} />
       )}
     </section>
   );
