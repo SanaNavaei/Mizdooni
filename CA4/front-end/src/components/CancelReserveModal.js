@@ -4,10 +4,9 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function CancelReserveModal({ restaurantName, reserveId }) {
   const [isChecked, setIsChecked] = useState(false);
-  const userId = localStorage.getItem('id');
 
   const handleCheckboxChange = () => {
-    setIsChecked(!isChecked);
+    setIsChecked(true);
   };
 
   const handleSubmit = (e) => {
@@ -26,18 +25,20 @@ function CancelReserveModal({ restaurantName, reserveId }) {
           throw new Error(resp.message);
         }
       })
-      .then((data) => {
+      .then(data => {
         toast.success('Reservation canceled successfully', {
           position: 'top-right',
           autoClose: 3000,
         })
-        console.log(data);
+        setIsChecked(false);
+        window.location.reload();
       })
-      .catch((error) => {
+      .catch(error => {
         toast.error(error.message, {
           position: 'top-right',
           autoClose: 3000,
         });
+        setIsChecked(false);
       });
   }
 
@@ -50,10 +51,10 @@ function CancelReserveModal({ restaurantName, reserveId }) {
             <button type="button" className="btn-close border border-dark rounded-circle me-1" data-bs-dismiss="modal"></button>
           </div>
           <div className="modal-body" id="modal-restaurant">
-            <p className="miz-text-grey mb-2">Note: Once you hit the Cancel button, your reserve will be canceled</p>
+            <p className="miz-text-grey mb-2">Note: Once you hit the Cancel button, your reservation will be canceled</p>
             <div className="d-flex mb-2">
               <input type="checkbox" className="custom-checkbox me-2" id="agree" name="agree" checked={isChecked} onChange={handleCheckboxChange} />
-              <label for="agree">I agree</label>
+              <label htmlFor="agree">I agree</label>
             </div>
             <form onSubmit={handleSubmit}>
               <button type="submit" className="miz-button disabled-button w-100" disabled={!isChecked} data-bs-dismiss="modal">Cancel</button>

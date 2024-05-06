@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { Modal } from 'bootstrap';
 import 'react-toastify/dist/ReactToastify.css';
 
 import CompleteReserveModal from './CompleteReserveModal';
@@ -17,8 +18,12 @@ function Reserve({ maxSeatsNumber, address, id: restaurantId }) {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [availableTimes, setAvailableTimes] = useState([]);
-  const [showModal, setShowModal] = useState(false);
   const [tableNumber, setTableNumber] = useState(0);
+  const [reservationModal, setReservationModal] = useState(null);
+
+  useEffect(() => {
+    setReservationModal(new Modal(document.getElementById('modal-complete-reservation')));
+  }, []);
 
   useEffect(() => {
     setTableNumber(0);
@@ -58,7 +63,6 @@ function Reserve({ maxSeatsNumber, address, id: restaurantId }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setShowModal(false);
     fetch(`/api/reserves/${restaurantId}`, {
       method: 'POST',
       headers: {
@@ -78,7 +82,7 @@ function Reserve({ maxSeatsNumber, address, id: restaurantId }) {
       .then(data => {
         console.debug('Success:', data);
         setTableNumber(data.data.table.tableNumber);
-        setShowModal(true);
+        reservationModal.show();
         fetchTimes();
       })
       .catch(error => {
@@ -173,12 +177,9 @@ function Reserve({ maxSeatsNumber, address, id: restaurantId }) {
             <p className="miz-text-red my-2">Select the number of people and date.</p>
           </div>
         )}
-        <button type="submit" className="miz-button disabled-button w-100" data-bs-toggle="modal" data-bs-target="#modal-complete-reservation" disabled={isButtonDisabled}>Complete the Reservation</button>
+        <button type="submit" className="miz-button disabled-button w-100" disabled={isButtonDisabled}>Complete the Reservation</button>
       </form>
-
-      {showModal && (
-        <CompleteReserveModal country={address.country} city={address.city} street={address.street} tableNumber={tableNumber} time={selectedTime} />
-      )}
+      <CompleteReserveModal country={address.country} city={address.city} street={address.street} tableNumber={tableNumber} time={selectedTime} />
     </section>
   );
 }
