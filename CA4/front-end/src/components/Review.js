@@ -13,7 +13,7 @@ function getInitials(name) {
   return initials.toUpperCase();
 }
 
-function Review({ reviewerName='', foodRate, serviceRate, ambianceRate, overallRate, date, comment, starCount }) {
+function Review({ reviewerName = '', foodRate, serviceRate, ambianceRate, overallRate, date, comment, starCount }) {
   const initials = getInitials(reviewerName);
 
   return (

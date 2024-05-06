@@ -3,7 +3,7 @@ import Stars from './Stars'
 import Location from 'assets/icons/location.svg';
 import Dot from 'assets/icons/dot.svg';
 
-function Card({ id, name, totalReviews, type, address , endTime, startTime, starCount, image }) {
+function Card({ id, name, totalReviews, type, address, endTime, startTime, starCount, image }) {
   const isOpen = () => {
     const currentTime = new Date();
     const currentHour = currentTime.getHours();

@@ -14,7 +14,7 @@ function CustomerReserve({ reserves }) {
             </tr>
           </thead>
           <tbody>
-          {reserves.length === 0 ? (
+            {reserves.length === 0 ? (
               <tr>
                 <td id="no-reserve" className="miz-text-grey text-center p-4">No Reservations yet!</td>
               </tr>
@@ -31,19 +31,19 @@ function CustomerReserve({ reserves }) {
                         <button className="miz-link-button" disabled>Canceled</button>
                       ) : (
                         reserve.isPastTime ? (
-                          <button className="miz-link-button" data-bs-toggle="modal" data-bs-target="#addReview">
+                          <button className="miz-link-button" data-bs-toggle="modal" data-bs-target="#modal-add-review">
                             Add Comment
                           </button>
                         ) : (
-                          <button className="miz-link-button" data-bs-toggle="modal" data-bs-target="#cancelReservation">
+                          <button className="miz-link-button" data-bs-toggle="modal" data-bs-target="#modal-cancel-reservation">
                             Cancel
                           </button>
                         )
                       )}
                     </td>
                   </tr>
-                  <AddReviewModal restaurantName={reserve.restaurant.name} restaurantId={reserve.restaurant.id}/>
-                  <CancelReserveModal restaurantName={reserve.restaurant.name} reserveId={reserve.reservationNumber}/>
+                  <AddReviewModal restaurantName={reserve.restaurant.name} restaurantId={reserve.restaurant.id} />
+                  <CancelReserveModal restaurantName={reserve.restaurant.name} reserveId={reserve.reservationNumber} />
                 </React.Fragment>
               ))
             )}

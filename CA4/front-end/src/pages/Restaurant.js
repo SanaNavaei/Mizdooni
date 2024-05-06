@@ -15,7 +15,7 @@ function Restaurant() {
   const restaurantId = useParams().id;
 
   const [restaurant, setRestaurant] = useState({
-    id: 0,
+    id: -1,
     name: '',
     type: '',
     startTime: '',

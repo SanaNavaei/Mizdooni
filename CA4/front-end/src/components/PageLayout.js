@@ -1,7 +1,7 @@
 import Header from './Header';
 import Footer from './Footer';
 
-function PageLayout({ beforeMain, mainId, footerMargin, children}) {
+function PageLayout({ beforeMain, mainId, footerMargin, children }) {
   return (
     <div id="page-layout" className="min-vh-100 d-flex flex-column">
       <Header />

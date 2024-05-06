@@ -184,7 +184,7 @@ function Reserve({ maxSeatsNumber, address, id }) {
             <p className="miz-text-red my-2">Select the number of people and date.</p>
           </div>
         )}
-        <button type="submit" className="miz-button disabled-button w-100" data-bs-toggle="modal" data-bs-target="#completeReservation" disabled={isButtonDisabled}>Complete the Reservation</button>
+        <button type="submit" className="miz-button disabled-button w-100" data-bs-toggle="modal" data-bs-target="#modal-complete-reservation" disabled={isButtonDisabled}>Complete the Reservation</button>
       </form>
 
       {showModal && (

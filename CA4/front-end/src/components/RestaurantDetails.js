@@ -26,19 +26,19 @@ function RestaurantDetails({ name, totalReviews, type, address, endTime, startTi
               <td className="ps-0">
                 <div className="d-flex align-items-center gap-1">
                   <img src={Time} alt="Time" width="20" height="20" />
-                    <p className="fw-light ">From {startTime} to {endTime}</p>
+                  <p className="fw-light ">From {startTime} to {endTime}</p>
                 </div>
               </td>
               <td>
                 <div className="d-flex align-items-center gap-1">
                   <img src={ReviewStar} alt="Review" width="21" height="22" />
-                    <p className="fw-light ">{totalReviews} Reviews</p>
+                  <p className="fw-light ">{totalReviews} Reviews</p>
                 </div>
               </td>
               <td>
                 <div className="d-flex align-items-center gap-1">
                   <img src={Restaurant} alt="Restaurant" width="11" height="17" />
-                    <p className="fw-light ">{type}</p>
+                  <p className="fw-light ">{type}</p>
                 </div>
               </td>
             </tr>
@@ -46,7 +46,7 @@ function RestaurantDetails({ name, totalReviews, type, address, endTime, startTi
         </table>
         <div className="d-flex align-items-center pt-2 pb-3">
           <img className="me-2" src={Location} alt="Location" />
-            <p className="miz-text-grey fw-light ">{address.country}, {address.city}, {address.street}</p>
+          <p className="miz-text-grey fw-light ">{address.country}, {address.city}, {address.street}</p>
         </div>
         <p className="text-justify fw-light lh-sm">{description}</p>
       </div>

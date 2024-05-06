@@ -1,6 +1,6 @@
-function CompleteReserveModal({ tableNumber, time, country, city, street}) {
+function CompleteReserveModal({ tableNumber, time, country, city, street }) {
   return (
-    <div className="modal fade" id="completeReservation">
+    <div className="modal fade" id="modal-complete-reservation">
       <div className="modal-dialog p-0 rounded-3">
         <div className="modal-content">
           <div className="modal-header">

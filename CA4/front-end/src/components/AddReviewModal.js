@@ -81,11 +81,11 @@ function AddReviewModal({ restaurantName, restaurantId, reloadReviews }) {
   }
 
   return (
-    <div className="modal fade" id="addReview" tabIndex="-1" aria-labelledby="addReviewLabel" aria-hidden="true">
+    <div className="modal fade" id="modal-add-review" tabIndex="-1" aria-labelledby="add-review-label" aria-hidden="true">
       <div className="modal-dialog modal-dialog-centered">
         <div className="modal-content">
           <div className="modal-header">
-            <h5 className="modal-title" id="addReviewLabel">Add Review for <span className="miz-text-red">{restaurantName}</span></h5>
+            <h5 className="modal-title" id="add-review-label">Add Review for <span className="miz-text-red">{restaurantName}</span></h5>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div className="modal-body">
@@ -97,7 +97,7 @@ function AddReviewModal({ restaurantName, restaurantId, reloadReviews }) {
                   {[...Array(5)].map((_, index) => (
                     <img
                       key={index}
-                      className='addReviewStar'
+                      className='add-review-star'
                       src={index < formData.rating.food ? FullStar : EmptyStar}
                       alt={index < formData.rating.food ? 'Full Star' : 'Empty Star'}
                       onClick={() => handleFoodClick(index + 1)}
@@ -111,7 +111,7 @@ function AddReviewModal({ restaurantName, restaurantId, reloadReviews }) {
                   {[...Array(5)].map((_, index) => (
                     <img
                       key={index}
-                      className='addReviewStar'
+                      className='add-review-star'
                       src={index < formData.rating.service ? FullStar : EmptyStar}
                       alt={index < formData.rating.service ? 'Full Star' : 'Empty Star'}
                       onClick={() => handleServiceClick(index + 1)}
@@ -125,7 +125,7 @@ function AddReviewModal({ restaurantName, restaurantId, reloadReviews }) {
                   {[...Array(5)].map((_, index) => (
                     <img
                       key={index}
-                      className='addReviewStar'
+                      className='add-review-star'
                       src={index < formData.rating.ambiance ? FullStar : EmptyStar}
                       alt={index < formData.rating.ambiance ? 'Full Star' : 'Empty Star'}
                       onClick={() => handleAmbianceClick(index + 1)}
@@ -140,7 +140,7 @@ function AddReviewModal({ restaurantName, restaurantId, reloadReviews }) {
                   {[...Array(5)].map((_, index) => (
                     <img
                       key={index}
-                      className='addReviewStar'
+                      className='add-review-star'
                       src={index < formData.rating.overall ? FullStar : EmptyStar}
                       alt={index < formData.rating.overall ? 'Full Star' : 'Empty Star'}
                       onClick={() => handleOverallClick(index + 1)}

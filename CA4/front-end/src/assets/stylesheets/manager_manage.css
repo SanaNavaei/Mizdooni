@@ -51,7 +51,7 @@
     box-shadow: none;
 }
 
-#addTableForm .form-control {
+#add-table-form .form-control {
     display: inline-block;
     border: 0;
     background-color: var(--miz-grey);

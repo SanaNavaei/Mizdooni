@@ -50,7 +50,7 @@ function RestaurantTables({ restaurantId, setTableNumber }) {
   return (
     <section id="tables" className="col-lg-8 h-100 overflow-auto p-2 d-flex flex-column">
       <div className="d-flex justify-content-start mb-3">
-        <button className="miz-text-red manage-button-link fs-6 fw-normal ps-2 m-0" data-bs-toggle="modal" data-bs-target="#addTable" >+Add Table</button>
+        <button className="miz-text-red manage-button-link fs-6 fw-normal ps-2 m-0" data-bs-toggle="modal" data-bs-target="#modal-add-table" >+Add Table</button>
       </div>
       <div className={classContainer}>
         <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-xl-5 row-cols-xxl-6 g-4 text-white">
@@ -73,7 +73,7 @@ function RestaurantTables({ restaurantId, setTableNumber }) {
         </div>
       </div>
       {tables.length === 0 && noTableText}
-      <AddTableModal restaurantId={restaurantId} reloadTables={reloadTables}/>
+      <AddTableModal restaurantId={restaurantId} reloadTables={reloadTables} />
     </section >
   );
 }

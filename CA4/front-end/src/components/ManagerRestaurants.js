@@ -7,7 +7,7 @@ function ManagerRestaurants({ restaurants, reloadRestaurants }) {
     <div id="restaurants-list" className="mx-auto bg-white rounded-3 pt-3 pb-1">
       <div className="d-flex justify-content-between align-items-center px-3">
         <h2 className="fw-semibold m-0 fs-6">My Restaurants</h2>
-        <button className="miz-button" data-bs-toggle="modal" data-bs-target="#addRestaurant">Add</button>
+        <button className="miz-button" data-bs-toggle="modal" data-bs-target="#modal-add-restaurant">Add</button>
       </div>
       <hr />
       {restaurants == null &&
@@ -36,7 +36,7 @@ function ManagerRestaurants({ restaurants, reloadRestaurants }) {
           </tbody>
         </table>
       </div>
-      <AddRestaurantModal reloadRestaurants={reloadRestaurants}/>
+      <AddRestaurantModal reloadRestaurants={reloadRestaurants} />
     </div>
   );
 }

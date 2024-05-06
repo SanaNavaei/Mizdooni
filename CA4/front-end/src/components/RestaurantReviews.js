@@ -48,7 +48,6 @@ function RestaurantReviews({ restaurant }) {
       });
   };
 
-
   useEffect(() => {
     reloadReviews();
   }, [restaurant.id, currentPage]);
@@ -71,7 +70,7 @@ function RestaurantReviews({ restaurant }) {
       <article className="mt-4">
         <div className="d-flex justify-content-between align-items-center pb-4">
           <h2 className="fw-normal fs-6">{restaurant.totalReviews} Reviews</h2>
-          <button className="miz-button" data-bs-toggle="modal" data-bs-target="#addReview">Add Review</button>
+          <button className="miz-button" data-bs-toggle="modal" data-bs-target="#modal-add-review">Add Review</button>
         </div>
         {reviews.map((review, index) => (
           <div key={index}>
@@ -89,7 +88,7 @@ function RestaurantReviews({ restaurant }) {
           </div>
         ))}
       </article>
-      <AddReviewModal restaurantName={restaurant.name} restaurantId={restaurant.id} reloadReviews={reloadReviews}/>
+      <AddReviewModal restaurantName={restaurant.name} restaurantId={restaurant.id} reloadReviews={reloadReviews} />
       <Pagination totalPages={totalPages} currentPage={currentPage} onPageChange={handlePageChange} />
     </div>
   )

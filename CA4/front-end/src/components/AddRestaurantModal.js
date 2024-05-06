@@ -42,15 +42,15 @@ function AddRestaurantModal({ reloadRestaurants }) {
           [childKey]: value,
         },
       });
-    } 
+    }
     else if (name === 'startTime' || name === 'endTime') {
       setFormData({
         ...formData,
         [name]: value + ':00',
       });
-    } 
+    }
     else {
-      setFormData({ ...formData,[name]: value });
+      setFormData({ ...formData, [name]: value });
     }
   };
 
@@ -108,7 +108,7 @@ function AddRestaurantModal({ reloadRestaurants }) {
   }, [formData, nameError]);
 
   return (
-    <div className="modal fade" id="addRestaurant">
+    <div className="modal fade" id="modal-add-restaurant">
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
