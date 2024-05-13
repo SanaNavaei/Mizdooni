@@ -1,0 +1,73 @@
+#main_manage {
+    --section-border-size: 10px;
+    min-height: 0;
+}
+
+#restaurant_manage {
+    background-color: var(--miz-red);
+}
+
+#reservations-manager {
+    border-top: var(--section-border-size) solid var(--miz-red);
+}
+
+#select-table-text {
+    font-size: 0.75rem;
+}
+
+.custom-border {
+    border: 1px solid var(--miz-red-light);
+}
+
+#reservations-table td:first-child {
+    padding-left: 1rem;
+}
+
+#reservations-table td:nth-child(1),
+#reservations-table td:nth-child(3) {
+    font-size: 0.85rem;
+}
+
+.manage-button-link {
+    border: 0;
+    background-color: transparent;
+}
+
+#tables {
+    background-color: var(--miz-red-light);
+}
+
+#tables .container {
+    max-width: 900px;
+}
+
+.table-card {
+    height: 70px;
+    width: 100px;
+    background-color: var(--miz-red-dark);
+}
+
+.table-card-selected {
+    background-color: var(--miz-red);
+}
+
+#footer {
+    box-shadow: none;
+}
+
+#add-table-form .form-control {
+    display: inline-block;
+    border: 0;
+    background-color: var(--miz-grey);
+}
+
+@media (min-width: 992px) {
+    #page-layout {
+        height: 100vh;
+    }
+
+    #reservations-manager {
+        border-top: 0;
+        border-right: var(--section-border-size) solid var(--miz-red);
+    }
+}
