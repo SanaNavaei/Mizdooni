@@ -1,12 +1,30 @@
 package mizdooni.model;
 
+import jakarta.persistence.*;
+import mizdooni.model.user.User;
+
 import java.time.LocalDateTime;
 
+@Entity
 public class Review {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @Embedded
     private Rating rating;
+
+    @Column(columnDefinition = "TEXT")
     private String comment;
     private LocalDateTime datetime;
-    private User user;
+
+    public Review() {
+
+    }
 
     public Review(User user, Rating rating, String comment, LocalDateTime datetime) {
         this.user = user;

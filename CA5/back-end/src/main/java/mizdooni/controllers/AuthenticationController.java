@@ -1,7 +1,7 @@
 package mizdooni.controllers;
 
 import mizdooni.model.Address;
-import mizdooni.model.User;
+import mizdooni.model.user.User;
 import mizdooni.response.Response;
 import mizdooni.response.ResponseException;
 import mizdooni.service.ServiceUtils;

@@ -6,7 +6,7 @@ import mizdooni.exceptions.RestaurantNotFound;
 import mizdooni.exceptions.UserNotManager;
 import mizdooni.model.Restaurant;
 import mizdooni.model.Table;
-import mizdooni.model.User;
+import mizdooni.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +42,7 @@ public class TableService {
             throw new InvalidManagerRestaurant();
         }
 
-        Table table = new Table(0, restaurantId, seatsNumber);
+        Table table = new Table(0, restaurant, seatsNumber);
         restaurant.addTable(table);
     }
 }

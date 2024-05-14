@@ -3,7 +3,7 @@ package mizdooni.model.mixin;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import mizdooni.model.Reservation;
-import mizdooni.model.User;
+import mizdooni.model.user.User;
 import org.springframework.boot.jackson.JsonMixin;
 
 import java.util.List;

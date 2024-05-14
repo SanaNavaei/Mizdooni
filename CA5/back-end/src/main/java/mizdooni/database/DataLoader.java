@@ -2,6 +2,9 @@ package mizdooni.database;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import mizdooni.model.*;
+import mizdooni.model.user.Client;
+import mizdooni.model.user.Manager;
+import mizdooni.model.user.User;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -27,16 +30,26 @@ public class DataLoader {
         }
 
         for (JsonNode node : usersList) {
-            String role = node.get("role").asText();
+            String roleStr = node.get("role").asText();
             String country = node.get("address").get("country").asText();
             String city = node.get("address").get("city").asText();
-            User user = new User(
-                    node.get("username").asText(),
-                    node.get("password").asText(),
-                    node.get("email").asText(),
-                    new Address(country, city, null),
-                    User.Role.valueOf(role)
-            );
+            User.Role role = User.Role.valueOf(roleStr);
+            User user = null;
+            if (role == User.Role.client) {
+                user = new Client(
+                        node.get("username").asText(),
+                        node.get("password").asText(),
+                        node.get("email").asText(),
+                        new Address(country, city, null)
+                );
+            } else if (role == User.Role.manager) {
+                user = new Manager(
+                        node.get("username").asText(),
+                        node.get("password").asText(),
+                        node.get("email").asText(),
+                        new Address(country, city, null)
+                );
+            }
             db.users.add(user);
         }
     }
@@ -82,7 +95,7 @@ public class DataLoader {
 
             int tableNumber = node.get("tableNumber").asInt();
             int seatsNumber = node.get("seatsNumber").asInt();
-            Table table = new Table(tableNumber, restaurant.getId(), seatsNumber);
+            Table table = new Table(tableNumber, restaurant, seatsNumber);
             restaurant.addTable(table);
         }
     }

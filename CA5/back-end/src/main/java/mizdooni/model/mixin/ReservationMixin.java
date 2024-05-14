@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import mizdooni.model.Reservation;
 import mizdooni.model.Restaurant;
-import mizdooni.model.User;
+import mizdooni.model.user.User;
 import mizdooni.response.serializer.UserShortSerializer;
 import org.springframework.boot.jackson.JsonMixin;
 

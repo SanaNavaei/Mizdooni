@@ -1,26 +1,48 @@
 package mizdooni.model;
 
+import jakarta.persistence.*;
+import mizdooni.model.user.User;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Restaurant {
-    private static int idCounter = 0;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "manager_id")
     private User manager;
+
     private String type;
     private LocalTime startTime;
     private LocalTime endTime;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
+
+    @OneToOne
     private Address address;
+
     private String imageLink;
-    private List<Table> tables;
-    private List<Review> reviews;
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private List<Table> tables = new ArrayList<>();
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
+    private List<Review> reviews = new ArrayList<>();
+
+    public Restaurant() {
+
+    }
 
     public Restaurant(String name, User manager, String type, LocalTime startTime, LocalTime endTime,
                       String description, Address address, String imageLink) {
-        this.id = idCounter++;
+        this.id = 0;
         this.name = name;
         this.manager = manager;
         this.type = type;
@@ -29,8 +51,6 @@ public class Restaurant {
         this.description = description;
         this.address = address;
         this.imageLink = imageLink;
-        this.tables = new ArrayList<>();
-        this.reviews = new ArrayList<>();
     }
 
     public Table getTable(int tableNumber) {

@@ -1,20 +1,31 @@
 package mizdooni.model;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Table {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int tableNumber;
-    private int restaurantId;
-    private int seatsNumber;
-    private List<Reservation> reservations;
 
-    public Table(int tableNumber, int restaurantId, int seatsNumber) {
+    @ManyToOne
+    private Restaurant restaurant;
+    private int seatsNumber;
+
+    @OneToMany(mappedBy = "table", cascade = CascadeType.ALL)
+    private List<Reservation> reservations = new ArrayList<>();
+
+    public Table() {
+
+    }
+
+    public Table(int tableNumber, Restaurant restaurant, int seatsNumber) {
         this.tableNumber = tableNumber;
-        this.restaurantId = restaurantId;
+        this.restaurant = restaurant;
         this.seatsNumber = seatsNumber;
-        this.reservations = new ArrayList<>();
     }
 
     public void addReservation(Reservation reservation) {

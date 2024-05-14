@@ -3,7 +3,7 @@ package mizdooni.response.serializer;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import mizdooni.model.User;
+import mizdooni.model.user.User;
 
 import java.io.IOException;
 

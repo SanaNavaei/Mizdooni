@@ -1,5 +1,8 @@
 package mizdooni.model;
 
+import jakarta.persistence.Embeddable;
+
+@Embeddable
 public class Rating {
     public double food;
     public double service;

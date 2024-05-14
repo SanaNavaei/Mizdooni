@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import mizdooni.model.Review;
-import mizdooni.model.User;
+import mizdooni.model.user.User;
 import mizdooni.response.serializer.UserShortSerializer;
 import org.springframework.boot.jackson.JsonMixin;
 

@@ -5,7 +5,7 @@ import mizdooni.exceptions.*;
 import mizdooni.model.Rating;
 import mizdooni.model.Restaurant;
 import mizdooni.model.Review;
-import mizdooni.model.User;
+import mizdooni.model.user.User;
 import mizdooni.response.PagedList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

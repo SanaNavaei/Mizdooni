@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import mizdooni.model.*;
+import mizdooni.model.user.User;
 import mizdooni.response.serializer.ListSizeSerializer;
 import org.springframework.boot.jackson.JsonMixin;
 

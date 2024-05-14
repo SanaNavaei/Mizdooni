@@ -1,7 +1,7 @@
 package mizdooni.database;
 
 import mizdooni.model.Restaurant;
-import mizdooni.model.User;
+import mizdooni.model.user.User;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

@@ -1,7 +1,7 @@
 package mizdooni.service;
 
 import mizdooni.model.Restaurant;
-import mizdooni.model.User;
+import mizdooni.model.user.User;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

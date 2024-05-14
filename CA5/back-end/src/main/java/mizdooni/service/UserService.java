@@ -5,7 +5,7 @@ import mizdooni.exceptions.DuplicatedUsernameEmail;
 import mizdooni.exceptions.InvalidEmailFormat;
 import mizdooni.exceptions.InvalidUsernameFormat;
 import mizdooni.model.Address;
-import mizdooni.model.User;
+import mizdooni.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

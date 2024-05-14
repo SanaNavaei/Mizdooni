@@ -7,7 +7,7 @@ import mizdooni.exceptions.UserNotManager;
 import mizdooni.model.Address;
 import mizdooni.model.Restaurant;
 import mizdooni.model.RestaurantSearchFilter;
-import mizdooni.model.User;
+import mizdooni.model.user.User;
 import mizdooni.response.PagedList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
