@@ -56,7 +56,8 @@ public class RestaurantService {
             throw new InvalidWorkingTime();
         }
 
-        Restaurant restaurant = new Restaurant(name, manager, type, startTime, endTime, description, address, imageLink);
+        int id = db.restaurants.size();
+        Restaurant restaurant = new Restaurant(id, name, manager, type, startTime, endTime, description, address, imageLink);
         db.restaurants.add(restaurant);
         return restaurant.getId();
     }

@@ -29,28 +29,25 @@ public class DataLoader {
             return;
         }
 
+        int id = 0;
         for (JsonNode node : usersList) {
+            String username = node.get("username").asText();
+            String password = node.get("password").asText();
+            String email = node.get("email").asText();
             String roleStr = node.get("role").asText();
             String country = node.get("address").get("country").asText();
             String city = node.get("address").get("city").asText();
             User.Role role = User.Role.valueOf(roleStr);
+            Address address = new Address(country, city, null);
+
             User user = null;
             if (role == User.Role.client) {
-                user = new Client(
-                        node.get("username").asText(),
-                        node.get("password").asText(),
-                        node.get("email").asText(),
-                        new Address(country, city, null)
-                );
+                user = new Client(id, username, password, email, address);
             } else if (role == User.Role.manager) {
-                user = new Manager(
-                        node.get("username").asText(),
-                        node.get("password").asText(),
-                        node.get("email").asText(),
-                        new Address(country, city, null)
-                );
+                user = new Manager(id, username, password, email, address);
             }
             db.users.add(user);
+            id++;
         }
     }
 
@@ -60,6 +57,7 @@ public class DataLoader {
             return;
         }
 
+        int id = 0;
         for (JsonNode node : restaurantsList) {
             User manager = getUserByUsername(node.get("managerUsername").asText());
 
@@ -71,6 +69,7 @@ public class DataLoader {
             String street = node.get("address").get("street").asText();
 
             Restaurant restaurant = new Restaurant(
+                    id,
                     node.get("name").asText(),
                     manager,
                     node.get("type").asText(),
@@ -81,6 +80,7 @@ public class DataLoader {
                     node.get("image").asText()
             );
             db.restaurants.add(restaurant);
+            id++;
         }
     }
 

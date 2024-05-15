@@ -8,10 +8,10 @@ import mizdooni.model.Address;
 @DiscriminatorValue("manager")
 public class Manager extends User {
     public Manager() {
-        super("", "", "", new Address("", "", ""), Role.manager);
+        super();
     }
 
-    public Manager(String username, String password, String email, Address address) {
-        super(username, password, email, address, Role.manager);
+    public Manager(int id, String username, String password, String email, Address address) {
+        super(id, username, password, email, address, Role.manager);
     }
 }

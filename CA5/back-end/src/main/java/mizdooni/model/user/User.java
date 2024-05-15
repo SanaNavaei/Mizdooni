@@ -51,8 +51,8 @@ public abstract class User {
 
     }
 
-    public User(String username, String password, String email, Address address, Role role) {
-        this.id = 0;
+    public User(int id, String username, String password, String email, Address address, Role role) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;

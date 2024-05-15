@@ -46,9 +46,9 @@ public class Restaurant {
 
     }
 
-    public Restaurant(String name, User manager, String type, LocalTime startTime, LocalTime endTime,
+    public Restaurant(int id, String name, User manager, String type, LocalTime startTime, LocalTime endTime,
                       String description, Address address, String imageLink) {
-        this.id = 0;
+        this.id = id;
         this.name = name;
         this.manager = manager;
         this.type = type;

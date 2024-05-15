@@ -43,10 +43,11 @@ public class UserService {
         }
 
         User user = null;
+        int id = db.users.size();
         if (role == User.Role.client) {
-            user = new Client(username, password, email, address);
+            user = new Client(id, username, password, email, address);
         } else if (role == User.Role.manager) {
-            user = new Manager(username, password, email, address);
+            user = new Manager(id, username, password, email, address);
         }
         db.users.add(user);
     }
