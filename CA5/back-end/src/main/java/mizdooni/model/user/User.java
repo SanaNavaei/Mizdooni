@@ -33,8 +33,7 @@ public abstract class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @OneToOne
-    @JoinColumn
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     @Enumerated(EnumType.STRING)

@@ -5,15 +5,18 @@ import mizdooni.model.*;
 import mizdooni.model.user.Client;
 import mizdooni.model.user.Manager;
 import mizdooni.model.user.User;
+import mizdooni.repository.user.UserRepository;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class DataLoader {
     private Database db;
+    private UserRepository userRepository;
 
-    public DataLoader(Database database) {
-        db = database;
+    public DataLoader(Database database, UserRepository userRepository) {
+        this.db = database;
+        this.userRepository = userRepository;
     }
 
     public void read() {
@@ -47,6 +50,7 @@ public class DataLoader {
                 user = new Manager(id, username, password, email, address);
             }
             db.users.add(user);
+            userRepository.save(user);
             id++;
         }
     }
