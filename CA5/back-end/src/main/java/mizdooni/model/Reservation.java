@@ -12,16 +12,16 @@ public class Reservation {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "restaurant_id")
+    @JoinColumn
     private Restaurant restaurant;
 
     @ManyToOne
-    @JoinColumn(name = "table_id")
-    private Table table;
+    @JoinColumn
+    private MizTable table;
 
     private LocalDateTime datetime;
     private int reservationNumber;
@@ -30,7 +30,7 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(User user, Restaurant restaurant, Table table, LocalDateTime datetime) {
+    public Reservation(User user, Restaurant restaurant, MizTable table, LocalDateTime datetime) {
         this.user = user;
         this.restaurant = restaurant;
         this.table = table;
@@ -55,7 +55,7 @@ public class Reservation {
         return restaurant;
     }
 
-    public Table getTable() {
+    public MizTable getTable() {
         return table;
     }
 

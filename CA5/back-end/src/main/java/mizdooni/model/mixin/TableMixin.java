@@ -2,10 +2,10 @@ package mizdooni.model.mixin;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import mizdooni.model.Table;
+import mizdooni.model.MizTable;
 import org.springframework.boot.jackson.JsonMixin;
 
-@JsonMixin(Table.class)
+@JsonMixin(MizTable.class)
 @JsonAutoDetect(
         fieldVisibility = JsonAutoDetect.Visibility.NONE,
         getterVisibility = JsonAutoDetect.Visibility.NONE,

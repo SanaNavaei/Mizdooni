@@ -4,7 +4,7 @@ import mizdooni.database.Database;
 import mizdooni.exceptions.*;
 import mizdooni.model.Reservation;
 import mizdooni.model.Restaurant;
-import mizdooni.model.Table;
+import mizdooni.model.MizTable;
 import mizdooni.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +40,7 @@ public class ReservationService {
             throw new InvalidManagerRestaurant();
         }
 
-        Table table = restaurant.getTable(tableNumber);
+        MizTable table = restaurant.getTable(tableNumber);
         if (table == null) {
             throw new TableNotFound();
         }
@@ -112,7 +112,7 @@ public class ReservationService {
             throw new ReservationNotInOpenTimes();
         }
 
-        Table table = findAvailableTable(restaurant, people, datetime);
+        MizTable table = findAvailableTable(restaurant, people, datetime);
         if (table == null) {
             throw new TableNotFound();
         }
@@ -141,7 +141,7 @@ public class ReservationService {
         reservation.cancel();
     }
 
-    private List<LocalTime> getAvailableTableTimes(Table table, LocalDate date, Restaurant restaurant) {
+    private List<LocalTime> getAvailableTableTimes(MizTable table, LocalDate date, Restaurant restaurant) {
         Set<LocalTime> reserves = table.getReservations().stream()
                 .filter(r -> r.getDateTime().toLocalDate().equals(date) && !r.isCancelled())
                 .map(r -> r.getDateTime().toLocalTime())
@@ -160,10 +160,10 @@ public class ReservationService {
         return availableTimes;
     }
 
-    private Table findAvailableTable(Restaurant restaurant, int people, LocalDateTime datetime) {
+    private MizTable findAvailableTable(Restaurant restaurant, int people, LocalDateTime datetime) {
         return restaurant.getTables().stream()
                 .filter(table -> table.getSeatsNumber() >= people && !table.isReserved(datetime))
-                .min(Comparator.comparingInt(Table::getSeatsNumber))
+                .min(Comparator.comparingInt(MizTable::getSeatsNumber))
                 .orElse(null);
     }
 }

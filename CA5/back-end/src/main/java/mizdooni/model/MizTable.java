@@ -1,31 +1,39 @@
 package mizdooni.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Table {
+public class MizTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int tableNumber;
+    private int number;
 
     @ManyToOne
+    @JoinColumn
     private Restaurant restaurant;
+
+    @Column(nullable = false)
     private int seatsNumber;
 
     @OneToMany(mappedBy = "table", cascade = CascadeType.ALL)
-    private List<Reservation> reservations = new ArrayList<>();
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<Reservation> reservations;
 
-    public Table() {
+    public MizTable() {
 
     }
 
-    public Table(int tableNumber, Restaurant restaurant, int seatsNumber) {
-        this.tableNumber = tableNumber;
+    public MizTable(int tableNumber, Restaurant restaurant, int seatsNumber) {
+        this.number = tableNumber;
         this.restaurant = restaurant;
         this.seatsNumber = seatsNumber;
+        this.reservations = new ArrayList<>();
     }
 
     public void addReservation(Reservation reservation) {
@@ -37,11 +45,11 @@ public class Table {
     }
 
     public int getTableNumber() {
-        return tableNumber;
+        return number;
     }
 
     public void setTableNumber(int tableNumber) {
-        this.tableNumber = tableNumber;
+        this.number = tableNumber;
     }
 
     public int getSeatsNumber() {

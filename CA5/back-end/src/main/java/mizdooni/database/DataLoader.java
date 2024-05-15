@@ -95,7 +95,7 @@ public class DataLoader {
 
             int tableNumber = node.get("tableNumber").asInt();
             int seatsNumber = node.get("seatsNumber").asInt();
-            Table table = new Table(tableNumber, restaurant, seatsNumber);
+            MizTable table = new MizTable(tableNumber, restaurant, seatsNumber);
             restaurant.addTable(table);
         }
     }

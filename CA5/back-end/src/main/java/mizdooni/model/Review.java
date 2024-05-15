@@ -12,14 +12,18 @@ public class Review {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
     private User user;
 
     @Embedded
     private Rating rating;
 
+    @ManyToOne
+    @JoinColumn
+    private Restaurant restaurant;
+
     @Column(columnDefinition = "TEXT")
     private String comment;
+
     private LocalDateTime datetime;
 
     public Review() {

@@ -1,5 +1,6 @@
 package mizdooni.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -8,8 +9,11 @@ public class Address {
     @Id
     private int id;
 
+    @Column(length = 50)
     private String country;
+    @Column(length = 50)
     private String city;
+    @Column(length = 50)
     private String street;
 
     public Address() {

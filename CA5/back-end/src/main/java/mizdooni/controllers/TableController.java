@@ -1,6 +1,6 @@
 package mizdooni.controllers;
 
-import mizdooni.model.Table;
+import mizdooni.model.MizTable;
 import mizdooni.response.Response;
 import mizdooni.response.ResponseException;
 import mizdooni.service.RestaurantService;
@@ -26,7 +26,7 @@ class TableController {
     public Response getTables(@PathVariable int restaurantId) {
         ControllerUtils.checkRestaurant(restaurantId, restaurantService);
         try {
-            List<Table> tables = tableService.getTables(restaurantId);
+            List<MizTable> tables = tableService.getTables(restaurantId);
             return Response.ok("tables listed", tables);
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);

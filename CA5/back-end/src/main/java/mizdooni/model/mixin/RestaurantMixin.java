@@ -37,7 +37,7 @@ abstract class RestaurantMixin {
     private String imageLink;
 
     @JsonIgnore
-    private List<Table> tables;
+    private List<MizTable> tables;
 
     @JsonProperty("totalReviews")
     @JsonSerialize(using = ListSizeSerializer.class)

@@ -2,6 +2,8 @@ package mizdooni.model;
 
 import jakarta.persistence.*;
 import mizdooni.model.user.User;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -9,16 +11,18 @@ import java.util.List;
 
 @Entity
 public class Restaurant {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false)
     private int id;
+
+    @Id
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "manager_id")
     private User manager;
 
+    @Column(length = 50)
     private String type;
+
     private LocalTime startTime;
     private LocalTime endTime;
 
@@ -31,10 +35,12 @@ public class Restaurant {
     private String imageLink;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    private List<Table> tables = new ArrayList<>();
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<MizTable> tables;
 
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL)
-    private List<Review> reviews = new ArrayList<>();
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<Review> reviews;
 
     public Restaurant() {
 
@@ -51,13 +57,15 @@ public class Restaurant {
         this.description = description;
         this.address = address;
         this.imageLink = imageLink;
+        this.tables = new ArrayList<>();
+        this.reviews = new ArrayList<>();
     }
 
-    public Table getTable(int tableNumber) {
+    public MizTable getTable(int tableNumber) {
         return tables.stream().filter(t -> t.getTableNumber() == tableNumber).findFirst().orElse(null);
     }
 
-    public void addTable(Table table) {
+    public void addTable(MizTable table) {
         table.setTableNumber(tables.size() + 1);
         tables.add(table);
     }
@@ -97,10 +105,10 @@ public class Restaurant {
     }
 
     public int getMaxSeatsNumber() {
-        return tables.stream().map(Table::getSeatsNumber).max(Integer::compareTo).orElse(0);
+        return tables.stream().map(MizTable::getSeatsNumber).max(Integer::compareTo).orElse(0);
     }
 
-    public List<Table> getTables() {
+    public List<MizTable> getTables() {
         return tables;
     }
 

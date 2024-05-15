@@ -5,7 +5,7 @@ import mizdooni.exceptions.InvalidManagerRestaurant;
 import mizdooni.exceptions.RestaurantNotFound;
 import mizdooni.exceptions.UserNotManager;
 import mizdooni.model.Restaurant;
-import mizdooni.model.Table;
+import mizdooni.model.MizTable;
 import mizdooni.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class TableService {
     @Autowired
     private UserService userService;
 
-    public List<Table> getTables(int restaurantId) throws RestaurantNotFound {
+    public List<MizTable> getTables(int restaurantId) throws RestaurantNotFound {
         Restaurant restaurant = ServiceUtils.findRestaurant(restaurantId, db.restaurants);
         if (restaurant == null) {
             throw new RestaurantNotFound();
@@ -42,7 +42,7 @@ public class TableService {
             throw new InvalidManagerRestaurant();
         }
 
-        Table table = new Table(0, restaurant, seatsNumber);
+        MizTable table = new MizTable(0, restaurant, seatsNumber);
         restaurant.addTable(table);
     }
 }

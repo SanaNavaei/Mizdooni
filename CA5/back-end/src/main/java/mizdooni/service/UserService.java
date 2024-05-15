@@ -5,6 +5,8 @@ import mizdooni.exceptions.DuplicatedUsernameEmail;
 import mizdooni.exceptions.InvalidEmailFormat;
 import mizdooni.exceptions.InvalidUsernameFormat;
 import mizdooni.model.Address;
+import mizdooni.model.user.Client;
+import mizdooni.model.user.Manager;
 import mizdooni.model.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +42,12 @@ public class UserService {
             throw new DuplicatedUsernameEmail();
         }
 
-        User user = new User(username, password, email, address, role);
+        User user = null;
+        if (role == User.Role.client) {
+            user = new Client(username, password, email, address);
+        } else if (role == User.Role.manager) {
+            user = new Manager(username, password, email, address);
+        }
         db.users.add(user);
     }
 
