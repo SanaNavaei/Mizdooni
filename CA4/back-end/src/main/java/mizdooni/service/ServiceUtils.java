@@ -36,15 +36,4 @@ public class ServiceUtils {
     static Restaurant findRestaurant(int id, List<Restaurant> restaurants) {
         return restaurants.stream().filter(r -> r.getId() == id).findFirst().orElse(null);
     }
-
-    public static List<String> convertToString(Map<LocalDate, List<LocalTime>> availableHours) {
-        List<String> timeAndDate = new ArrayList<>();
-        for (Map.Entry<LocalDate, List<LocalTime>> entry : availableHours.entrySet()) {
-            for (LocalTime time : entry.getValue()) {
-                LocalDateTime datetime = LocalDateTime.of(entry.getKey(), time);
-                timeAndDate.add(datetime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
-            }
-        }
-        return timeAndDate;
-    }
 }
