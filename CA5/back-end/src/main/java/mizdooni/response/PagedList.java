@@ -3,6 +3,7 @@ package mizdooni.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import mizdooni.response.serializer.ListSizeSerializer;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,20 +14,24 @@ public class PagedList<T> {
     private int size;
     private int start;
     private int end;
-    private List<T> original;
+    private int totalSize;
     @JsonProperty("size")
     @JsonSerialize(using = ListSizeSerializer.class)
     private List<T> pageList;
 
-    public PagedList(List<T> original, int page, int size) {
+    private PagedList(int totalSize, int page, int size) {
         if (page < 1 || size < 1) {
             throw new IllegalArgumentException("invalid page number");
         }
         this.page = page;
         this.size = size;
-        this.original = original;
+        this.totalSize = totalSize;
         this.start = (page - 1) * size;
-        this.end = Math.min(start + size, original.size());
+        this.end = Math.min(start + size, totalSize);
+    }
+
+    public PagedList(List<T> original, int page, int size) {
+        this(original.size(), page, size);
         if (this.start >= original.size()) {
             this.pageList = Collections.emptyList();
         } else {
@@ -34,14 +39,19 @@ public class PagedList<T> {
         }
     }
 
+    public PagedList(List<T> pageList, int totalSize, PageRequest pageRequest) {
+        this(totalSize, pageRequest.getPageNumber() + 1, pageRequest.getPageSize());
+        this.pageList = pageList;
+    }
+
     @JsonProperty
     public boolean hasNext() {
-        return end < original.size();
+        return end < totalSize;
     }
 
     @JsonProperty
     public int totalPages() {
-        return (int) Math.ceil((double) original.size() / size);
+        return (int) Math.ceil((double) totalSize / size);
     }
 
     @JsonProperty("pageList")

@@ -2,8 +2,10 @@ package mizdooni.model.mixin;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import mizdooni.model.Restaurant;
 import mizdooni.model.Review;
 import mizdooni.model.user.User;
 import mizdooni.response.serializer.UserShortSerializer;
@@ -18,11 +20,14 @@ import java.time.LocalDateTime;
         isGetterVisibility = JsonAutoDetect.Visibility.NONE
 )
 abstract class ReviewMixin {
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime datetime;
-
     @JsonSerialize(using = UserShortSerializer.class)
     private User user;
+
+    @JsonIgnore
+    private Restaurant restaurant;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime datetime;
 
     @JsonProperty
     abstract int getStarCount();
