@@ -154,7 +154,7 @@ public class ReservationService {
         }
 
         reservation.cancel();
-        reservationRepository.cancelById(reservation.getId());
+        reservationRepository.save(reservation);
     }
 
     private List<LocalTime> getAvailableTableTimes(MizTable table, LocalDate date, Restaurant restaurant) {

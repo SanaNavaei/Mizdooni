@@ -8,6 +8,7 @@ import mizdooni.model.Restaurant;
 import mizdooni.model.RestaurantSearchFilter;
 import mizdooni.model.user.User;
 import mizdooni.repository.RestaurantRepository;
+import mizdooni.repository.RestaurantSearchSpec;
 import mizdooni.response.PagedList;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +40,12 @@ public class RestaurantService {
 
     @Transactional
     public PagedList<Restaurant> getRestaurants(int page, RestaurantSearchFilter filter) {
-        List<Restaurant> restaurants = restaurantRepository.findAll();
+        RestaurantSearchSpec spec = new RestaurantSearchSpec(filter.getName(), filter.getType(), filter.getLocation());
+        List<Restaurant> restaurants = restaurantRepository.findAll(spec);
+        restaurants = filter.sort(restaurants);
         for (Restaurant restaurant : restaurants) {
             Hibernate.initialize(restaurant.getReviews());
             Hibernate.initialize(restaurant.getTables());
-        }
-        if (filter != null) {
-            restaurants = filter.filter(restaurants);
         }
         return new PagedList<>(restaurants, page, ServiceUtils.RESTAURANT_PAGE_SIZE);
     }

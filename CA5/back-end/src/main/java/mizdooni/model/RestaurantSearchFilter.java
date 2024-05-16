@@ -23,22 +23,40 @@ public class RestaurantSearchFilter {
         if (location != null) {
             rest = rest.stream().filter(r -> r.getAddress().getCity().equals(location)).collect(Collectors.toList());
         }
-        if (sort != null) {
-            if (sort.equals("rating")) {
-                Comparator<Restaurant> comparator = Comparator.comparing(r -> r.getAverageRating().overall);
-                if (order != null && order.equals("asc")) {
-                    comparator = comparator.reversed();
-                }
-                rest.sort(comparator.reversed());
-            } else if (sort.equals("reviews")) {
-                Comparator<Restaurant> comparator = Comparator.comparingInt(r -> r.getReviews().size());
-                if (order != null && order.equals("asc")) {
-                    comparator = comparator.reversed();
-                }
-                rest.sort(comparator.reversed());
+        return rest;
+    }
+
+    public List<Restaurant> sort(List<Restaurant> restaurants) {
+        if (sort == null) {
+            return restaurants;
+        }
+        List<Restaurant> rest = new ArrayList<>(restaurants);
+        if (sort.equals("rating")) {
+            Comparator<Restaurant> comparator = Comparator.comparing(r -> r.getAverageRating().overall);
+            if (order != null && order.equals("asc")) {
+                comparator = comparator.reversed();
             }
+            rest.sort(comparator.reversed());
+        } else if (sort.equals("reviews")) {
+            Comparator<Restaurant> comparator = Comparator.comparingInt(r -> r.getReviews().size());
+            if (order != null && order.equals("asc")) {
+                comparator = comparator.reversed();
+            }
+            rest.sort(comparator.reversed());
         }
         return rest;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     public void setName(String name) {

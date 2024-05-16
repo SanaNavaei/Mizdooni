@@ -1,13 +1,14 @@
 package mizdooni.repository;
 
 import mizdooni.model.Restaurant;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.ListCrudRepository;
 
 import java.util.List;
 import java.util.Set;
 
-public interface RestaurantRepository extends ListCrudRepository<Restaurant, String> {
+public interface RestaurantRepository extends JpaRepository<Restaurant, String>, JpaSpecificationExecutor<Restaurant> {
     Restaurant findById(int id);
 
     Restaurant findByName(String name);
