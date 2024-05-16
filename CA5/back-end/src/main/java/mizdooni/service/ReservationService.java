@@ -1,13 +1,17 @@
 package mizdooni.service;
 
-import mizdooni.database.Database;
 import mizdooni.exceptions.*;
+import mizdooni.model.MizTable;
 import mizdooni.model.Reservation;
 import mizdooni.model.Restaurant;
-import mizdooni.model.MizTable;
 import mizdooni.model.user.User;
+import mizdooni.repository.MizTableRepository;
+import mizdooni.repository.ReservationRepository;
+import mizdooni.repository.RestaurantRepository;
+import mizdooni.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -21,13 +25,19 @@ import java.util.stream.Collectors;
 @Service
 public class ReservationService {
     @Autowired
-    private Database db;
+    private ReservationRepository reservationRepository;
+    @Autowired
+    private RestaurantRepository restaurantRepository;
+    @Autowired
+    private MizTableRepository mizTableRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private UserService userService;
 
     public List<Reservation> getReservations(int restaurantId, int tableNumber, LocalDate date)
             throws RestaurantNotFound, UserNotManager, InvalidManagerRestaurant, TableNotFound {
-        Restaurant restaurant = ServiceUtils.findRestaurant(restaurantId, db.restaurants);
+        Restaurant restaurant = restaurantRepository.findById(restaurantId);
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
@@ -36,18 +46,20 @@ public class ReservationService {
         if (manager == null || manager.getRole() != User.Role.manager) {
             throw new UserNotManager();
         }
-        if (!restaurant.getManager().equals(manager)) {
+        if (restaurant.getManager().getId() != manager.getId()) {
             throw new InvalidManagerRestaurant();
         }
 
-        MizTable table = restaurant.getTable(tableNumber);
+        MizTable table = mizTableRepository.findByRestaurantIdAndTableNumber(restaurantId, tableNumber);
         if (table == null) {
             throw new TableNotFound();
         }
 
-        List<Reservation> reservations = table.getReservations();
-        if (date != null) {
-            reservations = reservations.stream().filter(reservation -> reservation.getDateTime().toLocalDate().equals(date)).toList();
+        List<Reservation> reservations;
+        if (date == null) {
+            reservations = reservationRepository.findByTableTableNumber(table.getTableNumber());
+        } else {
+            reservations = reservationRepository.findByTableTableNumberAndDate(table.getTableNumber(), date);
         }
         return reservations;
     }
@@ -60,12 +72,13 @@ public class ReservationService {
         if (user.getId() != customerId) {
             throw new UserNoAccess();
         }
-        return user.getReservations();
+        return reservationRepository.findByUserId(customerId);
     }
 
+    @Transactional
     public List<LocalTime> getAvailableTimes(int restaurantId, int people, LocalDate date)
             throws RestaurantNotFound, DateTimeInThePast, BadPeopleNumber {
-        Restaurant restaurant = ServiceUtils.findRestaurant(restaurantId, db.restaurants);
+        Restaurant restaurant = restaurantRepository.findById(restaurantId);
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
@@ -77,14 +90,15 @@ public class ReservationService {
             throw new BadPeopleNumber();
         }
 
-        Set<LocalTime> availableTimes = restaurant.getTables().stream()
-                .filter(table -> table.getSeatsNumber() >= people)
+        List<MizTable> peopleTables = mizTableRepository.findByRestaurantIdAndSeatsNumberGreaterThanEqual(restaurantId, people);
+        Set<LocalTime> availableTimes = peopleTables.stream()
                 .flatMap(table -> getAvailableTableTimes(table, date, restaurant).stream())
                 .collect(Collectors.toSet());
 
         return availableTimes.stream().sorted().toList();
     }
 
+    @Transactional
     public Reservation reserveTable(int restaurantId, int people, LocalDateTime datetime)
             throws UserNotFound, ManagerReservationNotAllowed, InvalidWorkingTime, RestaurantNotFound, TableNotFound,
             DateTimeInThePast, ReservationNotInOpenTimes {
@@ -103,7 +117,7 @@ public class ReservationService {
             throw new DateTimeInThePast();
         }
 
-        Restaurant restaurant = ServiceUtils.findRestaurant(restaurantId, db.restaurants);
+        Restaurant restaurant = restaurantRepository.findById(restaurantId);
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
@@ -118,8 +132,9 @@ public class ReservationService {
         }
 
         Reservation reservation = new Reservation(user, restaurant, table, datetime);
-        user.addReservation(reservation);
-        table.addReservation(reservation);
+        user.nextReservation(reservation);
+        userRepository.updateReservationCounter(user.getId());
+        reservationRepository.save(reservation);
         return reservation;
     }
 
@@ -129,7 +144,7 @@ public class ReservationService {
             throw new UserNotFound();
         }
 
-        Reservation reservation = user.getReservation(reservationNumber);
+        Reservation reservation = reservationRepository.findByUserIdAndReservationNumber(user.getId(), reservationNumber);
         if (reservation == null) {
             throw new ReservationNotFound();
         }
@@ -139,6 +154,7 @@ public class ReservationService {
         }
 
         reservation.cancel();
+        reservationRepository.cancelById(reservation.getId());
     }
 
     private List<LocalTime> getAvailableTableTimes(MizTable table, LocalDate date, Restaurant restaurant) {

@@ -39,7 +39,6 @@ public abstract class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @Transient
     private int reservationCounter;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
@@ -65,6 +64,11 @@ public abstract class User {
         reservation.setReservationNumber(reservationCounter);
         reservationCounter++;
         reservations.add(reservation);
+    }
+
+    public void nextReservation(Reservation reservation) {
+        reservation.setReservationNumber(reservationCounter);
+        reservationCounter++;
     }
 
     public boolean checkReserved(Restaurant restaurant) {

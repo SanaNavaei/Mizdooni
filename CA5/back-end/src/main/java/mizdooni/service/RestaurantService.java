@@ -9,8 +9,10 @@ import mizdooni.model.RestaurantSearchFilter;
 import mizdooni.model.user.User;
 import mizdooni.repository.RestaurantRepository;
 import mizdooni.response.PagedList;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -25,20 +27,37 @@ public class RestaurantService {
     @Autowired
     private UserService userService;
 
+    @Transactional
     public Restaurant getRestaurant(int restaurantId) {
-        return restaurantRepository.findById(restaurantId);
+        Restaurant restaurant = restaurantRepository.findById(restaurantId);
+        if (restaurant != null) {
+            Hibernate.initialize(restaurant.getReviews());
+            Hibernate.initialize(restaurant.getTables());
+        }
+        return restaurant;
     }
 
+    @Transactional
     public PagedList<Restaurant> getRestaurants(int page, RestaurantSearchFilter filter) {
         List<Restaurant> restaurants = restaurantRepository.findAll();
+        for (Restaurant restaurant : restaurants) {
+            Hibernate.initialize(restaurant.getReviews());
+            Hibernate.initialize(restaurant.getTables());
+        }
         if (filter != null) {
             restaurants = filter.filter(restaurants);
         }
         return new PagedList<>(restaurants, page, ServiceUtils.RESTAURANT_PAGE_SIZE);
     }
 
+    @Transactional
     public List<Restaurant> getManagerRestaurants(int managerId) {
-        return restaurantRepository.findByManagerId(managerId);
+        List<Restaurant> restaurants = restaurantRepository.findByManagerId(managerId);
+        for (Restaurant restaurant : restaurants) {
+            Hibernate.initialize(restaurant.getReviews());
+            Hibernate.initialize(restaurant.getTables());
+        }
+        return restaurants;
     }
 
     public int addRestaurant(String name, String type, LocalTime startTime, LocalTime endTime, String description,

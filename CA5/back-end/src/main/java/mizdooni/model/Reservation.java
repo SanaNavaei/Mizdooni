@@ -47,6 +47,10 @@ public class Reservation {
         return cancelled;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public User getUser() {
         return user;
     }

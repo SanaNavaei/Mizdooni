@@ -14,4 +14,21 @@ public interface ReservationRepository extends ListCrudRepository<Reservation, I
     boolean existsByUserIdAndRestaurantIdAndCancelledFalseAndDatetimeBefore(int userId, int restaurantId, LocalDateTime datetime);
 
     List<Reservation> findByTableTableNumber(int tableNumber);
+
+    @Query("SELECT r " +
+            "FROM Reservation r " +
+            "WHERE r.table.tableNumber = :tableNumber " +
+            "AND DATE(r.datetime) = :date")
+    List<Reservation> findByTableTableNumberAndDate(int tableNumber, LocalDate date);
+
+    List<Reservation> findByUserId(int userId);
+
+    Reservation findByUserIdAndReservationNumber(int userId, int reservationNumber);
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Reservation r " +
+            "SET r.cancelled = true " +
+            "WHERE r.id = :reservationId")
+    void cancelById(int reservationId);
 }
