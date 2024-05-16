@@ -1,9 +1,6 @@
 package mizdooni.service;
 
-import mizdooni.model.Restaurant;
-
 import java.time.LocalTime;
-import java.util.List;
 
 public class ServiceUtils {
     static final int REVIEW_PAGE_SIZE = 5;
@@ -21,9 +18,5 @@ public class ServiceUtils {
 
     static boolean validateWorkingTime(LocalTime time) {
         return time.getMinute() == 0;
-    }
-
-    static Restaurant findRestaurant(int id, List<Restaurant> restaurants) {
-        return restaurants.stream().filter(r -> r.getId() == id).findFirst().orElse(null);
     }
 }
