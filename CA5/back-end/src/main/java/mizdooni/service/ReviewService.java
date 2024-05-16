@@ -1,31 +1,41 @@
 package mizdooni.service;
 
-import mizdooni.database.Database;
 import mizdooni.exceptions.*;
 import mizdooni.model.Rating;
 import mizdooni.model.Restaurant;
 import mizdooni.model.Review;
 import mizdooni.model.user.User;
+import mizdooni.repository.ReservationRepository;
+import mizdooni.repository.RestaurantRepository;
+import mizdooni.repository.ReviewRepository;
 import mizdooni.response.PagedList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ReviewService {
     @Autowired
-    private Database db;
+    private ReviewRepository reviewRepository;
+    @Autowired
+    private RestaurantRepository restaurantRepository;
+    @Autowired
+    private ReservationRepository reservationRepository;
     @Autowired
     private UserService userService;
 
     public PagedList<Review> getReviews(int restaurantId, int page) throws RestaurantNotFound {
-        Restaurant restaurant = ServiceUtils.findRestaurant(restaurantId, db.restaurants);
+        Restaurant restaurant = restaurantRepository.findById(restaurantId);
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
-        PagedList<Review> reviews = new PagedList<>(restaurant.getReviews(), page, ServiceUtils.REVIEW_PAGE_SIZE);
-        return reviews;
+        PageRequest pageRequest = PageRequest.of(page - 1, ServiceUtils.REVIEW_PAGE_SIZE);
+        List<Review> reviews = reviewRepository.findByRestaurantId(restaurantId, pageRequest);
+        int totalReviews = reviewRepository.countByRestaurantId(restaurantId);
+        return new PagedList<>(reviews, totalReviews, pageRequest);
     }
 
     public void addReview(int restaurantId, Rating rating, String comment)
@@ -38,11 +48,11 @@ public class ReviewService {
             throw new ManagerCannotReview();
         }
 
-        Restaurant restaurant = ServiceUtils.findRestaurant(restaurantId, db.restaurants);
+        Restaurant restaurant = restaurantRepository.findById(restaurantId);
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
-        if (!user.checkReserved(restaurant)) {
+        if (!checkReserved(user, restaurant)) {
             throw new UserHasNotReserved();
         }
 
@@ -59,7 +69,17 @@ public class ReviewService {
             throw new InvalidReviewRating("Overall");
         }
 
-        Review review = new Review(user, rating, comment, LocalDateTime.now());
-        restaurant.addReview(review);
+        Review previous = reviewRepository.findByUserIdAndRestaurantId(user.getId(), restaurantId);
+        if (previous == null) {
+            Review review = new Review(user, restaurant, rating, comment, LocalDateTime.now());
+            reviewRepository.save(review);
+        } else {
+            reviewRepository.update(previous.getId(), rating, comment, LocalDateTime.now());
+        }
+    }
+
+    private boolean checkReserved(User user, Restaurant restaurant) {
+        return reservationRepository.existsByUserIdAndRestaurantIdAndCancelledFalseAndDatetimeBefore(
+                user.getId(), restaurant.getId(), LocalDateTime.now());
     }
 }

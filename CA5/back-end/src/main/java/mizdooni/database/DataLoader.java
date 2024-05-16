@@ -7,6 +7,7 @@ import mizdooni.model.user.Manager;
 import mizdooni.model.user.User;
 import mizdooni.repository.MizTableRepository;
 import mizdooni.repository.RestaurantRepository;
+import mizdooni.repository.ReviewRepository;
 import mizdooni.repository.user.UserRepository;
 
 import java.time.LocalDateTime;
@@ -17,13 +18,15 @@ public class DataLoader {
     private UserRepository userRepository;
     private RestaurantRepository restaurantRepository;
     private MizTableRepository mizTableRepository;
+    private ReviewRepository reviewRepository;
 
     public DataLoader(Database database, UserRepository userRepository, RestaurantRepository restaurantRepository,
-                      MizTableRepository mizTableRepository) {
+                      MizTableRepository mizTableRepository, ReviewRepository reviewRepository) {
         this.db = database;
         this.userRepository = userRepository;
         this.restaurantRepository = restaurantRepository;
         this.mizTableRepository = mizTableRepository;
+        this.reviewRepository = reviewRepository;
     }
 
     public void read() {
@@ -133,18 +136,31 @@ public class DataLoader {
             return;
         }
 
+        boolean saveToDb = reviewRepository.count() == 0;
+
         for (JsonNode node : reviewsList) {
             Restaurant restaurant = getRestaurantByName(node.get("restaurantName").asText());
+            if (saveToDb) {
+                restaurant = restaurantRepository.findByName(node.get("restaurantName").asText());
+            }
             User user = getUserByUsername(node.get("username").asText());
+            if (saveToDb) {
+                user = userRepository.findByUsername(node.get("username").asText());
+            }
 
+            String comment = node.get("comment").asText();
             Rating rating = new Rating();
             rating.food = node.get("foodRate").asDouble();
             rating.service = node.get("serviceRate").asDouble();
             rating.ambiance = node.get("ambianceRate").asDouble();
             rating.overall = node.get("overallRate").asDouble();
 
-            String comment = node.get("comment").asText();
-            restaurant.addReview(new Review(user, rating, comment, LocalDateTime.now()));
+            Review review = new Review(user, restaurant, rating, comment, LocalDateTime.now());
+            if (saveToDb) {
+                reviewRepository.save(review);
+            } else {
+                restaurant.addReview(review);
+            }
         }
     }
 

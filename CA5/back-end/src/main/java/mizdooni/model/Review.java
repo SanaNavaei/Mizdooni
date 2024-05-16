@@ -14,12 +14,12 @@ public class Review {
     @ManyToOne
     private User user;
 
-    @Embedded
-    private Rating rating;
-
     @ManyToOne
     @JoinColumn
     private Restaurant restaurant;
+
+    @Embedded
+    private Rating rating;
 
     @Column(columnDefinition = "TEXT")
     private String comment;
@@ -30,11 +30,16 @@ public class Review {
 
     }
 
-    public Review(User user, Rating rating, String comment, LocalDateTime datetime) {
+    public Review(User user, Restaurant restaurant, Rating rating, String comment, LocalDateTime datetime) {
         this.user = user;
+        this.restaurant = restaurant;
         this.rating = rating;
         this.comment = comment;
         this.datetime = datetime;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public Rating getRating() {
