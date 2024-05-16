@@ -15,7 +15,7 @@ public class RestaurantSearchFilter {
     public List<Restaurant> filter(List<Restaurant> restaurants) {
         List<Restaurant> rest = new ArrayList<>(restaurants);
         if (name != null) {
-            rest = rest.stream().filter(r -> r.getName().contains(name)).collect(Collectors.toList());
+            rest = rest.stream().filter(r -> r.getName().toLowerCase().contains(name.toLowerCase())).collect(Collectors.toList());
         }
         if (type != null) {
             rest = rest.stream().filter(r -> r.getType().equals(type)).collect(Collectors.toList());

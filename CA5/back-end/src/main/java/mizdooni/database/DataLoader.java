@@ -5,6 +5,8 @@ import mizdooni.model.*;
 import mizdooni.model.user.Client;
 import mizdooni.model.user.Manager;
 import mizdooni.model.user.User;
+import mizdooni.repository.MizTableRepository;
+import mizdooni.repository.RestaurantRepository;
 import mizdooni.repository.user.UserRepository;
 
 import java.time.LocalDateTime;
@@ -13,10 +15,15 @@ import java.time.LocalTime;
 public class DataLoader {
     private Database db;
     private UserRepository userRepository;
+    private RestaurantRepository restaurantRepository;
+    private MizTableRepository mizTableRepository;
 
-    public DataLoader(Database database, UserRepository userRepository) {
+    public DataLoader(Database database, UserRepository userRepository, RestaurantRepository restaurantRepository,
+                      MizTableRepository mizTableRepository) {
         this.db = database;
         this.userRepository = userRepository;
+        this.restaurantRepository = restaurantRepository;
+        this.mizTableRepository = mizTableRepository;
     }
 
     public void read() {
@@ -31,6 +38,8 @@ public class DataLoader {
         if (usersList == null) {
             return;
         }
+
+        boolean saveToDb = userRepository.count() == 0;
 
         int id = 0;
         for (JsonNode node : usersList) {
@@ -50,7 +59,9 @@ public class DataLoader {
                 user = new Manager(id, username, password, email, address);
             }
             db.users.add(user);
-            userRepository.save(user);
+            if (saveToDb) {
+                userRepository.save(user);
+            }
             id++;
         }
     }
@@ -60,6 +71,8 @@ public class DataLoader {
         if (restaurantsList == null) {
             return;
         }
+
+        boolean saveToDb = restaurantRepository.count() == 0;
 
         int id = 0;
         for (JsonNode node : restaurantsList) {
@@ -84,6 +97,9 @@ public class DataLoader {
                     node.get("image").asText()
             );
             db.restaurants.add(restaurant);
+            if (saveToDb) {
+                restaurantRepository.save(restaurant);
+            }
             id++;
         }
     }
@@ -94,13 +110,20 @@ public class DataLoader {
             return;
         }
 
+        boolean saveToDb = mizTableRepository.count() == 0;
+
         for (JsonNode node : tablesList) {
             Restaurant restaurant = getRestaurantByName(node.get("restaurantName").asText());
-
-            int tableNumber = node.get("tableNumber").asInt();
+            if (saveToDb) {
+                restaurant = restaurantRepository.findByName(node.get("restaurantName").asText());
+            }
             int seatsNumber = node.get("seatsNumber").asInt();
-            MizTable table = new MizTable(tableNumber, restaurant, seatsNumber);
-            restaurant.addTable(table);
+            MizTable table = new MizTable(0, restaurant, seatsNumber);
+            if (saveToDb) {
+                mizTableRepository.save(table);
+            } else {
+                restaurant.addTable(table);
+            }
         }
     }
 

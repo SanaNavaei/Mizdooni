@@ -12,7 +12,7 @@ public class Address {
     private String country;
     @Column(length = 50)
     private String city;
-    @Column(length = 50)
+    @Column(length = 100)
     private String street;
 
     public Address() {
