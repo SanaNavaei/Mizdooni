@@ -18,6 +18,7 @@ public class Restaurant {
     private String name;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
     private User manager;
 
     @Column(length = 50)
@@ -29,7 +30,7 @@ public class Restaurant {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     private String imageLink;

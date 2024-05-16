@@ -12,7 +12,8 @@ import java.util.List;
 public class MizTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int number;
+    @Column(name = "number")
+    private int tableNumber;
 
     @ManyToOne
     @JoinColumn
@@ -30,7 +31,7 @@ public class MizTable {
     }
 
     public MizTable(int tableNumber, Restaurant restaurant, int seatsNumber) {
-        this.number = tableNumber;
+        this.tableNumber = tableNumber;
         this.restaurant = restaurant;
         this.seatsNumber = seatsNumber;
         this.reservations = new ArrayList<>();
@@ -45,11 +46,11 @@ public class MizTable {
     }
 
     public int getTableNumber() {
-        return number;
+        return tableNumber;
     }
 
     public void setTableNumber(int tableNumber) {
-        this.number = tableNumber;
+        this.tableNumber = tableNumber;
     }
 
     public int getSeatsNumber() {
