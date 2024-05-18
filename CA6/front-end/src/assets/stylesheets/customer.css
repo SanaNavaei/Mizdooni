@@ -1,0 +1,49 @@
+.alert {
+    background-color: var(--miz-red-light);
+}
+
+#reservations th {
+    color: var(--miz-text);
+    background-color: var(--miz-grey);
+}
+
+#reservations td:nth-child(2),
+#reservations td:nth-child(5) {
+    color: var(--miz-red);
+}
+
+#reservations td:nth-child(1),
+#reservations td:nth-child(3),
+#reservations td:nth-child(4) {
+    color: var(--miz-green);
+}
+
+#reservations tr.past-reservation td:nth-child(1),
+#reservations tr.past-reservation td:nth-child(3),
+#reservations tr.past-reservation td:nth-child(4) {
+    color: var(--miz-text-light);
+}
+
+#reservations th,
+#reservations tr:last-child > td {
+    border-bottom: 0;
+}
+
+#reservations tr.cancelled-reservation td:nth-child(1),
+#reservations tr.cancelled-reservation td:nth-child(2),
+#reservations tr.cancelled-reservation td:nth-child(3),
+#reservations tr.cancelled-reservation td:nth-child(4) {
+    text-decoration: line-through;
+}
+
+#reservations tr.cancelled-reservation.past-reservation td:nth-child(5) {
+    color: var(--miz-text-light);
+}
+
+.logout-button {
+    background-color: var(--miz-red);
+}
+
+#reservations #no-reserve {
+    color: var(--miz-text);
+}
