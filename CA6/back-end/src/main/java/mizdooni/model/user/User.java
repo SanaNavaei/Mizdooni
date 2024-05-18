@@ -6,6 +6,7 @@ import mizdooni.model.Reservation;
 import mizdooni.model.Restaurant;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -87,7 +88,8 @@ public abstract class User {
     }
 
     public boolean checkPassword(String pass) {
-        return password.equals(pass);
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.matches(pass, password);
     }
 
     public int getId() {

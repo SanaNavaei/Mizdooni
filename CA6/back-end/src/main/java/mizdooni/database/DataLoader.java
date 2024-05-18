@@ -5,6 +5,7 @@ import mizdooni.model.*;
 import mizdooni.model.user.Client;
 import mizdooni.model.user.Manager;
 import mizdooni.model.user.User;
+import mizdooni.service.ServiceUtils;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -40,7 +41,7 @@ public class DataLoader {
         int id = 0;
         for (JsonNode node : usersList) {
             String username = node.get("username").asText();
-            String password = node.get("password").asText();
+            String password = ServiceUtils.hashPassword(node.get("password").asText());
             String email = node.get("email").asText();
             String roleStr = node.get("role").asText();
             String country = node.get("address").get("country").asText();
