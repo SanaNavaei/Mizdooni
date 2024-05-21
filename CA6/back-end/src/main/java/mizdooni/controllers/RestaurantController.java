@@ -1,5 +1,6 @@
 package mizdooni.controllers;
 
+import mizdooni.filters.LoginRequired;
 import mizdooni.model.Address;
 import mizdooni.model.Restaurant;
 import mizdooni.model.RestaurantSearchFilter;
@@ -40,6 +41,7 @@ class RestaurantController {
     }
 
     @GetMapping("/restaurants/manager/{managerId}")
+    @LoginRequired
     public Response getManagerRestaurants(@PathVariable int managerId) {
         try {
             List<Restaurant> restaurants = restaurantService.getManagerRestaurants(managerId);
@@ -50,6 +52,7 @@ class RestaurantController {
     }
 
     @PostMapping("/restaurants")
+    @LoginRequired
     public Response addRestaurant(@RequestBody Map<String, Object> params) {
         if (!ControllerUtils.containsKeys(params, "name", "type", "startTime", "endTime", "description", "address")) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);

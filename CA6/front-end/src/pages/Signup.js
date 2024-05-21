@@ -96,6 +96,7 @@ function Signup() {
       });
       if (response.ok) {
         let res = await response.json();
+        localStorage.setItem('token', res.message);
         localStorage.setItem('username', formData.username);
         localStorage.setItem('role', formData.role);
         localStorage.setItem('id', res.data.id);

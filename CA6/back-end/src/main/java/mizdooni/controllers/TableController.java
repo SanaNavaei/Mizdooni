@@ -1,5 +1,6 @@
 package mizdooni.controllers;
 
+import mizdooni.filters.LoginRequired;
 import mizdooni.model.MizTable;
 import mizdooni.response.Response;
 import mizdooni.response.ResponseException;
@@ -23,6 +24,7 @@ class TableController {
     private TableService tableService;
 
     @GetMapping("/tables/{restaurantId}")
+    @LoginRequired
     public Response getTables(@PathVariable int restaurantId) {
         ControllerUtils.checkRestaurant(restaurantId, restaurantService);
         try {
@@ -34,6 +36,7 @@ class TableController {
     }
 
     @PostMapping("/tables/{restaurantId}")
+    @LoginRequired
     public Response addTable(@PathVariable int restaurantId, @RequestBody Map<String, String> params) {
         ControllerUtils.checkRestaurant(restaurantId, restaurantService);
         if (!ControllerUtils.containsKeys(params, "seatsNumber")) {

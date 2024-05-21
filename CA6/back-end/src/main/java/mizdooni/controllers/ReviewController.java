@@ -1,5 +1,6 @@
 package mizdooni.controllers;
 
+import mizdooni.filters.LoginRequired;
 import mizdooni.model.Rating;
 import mizdooni.model.Restaurant;
 import mizdooni.model.Review;
@@ -37,6 +38,7 @@ class ReviewController {
     }
 
     @PostMapping("/reviews/{restaurantId}")
+    @LoginRequired
     public Response addReview(@PathVariable int restaurantId, @RequestBody Map<String, Object> params) {
         ControllerUtils.checkRestaurant(restaurantId, restaurantService);
         if (!ControllerUtils.containsKeys(params, "comment", "rating")) {
