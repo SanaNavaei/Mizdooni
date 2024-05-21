@@ -41,7 +41,7 @@ public class DataLoader {
         int id = 0;
         for (JsonNode node : usersList) {
             String username = node.get("username").asText();
-            String password = Crypto.hashPassword(node.get("password").asText());
+            String password = Crypto.hash(node.get("password").asText());
             String email = node.get("email").asText();
             String roleStr = node.get("role").asText();
             String country = node.get("address").get("country").asText();

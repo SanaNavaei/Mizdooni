@@ -18,19 +18,27 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    public record UserTokenPair(User user, String token) {
+
+    }
+
     public User getCurrentUser() {
         return null;
     }
 
     public User getUser(String token) {
-        String username = jwtService.getUsername(token);
-        return userRepository.findByUsername(username);
+        try {
+            String username = jwtService.getUsername(token);
+            return userRepository.findByUsername(username);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
-    public String login(String username, String password) {
+    public UserTokenPair login(String username, String password) {
         User user = userRepository.findByUsername(username);
         if (user != null && user.checkPassword(password)) {
-            return jwtService.createToken(user);
+            return new UserTokenPair(user, jwtService.createToken(user));
         }
         return null;
     }
@@ -47,13 +55,13 @@ public class UserService {
             throw new DuplicatedUsernameEmail();
         }
 
+        String passwordHash = Crypto.hash(password);
         User user = null;
         int id = (int) userRepository.count();
-        String passwordHash = Crypto.hashPassword(password);
-        if (role == User.Role.client) {
-            user = new Client(id, username, passwordHash, email, address);
-        } else if (role == User.Role.manager) {
+        if (role == User.Role.manager) {
             user = new Manager(id, username, passwordHash, email, address);
+        } else {
+            user = new Client(id, username, passwordHash, email, address);
         }
         userRepository.save(user);
     }

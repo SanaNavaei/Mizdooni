@@ -44,11 +44,11 @@ public class AuthenticationController {
             throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
         }
 
-        String token = userService.login(username, password);
-        if (token == null) {
+        UserService.UserTokenPair result = userService.login(username, password);
+        if (result == null) {
             throw new ResponseException(HttpStatus.UNAUTHORIZED, "invalid username or password");
         }
-        return Response.ok(token, userService.getUser(token));
+        return Response.ok("login successful", result.user()).token(result.token());
     }
 
     @PostMapping("/signup")
@@ -78,8 +78,8 @@ public class AuthenticationController {
 
         try {
             userService.signup(username, password, email, address, role);
-            String token = userService.login(username, password);
-            return Response.ok(token, userService.getUser(token));
+            UserService.UserTokenPair result = userService.login(username, password);
+            return Response.ok("signup successful", result.user()).token(result.token());
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
         }

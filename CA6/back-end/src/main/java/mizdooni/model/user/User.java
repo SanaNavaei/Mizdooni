@@ -88,8 +88,7 @@ public abstract class User {
     }
 
     public boolean checkPassword(String pass) {
-        pass = Crypto.hashPassword(pass);
-        return pass.equals(password);
+        return password.equals(Crypto.hash(pass));
     }
 
     public int getId() {

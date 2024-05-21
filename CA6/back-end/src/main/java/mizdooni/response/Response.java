@@ -17,16 +17,18 @@ public class Response {
     @JsonSerialize(using = HttpStatusSerializer.class)
     private HttpStatus status;
     private boolean success;
-    private String error;
     private String message;
+    private String error;
+    private String token;
     private Object data;
 
     public Response(HttpStatus status, String message, boolean success, String error, Object data) {
         this.timestamp = LocalDateTime.now();
         this.status = status;
-        this.message = message;
         this.success = success;
+        this.message = message;
         this.error = error;
+        this.token = null;
         this.data = data;
     }
 
@@ -36,5 +38,10 @@ public class Response {
 
     public static Response ok(String message, Object data) {
         return new Response(HttpStatus.OK, message, true, null, data);
+    }
+
+    public Response token(String tk) {
+        token = tk;
+        return this;
     }
 }
