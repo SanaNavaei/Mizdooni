@@ -44,7 +44,7 @@ public class UserService {
 
         User user = null;
         int id = (int) userRepository.count();
-        password = ServiceUtils.hashPassword(password);
+        password = Crypto.hashPassword(password);
         if (role == User.Role.client) {
             user = new Client(id, username, password, email, address);
         } else if (role == User.Role.manager) {

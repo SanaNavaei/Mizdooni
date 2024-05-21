@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import mizdooni.model.Address;
 import mizdooni.model.Reservation;
 import mizdooni.model.Restaurant;
+import mizdooni.service.Crypto;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -88,8 +88,8 @@ public abstract class User {
     }
 
     public boolean checkPassword(String pass) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        return encoder.matches(pass, password);
+        pass = Crypto.hashPassword(pass);
+        return pass.equals(password);
     }
 
     public int getId() {
