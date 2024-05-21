@@ -3,7 +3,7 @@ package mizdooni.filters;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import mizdooni.response.ResponseException;
-import mizdooni.service.UserService;
+import mizdooni.service.JwtService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -11,10 +11,11 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import java.lang.reflect.Method;
 
 public class AuthInterceptor implements HandlerInterceptor {
-    private UserService userService;
+    private static final String LOGIN_REQUIRED = "login required";
+    private JwtService jwtService;
 
-    public AuthInterceptor(UserService userService) {
-        this.userService = userService;
+    public AuthInterceptor(JwtService jwtService) {
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -24,8 +25,14 @@ public class AuthInterceptor implements HandlerInterceptor {
                 !method.getDeclaringClass().isAnnotationPresent(LoginRequired.class)) {
             return true;
         }
-        if (userService.getCurrentUser() == null) {
-            throw new ResponseException(HttpStatus.FORBIDDEN, "login required");
+
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new ResponseException(HttpStatus.FORBIDDEN, LOGIN_REQUIRED);
+        }
+        String token = authHeader.substring(7);
+        if (!jwtService.validateToken(token)) {
+            throw new ResponseException(HttpStatus.FORBIDDEN, LOGIN_REQUIRED);
         }
         return true;
     }
