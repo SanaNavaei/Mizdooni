@@ -47,6 +47,10 @@ public class JwtService {
         }
     }
 
+    public String getUsername(String token) {
+         return (String) Jwts.parser().verifyWith(getSignKey()).build().parseSignedClaims(token).getPayload().get("name");
+    }
+
     private SecretKey getSignKey() {
         return new SecretKeySpec(SECRET_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
     }

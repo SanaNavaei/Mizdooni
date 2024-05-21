@@ -4,6 +4,7 @@ import mizdooni.model.Address;
 import mizdooni.model.user.User;
 import mizdooni.response.Response;
 import mizdooni.response.ResponseException;
+import mizdooni.service.JwtService;
 import mizdooni.service.ServiceUtils;
 import mizdooni.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +20,15 @@ import static mizdooni.controllers.ControllerUtils.PARAMS_MISSING;
 public class AuthenticationController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private JwtService jwtService;
 
     @GetMapping("/user")
-    public Response user() {
-        User user = userService.getCurrentUser();
+    public Response user(@RequestHeader(value = "Authorization", required = false) String token) {
+        User user = null;
+        if (token != null && token.startsWith("Bearer ") && jwtService.validateToken(token.substring(7))) {
+            user = userService.getUser(token.substring(7));
+        }
         if (user == null) {
             throw new ResponseException(HttpStatus.UNAUTHORIZED, "no user logged in");
         }
@@ -38,10 +44,11 @@ public class AuthenticationController {
             throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
         }
 
-        if (userService.login(username, password)) {
-            return Response.ok("login successful", userService.getCurrentUser());
+        String token = userService.login(username, password);
+        if (token == null) {
+            throw new ResponseException(HttpStatus.UNAUTHORIZED, "invalid username or password");
         }
-        throw new ResponseException(HttpStatus.UNAUTHORIZED, "invalid username or password");
+        return Response.ok(token, userService.getUser(token));
     }
 
     @PostMapping("/signup")
@@ -71,8 +78,8 @@ public class AuthenticationController {
 
         try {
             userService.signup(username, password, email, address, role);
-            userService.login(username, password);
-            return Response.ok("signup successful", userService.getCurrentUser());
+            String token = userService.login(username, password);
+            return Response.ok(token, userService.getUser(token));
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
         }

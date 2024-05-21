@@ -14,20 +14,25 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserService {
     @Autowired
+    private JwtService jwtService;
+    @Autowired
     private UserRepository userRepository;
-    private User currentUser = null;
 
     public User getCurrentUser() {
-        return currentUser;
+        return null;
     }
 
-    public boolean login(String username, String password) {
+    public User getUser(String token) {
+        String username = jwtService.getUsername(token);
+        return userRepository.findByUsername(username);
+    }
+
+    public String login(String username, String password) {
         User user = userRepository.findByUsername(username);
         if (user != null && user.checkPassword(password)) {
-            currentUser = user;
-            return true;
+            return jwtService.createToken(user);
         }
-        return false;
+        return null;
     }
 
     public void signup(String username, String password, String email, Address address, User.Role role)
@@ -44,21 +49,17 @@ public class UserService {
 
         User user = null;
         int id = (int) userRepository.count();
-        password = Crypto.hashPassword(password);
+        String passwordHash = Crypto.hashPassword(password);
         if (role == User.Role.client) {
-            user = new Client(id, username, password, email, address);
+            user = new Client(id, username, passwordHash, email, address);
         } else if (role == User.Role.manager) {
-            user = new Manager(id, username, password, email, address);
+            user = new Manager(id, username, passwordHash, email, address);
         }
         userRepository.save(user);
     }
 
     public boolean logout() {
-        if (currentUser != null) {
-            currentUser = null;
-            return true;
-        }
-        return false;
+        return true;
     }
 
     public boolean usernameExists(String username) {
