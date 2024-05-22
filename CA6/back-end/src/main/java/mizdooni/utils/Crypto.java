@@ -1,4 +1,4 @@
-package mizdooni.service;
+package mizdooni.utils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

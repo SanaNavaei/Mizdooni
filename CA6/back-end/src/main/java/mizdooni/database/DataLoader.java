@@ -5,7 +5,7 @@ import mizdooni.model.*;
 import mizdooni.model.user.Client;
 import mizdooni.model.user.Manager;
 import mizdooni.model.user.User;
-import mizdooni.service.Crypto;
+import mizdooni.utils.Crypto;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;

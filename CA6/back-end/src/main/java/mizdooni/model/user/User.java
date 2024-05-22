@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import mizdooni.model.Address;
 import mizdooni.model.Reservation;
 import mizdooni.model.Restaurant;
-import mizdooni.service.Crypto;
+import mizdooni.utils.Crypto;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -28,7 +28,6 @@ public abstract class User {
     @Column(length = 50)
     private String username;
 
-    @Column(nullable = false)
     private String password;
 
     @Column(unique = true, nullable = false)
