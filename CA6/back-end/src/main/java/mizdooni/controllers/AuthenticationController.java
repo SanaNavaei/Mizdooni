@@ -52,6 +52,21 @@ public class AuthenticationController {
         return Response.ok("login successful", result.user()).token(result.token());
     }
 
+    @PostMapping("/login/google")
+    public Response loginWithGoogle(@RequestBody Map<String, String> params) {
+        String code = params.get("code");
+
+        if (!ControllerUtils.doExist(code)) {
+            throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
+        }
+
+        UserService.UserTokenPair result = userService.loginWithGoogle(code);
+        if (result == null) {
+            throw new ResponseException(HttpStatus.UNAUTHORIZED, "oauth validation failed");
+        }
+        return Response.ok("login successful", result.user()).token(result.token());
+    }
+
     @PostMapping("/signup")
     public Response signup(@RequestBody Map<String, Object> params) {
         if (!ControllerUtils.containsKeys(params, "username", "password", "email", "address", "role")) {
@@ -84,14 +99,6 @@ public class AuthenticationController {
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
         }
-    }
-
-    @PostMapping("/logout")
-    public Response logout() {
-        if (userService.logout()) {
-            return Response.ok("logout successful");
-        }
-        throw new ResponseException(HttpStatus.UNAUTHORIZED, "no user logged in");
     }
 
     @GetMapping("/validate/username")

@@ -28,11 +28,11 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            throw new ResponseException(HttpStatus.FORBIDDEN, LOGIN_REQUIRED);
+            throw new ResponseException(HttpStatus.UNAUTHORIZED, LOGIN_REQUIRED);
         }
         String token = authHeader.substring(7);
         if (!jwtService.validateToken(token)) {
-            throw new ResponseException(HttpStatus.FORBIDDEN, LOGIN_REQUIRED);
+            throw new ResponseException(HttpStatus.UNAUTHORIZED, LOGIN_REQUIRED);
         }
 
         int userId = jwtService.getUserId(token);

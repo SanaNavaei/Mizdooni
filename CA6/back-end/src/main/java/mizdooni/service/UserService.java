@@ -12,10 +12,14 @@ import mizdooni.utils.Crypto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 public class UserService {
     @Autowired
     private JwtService jwtService;
+    @Autowired
+    private GoogleAuthService googleAuthService;
     @Autowired
     private UserRepository userRepository;
 
@@ -33,6 +37,30 @@ public class UserService {
             return new UserTokenPair(user, jwtService.createToken(user));
         }
         return null;
+    }
+
+    public UserTokenPair loginWithGoogle(String code) {
+        String accessToken = googleAuthService.getAccessToken(code);
+        if (accessToken == null) {
+            return null;
+        }
+        Map<String, String> userInfo = googleAuthService.getUserInfo(accessToken);
+        String name = userInfo.get("name");
+        String email = userInfo.get("email");
+
+        if (userRepository.existsByEmail(email)) {
+            User user = userRepository.findByEmail(email);
+            return new UserTokenPair(user, jwtService.createToken(user));
+        }
+
+        if (userRepository.existsByUsername(name)) {
+            return null;
+        }
+
+        int id = (int) userRepository.count();
+        User user = new Client(id, name, null, email, new Address("", "", null));
+        userRepository.save(user);
+        return new UserTokenPair(user, jwtService.createToken(user));
     }
 
     public void signup(String username, String password, String email, Address address, User.Role role)
@@ -56,10 +84,6 @@ public class UserService {
             user = new Client(id, username, passwordHash, email, address);
         }
         userRepository.save(user);
-    }
-
-    public boolean logout() {
-        return true;
     }
 
     public boolean usernameExists(String username) {

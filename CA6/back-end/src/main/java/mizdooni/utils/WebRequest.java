@@ -80,6 +80,10 @@ public class WebRequest {
             }
         }
 
+        if (method == Method.POST || method == Method.PUT) {
+            connection.setDoOutput(true);
+            connection.getOutputStream().close();
+        }
         connection.connect();
         return connection;
     }

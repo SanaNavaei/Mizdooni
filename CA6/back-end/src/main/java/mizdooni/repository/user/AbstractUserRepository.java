@@ -7,9 +7,11 @@ import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 interface AbstractUserRepository<T extends User> extends ListCrudRepository<T, String> {
+    T findById(int userId);
+
     T findByUsername(String username);
 
-    T findById(int userId);
+    T findByEmail(String email);
 
     boolean existsByUsername(String username);
 
