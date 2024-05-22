@@ -10,12 +10,10 @@ import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/manager_restaurants.css';
 
 function Manager() {
+  useEffect(() => { document.title = 'Manager Restaurants'; }, []);
+
   const [restaurants, setRestaurants] = useState([]);
   const id = localStorage.getItem('id');
-
-  useEffect(() => {
-    document.title = 'Manager Restaurants';
-  }, []);
 
   const reloadRestaurants = () => {
     fetch(`/api/restaurants/manager/${id}`, {
@@ -49,7 +47,7 @@ function Manager() {
     <PageLayout>
       <div className="container pt-4">
         <Logout />
-        <ManagerRestaurants restaurants={restaurants} reloadRestaurants={reloadRestaurants}/>
+        <ManagerRestaurants restaurants={restaurants} reloadRestaurants={reloadRestaurants} />
       </div>
     </PageLayout>
   );

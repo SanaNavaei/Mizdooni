@@ -8,11 +8,9 @@ import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/error.css';
 
 function Error() {
-  const error = useRouteError();
+  useEffect(() => { document.title = 'Error'; }, []);
 
-  useEffect(() => {
-    document.title = 'Error';
-  }, []);
+  const error = useRouteError();
 
   return (
     <div className="min-vh-100 d-flex flex-column justify-content-center background-error">

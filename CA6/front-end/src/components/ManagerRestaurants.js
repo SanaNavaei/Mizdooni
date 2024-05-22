@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import AddRestaurantModal from "./AddRestaurantModal";
 
 function ManagerRestaurants({ restaurants, reloadRestaurants }) {
@@ -25,9 +27,9 @@ function ManagerRestaurants({ restaurants, reloadRestaurants }) {
                   <td className="ps-3">{restaurant.name}</td>
                   <td className="text-center">{restaurant.location}</td>
                   <td className="text-end pe-3">
-                    <a href={`/manage/${restaurant.id}`}>
+                    <Link to={`/manage/${restaurant.id}`}>
                       <button className="miz-button">Manage</button>
-                    </a>
+                    </Link>
                   </td>
                 </tr>
               ))

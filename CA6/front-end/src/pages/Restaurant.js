@@ -12,8 +12,9 @@ import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/restaurant.css';
 
 function Restaurant() {
-  const restaurantId = useParams().id;
+  useEffect(() => { document.title = 'Restaurant'; }, []);
 
+  const restaurantId = useParams().id;
   const [restaurant, setRestaurant] = useState({
     id: -1,
     name: '',
@@ -38,10 +39,6 @@ function Restaurant() {
     image: '',
     totalReviews: 0,
   });
-
-  useEffect(() => {
-    document.title = 'Restaurant';
-  }, []);
 
   useEffect(() => {
     fetch(`/api/restaurants/${restaurantId}`, {

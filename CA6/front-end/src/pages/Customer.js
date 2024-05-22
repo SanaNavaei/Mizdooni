@@ -10,12 +10,10 @@ import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/customer.css';
 
 function Customer() {
-  const id = localStorage.getItem('id');
-  const[reservations, setReservations] = useState([]);
+  useEffect(() => { document.title = 'Customer'; }, []);
 
-  useEffect(() => {
-    document.title = 'Customer';
-  }, []);
+  const id = localStorage.getItem('id');
+  const [reservations, setReservations] = useState([]);
 
   useEffect(() => {
     fetch(`/api/reserves/customer/${id}`, {

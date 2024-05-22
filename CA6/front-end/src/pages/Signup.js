@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 
 import AuthenticationHeader from 'components/AuthenticationHeader';
@@ -11,14 +11,12 @@ import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/authentication.css';
 
 function Signup() {
-  useEffect(() => {
-    document.title = 'Signup';
-  }, []);
+  useEffect(() => { document.title = 'Signup'; }, []);
+  const navigate = useNavigate();
 
   const [userError, setUserError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
-
   const [formData, setFormData] = useState({
     username: '',
     password: '',
@@ -31,40 +29,32 @@ function Signup() {
   });
 
   useEffect(() => {
-    const isUsernameValid = formData.username.trim() !== '' && userError === '';
-    const isPasswordValid = formData.password.trim() !== '';
-    const isEmailValid = formData.email.trim() !== '' && emailError === '';
-    const isCountryValid = formData.address.country.trim() !== '';
-    const isCityValid = formData.address.city.trim() !== '';
-    const isRoleValid = formData.role !== '';
-    setIsFormValid(isUsernameValid && isPasswordValid && isEmailValid && isCountryValid && isCityValid && isRoleValid);
+    const usernameValid = formData.username.trim() !== '' && userError === '';
+    const passwordValid = formData.password.trim() !== '';
+    const emailValid = formData.email.trim() !== '' && emailError === '';
+    const countryValid = formData.address.country.trim() !== '';
+    const cityValid = formData.address.city.trim() !== '';
+    const roleValid = formData.role !== '';
+    setIsFormValid(usernameValid && passwordValid && emailValid && countryValid && cityValid && roleValid);
   }, [formData]);
 
-  const validateUsername = async() => {
-    try {
-      const response = await fetch(`/api/validate/username?data=${formData.username}`);
-      if (response.ok) {
-        setUserError('');
-      } else {
-        const data = await response.json();
-        setUserError(data.message);
-      }
-    } catch (error) {
-      console.error('Error validating username:', error);
+  const validateUsername = async () => {
+    const response = await fetch(`/api/validate/username?data=${formData.username}`);
+    if (response.ok) {
+      setUserError('');
+    } else {
+      const data = await response.json();
+      setUserError(data.message);
     }
   };
 
-  const validateEmail = async() => {
-    try {
-      const response = await fetch(`/api/validate/email?data=${formData.email}`);
-      if (response.ok) {
-        setEmailError('');
-      } else {
-        const data = await response.json();
-        setEmailError(data.message);
-      }
-    } catch (error) {
-      console.error('Error validating email:', error);
+  const validateEmail = async () => {
+    const response = await fetch(`/api/validate/email?data=${formData.email}`);
+    if (response.ok) {
+      setEmailError('');
+    } else {
+      const data = await response.json();
+      setEmailError(data.message);
     }
   };
 
@@ -86,37 +76,34 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch('/api/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        let res = await response.json();
-        localStorage.setItem('token', res.message);
-        localStorage.setItem('username', formData.username);
-        localStorage.setItem('role', formData.role);
-        localStorage.setItem('id', res.data.id);
-        localStorage.setItem('email', formData.email);
-        localStorage.setItem('country', formData.address.country);
-        localStorage.setItem('city', formData.address.city);
+    const response = await fetch('/api/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
 
-        if (formData.role === 'client') {
-          window.location.href = '/customer';
-        } else if (formData.role === 'manager') {
-          window.location.href = '/manager';
-        }
+    if (response.ok) {
+      let res = await response.json();
+      localStorage.setItem('token', res.token);
+      localStorage.setItem('id', res.data.id);
+      localStorage.setItem('username', res.data.username);
+      localStorage.setItem('email', res.data.email);
+      localStorage.setItem('role', res.data.role);
+      localStorage.setItem('country', res.data.address.country);
+      localStorage.setItem('city', res.data.address.city);
+
+      if (res.data.role === 'manager') {
+        navigate('/manager');
       } else {
-        toast.error('Failed to Signup!', {
-          position: 'top-right',
-          autoClose: 3000,
-        });
+        navigate('/customer');
       }
-    } catch (error) {
-      console.log(error.message)
+    } else {
+      toast.error('Failed to Signup!', {
+        position: 'top-right',
+        autoClose: 3000,
+      });
     }
   };
 
@@ -126,9 +113,9 @@ function Signup() {
         <div id="container" className="mx-auto px-4 px-sm-5 rounded-4">
           <AuthenticationHeader text="Welcome to Mizdooni!" />
           <form className="px-3 px-sm-4 px-md-3 py-3" onSubmit={handleSubmit}>
-            <FormItem label="Username" type="text" name="username" value={formData.username} onChange={handleInputChange} onBlur={validateUsername} error={userError}/>
+            <FormItem label="Username" type="text" name="username" value={formData.username} onChange={handleInputChange} onBlur={validateUsername} error={userError} />
             <FormItem label="Password" type="password" name="password" value={formData.password} onChange={handleInputChange} />
-            <FormItem label="Email" type="email" name="email" value={formData.email} onChange={handleInputChange} onBlur={validateEmail} error={emailError}/>
+            <FormItem label="Email" type="email" name="email" value={formData.email} onChange={handleInputChange} onBlur={validateEmail} error={emailError} />
             <FormItem label="Country" type="text" name="address.country" value={formData.address.country} onChange={handleInputChange} />
             <FormItem label="City" type="text" name="address.city" value={formData.address.city} onChange={handleInputChange} />
             <div className="mb-5">

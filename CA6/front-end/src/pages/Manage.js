@@ -11,6 +11,8 @@ import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/manager_manage.css';
 
 function Manage() {
+  useEffect(() => { document.title = 'Manager Manage'; }, []);
+
   const restaurantId = useParams().id;
   const [tableNumber, setTableNumber] = useState(0);
   const [restaurantInfo, setRestaurantInfo] = useState({
@@ -21,10 +23,6 @@ function Manage() {
     },
     name: '',
   });
-
-  useEffect(() => {
-    document.title = 'Manager Manage';
-  }, []);
 
   useEffect(() => {
     const fetchRestaurant = async () => {
@@ -57,7 +55,7 @@ function Manage() {
       <div className="container-fluid h-100">
         <div className="row h-100 flex-column-reverse">
           <RestaurantReservations restaurantId={restaurantId} tableNumber={tableNumber} />
-          <RestaurantTables restaurantId={restaurantId} setTableNumber={setTableNumber}/>
+          <RestaurantTables restaurantId={restaurantId} setTableNumber={setTableNumber} />
         </div>
       </div>
     </PageLayout>

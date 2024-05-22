@@ -6,12 +6,7 @@ function Logout() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await fetch('/api/logout', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    await fetch('/api/logout', { method: 'POST' });
     localStorage.clear();
     window.location.href = '/login';
   };

@@ -10,15 +10,13 @@ import 'assets/stylesheets/global.css';
 import 'assets/stylesheets/cards.css';
 
 function SearchResult() {
+  useEffect(() => { document.title = 'Search Result'; }, []);
+
   const [restaurants, setRestaurants] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const topText = 'Results for #' + searchParams;
-
-  useEffect(() => {
-    document.title = 'Search Result';
-  }, []);
 
   useEffect(() => {
     fetch(`/api/restaurants?${searchParams}&page=${currentPage}`, {

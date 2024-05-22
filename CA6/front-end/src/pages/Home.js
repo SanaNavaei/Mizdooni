@@ -11,14 +11,11 @@ import 'assets/stylesheets/cards.css';
 import 'assets/stylesheets/home.css';
 
 function Home() {
+  useEffect(() => { document.title = 'Home'; }, []);
+
   const [restaurantsTop, setRestaurantsTop] = useState([]);
   const [restaurantsLike, setRestaurantsLike] = useState([]);
   const [city, setCity] = useState(localStorage.getItem('city'));
-
-  useEffect(() => {
-    document.title = 'Home';
-    setCity(localStorage.getItem('city'));
-  }, []);
 
   const fetchRestaurants = (query) => {
     return fetch('/api/restaurants?' + query, {
