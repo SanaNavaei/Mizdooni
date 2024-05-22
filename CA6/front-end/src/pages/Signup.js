@@ -112,23 +112,25 @@ function Signup() {
       <main className="container-fluid px-0 py-4">
         <div id="container" className="mx-auto px-4 px-sm-5 rounded-4">
           <AuthenticationHeader text="Welcome to Mizdooni!" />
-          <form className="px-3 px-sm-4 px-md-3 py-3" onSubmit={handleSubmit}>
-            <FormItem label="Username" type="text" name="username" value={formData.username} onChange={handleInputChange} onBlur={validateUsername} error={userError} />
-            <FormItem label="Password" type="password" name="password" value={formData.password} onChange={handleInputChange} />
-            <FormItem label="Email" type="email" name="email" value={formData.email} onChange={handleInputChange} onBlur={validateEmail} error={emailError} />
-            <FormItem label="Country" type="text" name="address.country" value={formData.address.country} onChange={handleInputChange} />
-            <FormItem label="City" type="text" name="address.city" value={formData.address.city} onChange={handleInputChange} />
-            <div className="mb-5">
-              <label htmlFor="role" className="miz-text-red form-label pe-2">Role:</label>
-              <select className="form-select" id="role" name="role" value={formData.role} onChange={handleInputChange} required>
-                <option value="" disabled hidden>Choose a Role</option>
-                <option value="client">Client</option>
-                <option value="manager">Manager</option>
-              </select>
-            </div>
-            <button type="submit" className="miz-button disabled-button w-100 mb-3" disabled={!isFormValid}>Signup</button>
+          <div className="px-3 px-sm-4 px-md-3 py-3" >
+            <form onSubmit={handleSubmit}>
+              <FormItem label="Username" type="text" name="username" value={formData.username} onChange={handleInputChange} onBlur={validateUsername} error={userError} />
+              <FormItem label="Password" type="password" name="password" value={formData.password} onChange={handleInputChange} />
+              <FormItem label="Email" type="email" name="email" value={formData.email} onChange={handleInputChange} onBlur={validateEmail} error={emailError} />
+              <FormItem label="Country" type="text" name="address.country" value={formData.address.country} onChange={handleInputChange} />
+              <FormItem label="City" type="text" name="address.city" value={formData.address.city} onChange={handleInputChange} />
+              <div className="mb-5">
+                <label htmlFor="role" className="miz-text-red form-label pe-2">Role:</label>
+                <select className="form-select" id="role" name="role" value={formData.role} onChange={handleInputChange} required>
+                  <option value="" disabled hidden>Choose a Role</option>
+                  <option value="client">Client</option>
+                  <option value="manager">Manager</option>
+                </select>
+              </div>
+              <button type="submit" className="miz-button disabled-button w-100 mb-3" disabled={!isFormValid}>Signup</button>
+            </form>
             <p className="bottom-text text-center">Already have an account? <Link to="/login" className="miz-text-red text-decoration-none">Login here</Link></p>
-          </form>
+          </div>
         </div>
       </main>
     </div>

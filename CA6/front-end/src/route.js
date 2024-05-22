@@ -2,10 +2,11 @@ import Home from 'pages/Home';
 import SearchResult from 'pages/SearchResult';
 import Restaurant from 'pages/Restaurant';
 import Login from 'pages/Login';
+import OAuthCallback from 'pages/OAuthCallback';
 import Signup from 'pages/Signup';
 import Customer from 'pages/Customer';
-import Manage from 'pages/Manage';
 import Manager from 'pages/Manager';
+import Manage from 'pages/Manage';
 import Error from 'pages/errors/Error';
 import ProtectedRoute from 'components/ProtectedRoute';
 
@@ -28,6 +29,10 @@ const routeArray = [
     element: <Login />,
   },
   {
+    path: '/login/google',
+    element: <OAuthCallback />,
+  },
+  {
     path: '/signup',
     element: <Signup />,
   },
@@ -36,13 +41,13 @@ const routeArray = [
     element: <ProtectedRoute><Customer /></ProtectedRoute>,
   },
   {
+    path: "/manager",
+    element: <ProtectedRoute><Manager /></ProtectedRoute>,
+  },
+  {
     path: "/manage/:id",
     element: <ProtectedRoute><Manage /></ProtectedRoute>,
   },
-  {
-    path: "/manager",
-    element: <ProtectedRoute><Manager /></ProtectedRoute>,
-  }
 ];
 
 export default routeArray;

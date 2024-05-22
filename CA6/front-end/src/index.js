@@ -9,8 +9,8 @@ const router = createBrowserRouter(routeArray);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <React.Fragment>
     <RouterProvider router={router} />
     <ToastContainer />
-  </React.StrictMode>
+  </React.Fragment>
 );
