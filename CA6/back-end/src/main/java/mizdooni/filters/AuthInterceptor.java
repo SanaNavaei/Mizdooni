@@ -34,6 +34,9 @@ public class AuthInterceptor implements HandlerInterceptor {
         if (!jwtService.validateToken(token)) {
             throw new ResponseException(HttpStatus.FORBIDDEN, LOGIN_REQUIRED);
         }
+
+        int userId = jwtService.getUserId(token);
+        request.setAttribute("userId", userId);
         return true;
     }
 }

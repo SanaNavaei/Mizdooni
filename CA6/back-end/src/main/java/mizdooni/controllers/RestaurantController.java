@@ -41,7 +41,6 @@ class RestaurantController {
     }
 
     @GetMapping("/restaurants/manager/{managerId}")
-    @LoginRequired
     public Response getManagerRestaurants(@PathVariable int managerId) {
         try {
             List<Restaurant> restaurants = restaurantService.getManagerRestaurants(managerId);
@@ -53,7 +52,7 @@ class RestaurantController {
 
     @PostMapping("/restaurants")
     @LoginRequired
-    public Response addRestaurant(@RequestBody Map<String, Object> params) {
+    public Response addRestaurant(@RequestAttribute int userId, @RequestBody Map<String, Object> params) {
         if (!ControllerUtils.containsKeys(params, "name", "type", "startTime", "endTime", "description", "address")) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
         }
@@ -81,7 +80,7 @@ class RestaurantController {
         }
 
         try {
-            int id = restaurantService.addRestaurant(name, type, startTime, endTime, description, address, image);
+            int id = restaurantService.addRestaurant(userId, name, type, startTime, endTime, description, address, image);
             return Response.ok("restaurant added", id);
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);

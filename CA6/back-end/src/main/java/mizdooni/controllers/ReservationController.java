@@ -27,7 +27,8 @@ public class ReservationController {
     private ReservationService reserveService;
 
     @GetMapping("/reserves/{restaurantId}")
-    public Response getReservations(@PathVariable int restaurantId,
+    public Response getReservations(@RequestAttribute int userId,
+                                    @PathVariable int restaurantId,
                                     @RequestParam int table,
                                     @RequestParam(required = false) String date) {
         ControllerUtils.checkRestaurant(restaurantId, restaurantService);
@@ -40,7 +41,7 @@ public class ReservationController {
             }
         }
         try {
-            List<Reservation> reservations = reserveService.getReservations(restaurantId, table, localDate);
+            List<Reservation> reservations = reserveService.getReservations(userId, restaurantId, table, localDate);
             return Response.ok("restaurant table reservations", reservations);
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
@@ -48,9 +49,9 @@ public class ReservationController {
     }
 
     @GetMapping("/reserves/customer/{customerId}")
-    public Response getCustomerReservations(@PathVariable int customerId) {
+    public Response getCustomerReservations(@RequestAttribute int userId, @PathVariable int customerId) {
         try {
-            List<Reservation> reservations = reserveService.getCustomerReservations(customerId);
+            List<Reservation> reservations = reserveService.getCustomerReservations(userId, customerId);
             return Response.ok("user reservations", reservations);
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
@@ -78,7 +79,8 @@ public class ReservationController {
     }
 
     @PostMapping("/reserves/{restaurantId}")
-    public Response addReservation(@PathVariable int restaurantId, @RequestBody Map<String, String> params) {
+    public Response addReservation(@RequestAttribute int userId, @PathVariable int restaurantId,
+                                   @RequestBody Map<String, String> params) {
         ControllerUtils.checkRestaurant(restaurantId, restaurantService);
         if (!ControllerUtils.containsKeys(params, "people", "datetime")) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
@@ -95,7 +97,7 @@ public class ReservationController {
         }
 
         try {
-            Reservation reservation = reserveService.reserveTable(restaurantId, people, datetime);
+            Reservation reservation = reserveService.reserveTable(userId, restaurantId, people, datetime);
             return Response.ok("reservation done", reservation);
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
@@ -103,9 +105,9 @@ public class ReservationController {
     }
 
     @PostMapping("/reserves/cancel/{reservationNumber}")
-    public Response cancelReservation(@PathVariable int reservationNumber) {
+    public Response cancelReservation(@RequestAttribute int userId, @PathVariable int reservationNumber) {
         try {
-            reserveService.cancelReservation(reservationNumber);
+            reserveService.cancelReservation(userId, reservationNumber);
             return Response.ok("reservation cancelled");
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);

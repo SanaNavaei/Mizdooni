@@ -47,8 +47,9 @@ public class JwtService {
         }
     }
 
-    public String getUsername(String token) {
-         return (String) Jwts.parser().verifyWith(getSignKey()).build().parseSignedClaims(token).getPayload().get("name");
+    public int getUserId(String token) {
+        String subject = Jwts.parser().verifyWith(getSignKey()).build().parseSignedClaims(token).getPayload().getSubject();
+        return Integer.parseInt(subject);
     }
 
     private SecretKey getSignKey() {

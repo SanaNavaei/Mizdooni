@@ -39,7 +39,8 @@ class ReviewController {
 
     @PostMapping("/reviews/{restaurantId}")
     @LoginRequired
-    public Response addReview(@PathVariable int restaurantId, @RequestBody Map<String, Object> params) {
+    public Response addReview(@RequestAttribute int userId, @PathVariable int restaurantId,
+                              @RequestBody Map<String, Object> params) {
         ControllerUtils.checkRestaurant(restaurantId, restaurantService);
         if (!ControllerUtils.containsKeys(params, "comment", "rating")) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
@@ -60,7 +61,7 @@ class ReviewController {
         }
 
         try {
-            reviewService.addReview(restaurantId, rating, comment);
+            reviewService.addReview(userId, restaurantId, rating, comment);
             return Response.ok("review added successfully");
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);

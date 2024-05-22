@@ -60,9 +60,9 @@ public class RestaurantService {
         return restaurants;
     }
 
-    public int addRestaurant(String name, String type, LocalTime startTime, LocalTime endTime, String description,
+    public int addRestaurant(int userId, String name, String type, LocalTime startTime, LocalTime endTime, String description,
                              Address address, String imageLink) throws DuplicatedRestaurantName, UserNotManager, InvalidWorkingTime {
-        User manager = userService.getCurrentUser();
+        User manager = userService.getUser(userId);
 
         if (restaurantRepository.existsByName(name)) {
             throw new DuplicatedRestaurantName();

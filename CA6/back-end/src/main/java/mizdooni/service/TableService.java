@@ -30,9 +30,9 @@ public class TableService {
         return mizTableRepository.findByRestaurantId(restaurantId);
     }
 
-    public void addTable(int restaurantId, int seatsNumber)
+    public void addTable(int userId, int restaurantId, int seatsNumber)
             throws RestaurantNotFound, UserNotManager, InvalidManagerRestaurant {
-        User manager = userService.getCurrentUser();
+        User manager = userService.getUser(userId);
         Restaurant restaurant = restaurantRepository.findById(restaurantId);
 
         if (restaurant == null) {

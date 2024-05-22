@@ -37,7 +37,8 @@ class TableController {
 
     @PostMapping("/tables/{restaurantId}")
     @LoginRequired
-    public Response addTable(@PathVariable int restaurantId, @RequestBody Map<String, String> params) {
+    public Response addTable(@RequestAttribute int userId, @PathVariable int restaurantId,
+                             @RequestBody Map<String, String> params) {
         ControllerUtils.checkRestaurant(restaurantId, restaurantService);
         if (!ControllerUtils.containsKeys(params, "seatsNumber")) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, PARAMS_MISSING);
@@ -51,7 +52,7 @@ class TableController {
         }
 
         try {
-            tableService.addTable(restaurantId, seatsNumber);
+            tableService.addTable(userId, restaurantId, seatsNumber);
             return Response.ok("table added");
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);

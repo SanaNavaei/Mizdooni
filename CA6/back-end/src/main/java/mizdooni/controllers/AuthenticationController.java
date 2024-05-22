@@ -27,12 +27,13 @@ public class AuthenticationController {
     public Response user(@RequestHeader(value = "Authorization", required = false) String token) {
         User user = null;
         if (token != null && token.startsWith("Bearer ") && jwtService.validateToken(token.substring(7))) {
-            user = userService.getUser(token.substring(7));
+            int userId = jwtService.getUserId(token.substring(7));
+            user = userService.getUser(userId);
         }
         if (user == null) {
-            throw new ResponseException(HttpStatus.UNAUTHORIZED, "no user logged in");
+            throw new ResponseException(HttpStatus.UNAUTHORIZED, "user not logged in");
         }
-        return Response.ok("current user", user);
+        return Response.ok("user information", user);
     }
 
     @PostMapping("/login")

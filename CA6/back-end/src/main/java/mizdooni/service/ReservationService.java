@@ -35,14 +35,14 @@ public class ReservationService {
     @Autowired
     private UserService userService;
 
-    public List<Reservation> getReservations(int restaurantId, int tableNumber, LocalDate date)
+    public List<Reservation> getReservations(int userId, int restaurantId, int tableNumber, LocalDate date)
             throws RestaurantNotFound, UserNotManager, InvalidManagerRestaurant, TableNotFound {
         Restaurant restaurant = restaurantRepository.findById(restaurantId);
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
 
-        User manager = userService.getCurrentUser();
+        User manager = userService.getUser(userId);
         if (manager == null || manager.getRole() != User.Role.manager) {
             throw new UserNotManager();
         }
@@ -64,8 +64,8 @@ public class ReservationService {
         return reservations;
     }
 
-    public List<Reservation> getCustomerReservations(int customerId) throws UserNotFound, UserNoAccess {
-        User user = userService.getCurrentUser();
+    public List<Reservation> getCustomerReservations(int userId, int customerId) throws UserNotFound, UserNoAccess {
+        User user = userService.getUser(userId);
         if (user == null) {
             throw new UserNotFound();
         }
@@ -99,10 +99,10 @@ public class ReservationService {
     }
 
     @Transactional
-    public Reservation reserveTable(int restaurantId, int people, LocalDateTime datetime)
+    public Reservation reserveTable(int userId, int restaurantId, int people, LocalDateTime datetime)
             throws UserNotFound, ManagerReservationNotAllowed, InvalidWorkingTime, RestaurantNotFound, TableNotFound,
             DateTimeInThePast, ReservationNotInOpenTimes {
-        User user = userService.getCurrentUser();
+        User user = userService.getUser(userId);
         if (user == null) {
             throw new UserNotFound();
         }
@@ -138,8 +138,8 @@ public class ReservationService {
         return reservation;
     }
 
-    public void cancelReservation(int reservationNumber) throws UserNotFound, ReservationNotFound, ReservationCannotBeCancelled {
-        User user = userService.getCurrentUser();
+    public void cancelReservation(int userId, int reservationNumber) throws UserNotFound, ReservationNotFound, ReservationCannotBeCancelled {
+        User user = userService.getUser(userId);
         if (user == null) {
             throw new UserNotFound();
         }

@@ -38,9 +38,9 @@ public class ReviewService {
         return new PagedList<>(reviews, totalReviews, pageRequest);
     }
 
-    public void addReview(int restaurantId, Rating rating, String comment)
+    public void addReview(int userId, int restaurantId, Rating rating, String comment)
             throws UserNotFound, ManagerCannotReview, RestaurantNotFound, InvalidReviewRating, UserHasNotReserved {
-        User user = userService.getCurrentUser();
+        User user = userService.getUser(userId);
         if (user == null) {
             throw new UserNotFound();
         }

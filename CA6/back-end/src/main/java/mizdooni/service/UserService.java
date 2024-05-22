@@ -8,6 +8,7 @@ import mizdooni.model.user.Client;
 import mizdooni.model.user.Manager;
 import mizdooni.model.user.User;
 import mizdooni.repository.user.UserRepository;
+import mizdooni.utils.Crypto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,17 +23,8 @@ public class UserService {
 
     }
 
-    public User getCurrentUser() {
-        return null;
-    }
-
-    public User getUser(String token) {
-        try {
-            String username = jwtService.getUsername(token);
-            return userRepository.findByUsername(username);
-        } catch (Exception ex) {
-            return null;
-        }
+    public User getUser(int userId) {
+        return userRepository.findById(userId);
     }
 
     public UserTokenPair login(String username, String password) {
