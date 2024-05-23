@@ -9,6 +9,7 @@ import Manager from 'pages/Manager';
 import Manage from 'pages/Manage';
 import Error from 'pages/errors/Error';
 import ProtectedRoute from 'components/ProtectedRoute';
+import ProtectedAuth from 'components/ProtectedAuth';
 
 const routeArray = [
   {
@@ -26,7 +27,7 @@ const routeArray = [
   },
   {
     path: '/login',
-    element: <Login />,
+    element: <ProtectedAuth><Login /></ProtectedAuth>,
   },
   {
     path: '/login/google',
@@ -34,7 +35,7 @@ const routeArray = [
   },
   {
     path: '/signup',
-    element: <Signup />,
+    element: <ProtectedAuth><Signup /></ProtectedAuth>,
   },
   {
     path: "/customer",
