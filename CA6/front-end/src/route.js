@@ -31,7 +31,7 @@ const routeArray = [
   },
   {
     path: '/login/google',
-    element: <OAuthCallback />,
+    element: <ProtectedAuth><OAuthCallback /></ProtectedAuth>,
   },
   {
     path: '/signup',

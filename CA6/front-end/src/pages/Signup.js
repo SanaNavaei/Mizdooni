@@ -100,10 +100,7 @@ function Signup() {
         navigate('/customer');
       }
     } else {
-      toast.error('Failed to Signup!', {
-        position: 'top-right',
-        autoClose: 3000,
-      });
+      toast.error('Failed to Signup!');
     }
   };
 

@@ -4,7 +4,7 @@ import { Modal } from 'bootstrap';
 import 'react-toastify/dist/ReactToastify.css';
 
 import CompleteReserveModal from './CompleteReserveModal';
-import { getCurrentDate } from 'utils';
+import { getCurrentDate } from 'utils/date';
 
 function Reserve({ maxSeatsNumber, address, id: restaurantId }) {
   const [selectedPeople, setSelectedPeople] = useState(0);
@@ -82,10 +82,7 @@ function Reserve({ maxSeatsNumber, address, id: restaurantId }) {
         fetchTimes();
       })
       .catch(error => {
-        toast.error(error.message, {
-          position: 'top-right',
-          autoClose: 3000,
-        });
+        toast.error(error.message);
       });
   };
 

@@ -11,6 +11,6 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.Fragment>
     <RouterProvider router={router} />
-    <ToastContainer />
+    <ToastContainer autoClose={3000} />
   </React.Fragment>
 );

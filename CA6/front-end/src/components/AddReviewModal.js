@@ -47,16 +47,10 @@ function AddReviewModal({ restaurantName, restaurantId, reloadReviews }) {
         console.debug(data);
         setError('');
         reloadReviews();
-        toast.success('Review added successfully', {
-          position: 'top-right',
-          autoClose: 3000,
-        });
+        toast.success('Review added successfully');
       })
       .catch(error => {
-        toast.error(error.message, {
-          position: 'top-right',
-          autoClose: 3000,
-        })
+        toast.error(error.message);
         setError(error.message);
       });
   }

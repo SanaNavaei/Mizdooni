@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import PageLayout from 'components/PageLayout';
-import Logout from 'components/Logout';
+import UserInfo from 'components/UserInfo';
 import CustomerReserve from 'components/CustomerReserve';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -41,7 +41,7 @@ function Customer() {
   return (
     <PageLayout>
       <div className="container pt-4">
-        <Logout />
+        <UserInfo />
         <CustomerReserve reserves={reservations} />
       </div>
     </PageLayout>

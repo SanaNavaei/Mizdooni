@@ -27,18 +27,12 @@ function CancelReserveModal({ restaurantName, reserveId }) {
         }
       })
       .then(data => {
-        toast.success('Reservation canceled successfully', {
-          position: 'top-right',
-          autoClose: 3000,
-        })
+        toast.success('Reservation canceled successfully');
         setIsChecked(false);
         window.location.reload();
       })
       .catch(error => {
-        toast.error(error.message, {
-          position: 'top-right',
-          autoClose: 3000,
-        });
+        toast.error(error.message);
         setIsChecked(false);
       });
   }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -83,16 +83,10 @@ function AddRestaurantModal({ reloadRestaurants }) {
       if (response.ok) {
         setNameError('');
         reloadRestaurants();
-        toast.success('Restaurant added successfully', {
-          position: 'top-right',
-          autoClose: 3000,
-        });
+        toast.success('Restaurant added successfully');
       } else {
         const data = await response.json();
-        toast.error(data.message, {
-          position: 'top-right',
-          autoClose: 3000,
-        });
+        toast.error(data.message);
       }
     } catch (error) {
       console.error('Error adding restaurant:', error);

@@ -33,10 +33,7 @@ function OAuthCallback() {
         navigate('/customer')
       }
     } else {
-      toast.error('Google Authentication Failed', {
-        position: 'top-right',
-        autoClose: 3000,
-      });
+      toast.error('Google Authentication Failed');
       navigate('/login');
     }
   }

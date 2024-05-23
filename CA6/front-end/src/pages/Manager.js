@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 
-import PageLayout from "components/PageLayout";
-import Logout from 'components/Logout';
-import ManagerRestaurants from "components/ManagerRestaurants";
+import PageLayout from 'components/PageLayout';
+import UserInfo from 'components/UserInfo';
+import ManagerRestaurants from 'components/ManagerRestaurants';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
@@ -39,7 +39,7 @@ function Manager() {
   return (
     <PageLayout>
       <div className="container pt-4">
-        <Logout />
+        <UserInfo />
         <ManagerRestaurants restaurants={restaurants} reloadRestaurants={reloadRestaurants} />
       </div>
     </PageLayout>

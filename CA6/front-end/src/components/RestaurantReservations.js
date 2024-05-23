@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { getCurrentDate } from 'utils';
+import { getCurrentDate } from 'utils/date';
 
 function RestaurantReservations({ restaurantId, tableNumber }) {
   const [reservations, setReservations] = useState([]);

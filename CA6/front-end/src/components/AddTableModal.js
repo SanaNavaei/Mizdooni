@@ -31,15 +31,9 @@ function AddTableModal({ restaurantId, reloadTables }) {
       });
       if (response.ok) {
         reloadTables();
-        toast.success('Table added successfully', {
-          position: 'top-right',
-          autoClose: 3000,
-        });
+        toast.success('Table added successfully');
       } else {
-        toast.error('Failed to add table', {
-          position: 'top-right',
-          autoClose: 3000,
-        });
+        toast.error('Failed to add table');
       }
     } catch (error) {
       console.error('Error adding table:', error);

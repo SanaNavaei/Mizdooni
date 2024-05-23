@@ -57,10 +57,7 @@ function Login() {
         navigate('/customer')
       }
     } else {
-      toast.error('Invalid username or password', {
-        position: 'top-right',
-        autoClose: 3000,
-      });
+      toast.error('Invalid username or password');
     }
   }
 

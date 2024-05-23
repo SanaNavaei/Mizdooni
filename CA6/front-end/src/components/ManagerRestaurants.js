@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-import AddRestaurantModal from "./AddRestaurantModal";
+import AddRestaurantModal from './AddRestaurantModal';
 
 function ManagerRestaurants({ restaurants, reloadRestaurants }) {
   const id = localStorage.getItem('id');
