@@ -18,12 +18,7 @@ function Home() {
   const [city, setCity] = useState(localStorage.getItem('city'));
 
   const fetchRestaurants = (query) => {
-    return fetch('/api/restaurants?' + query, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    return fetch('/api/restaurants?' + query)
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch restaurants');
@@ -45,7 +40,7 @@ function Home() {
     <PageLayout>
       <HomeSearch />
       <Cards topText="Top Restaurants in Mizdooni" restaurants={restaurantsTop} />
-      {restaurantsLike && (
+      {restaurantsLike.length !== 0 && (
         <Cards topText="You Might Also Like" restaurants={restaurantsLike} />
       )}
       <About />

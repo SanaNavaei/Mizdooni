@@ -31,6 +31,7 @@ function AddReviewModal({ restaurantName, restaurantId, reloadReviews }) {
     fetch(`/api/reviews/${restaurantId}`, {
       method: 'POST',
       headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData),
@@ -152,7 +153,7 @@ function AddReviewModal({ restaurantName, restaurantId, reloadReviews }) {
                 <label htmlFor="reviewComment" className="form-label">Comment</label>
                 <textarea className="form-control" id="reviewComment" rows="5" onChange={handleCommentChange} placeholder="Type your review..."></textarea>
               </div>
-              {error && <p className="miz-text-red text-center fw-bold">{error}</p>}
+              {error && <p className="miz-text-red text-center">{error}</p>}
               <button type="submit" className="miz-button disabled-button w-100" disabled={isSubmitDisabled}>Submit Review</button>
               <button type="button" className="miz-button w-100 mt-3" id="close-reserve" data-bs-dismiss="modal">Cancel</button>
             </form>

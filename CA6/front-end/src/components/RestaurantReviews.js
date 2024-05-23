@@ -26,12 +26,7 @@ function RestaurantReviews({ restaurant }) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const reloadReviews = () => {
-    fetch(`/api/reviews/${restaurant.id}?page=${currentPage}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    fetch(`/api/reviews/${restaurant.id}?page=${currentPage}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Failed to fetch restaurant reviews');
@@ -49,7 +44,9 @@ function RestaurantReviews({ restaurant }) {
   };
 
   useEffect(() => {
-    reloadReviews();
+    if (restaurant.id !== -1) {
+      reloadReviews();
+    }
   }, [restaurant.id, currentPage]);
 
   const handlePageChange = (page) => {

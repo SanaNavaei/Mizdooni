@@ -41,12 +41,7 @@ function Restaurant() {
   });
 
   useEffect(() => {
-    fetch(`/api/restaurants/${restaurantId}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    fetch(`/api/restaurants/${restaurantId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error('Failed to fetch restaurant data');

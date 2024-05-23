@@ -75,6 +75,7 @@ function AddRestaurantModal({ reloadRestaurants }) {
       const response = await fetch('/api/restaurants', {
         method: 'POST',
         headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(formData),

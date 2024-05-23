@@ -1,11 +1,14 @@
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function ProtectedRoute({ children }) {
+  const navigate = useNavigate();
+
   const isAuthenticated = localStorage.getItem('id');
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" />;
+    navigate('/login');
   }
+
   return children;
 }
 

@@ -14,6 +14,7 @@ function CancelReserveModal({ restaurantName, reserveId }) {
     fetch(`/api/reserves/cancel/${reserveId}`, {
       method: 'POST',
       headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
       },
     })

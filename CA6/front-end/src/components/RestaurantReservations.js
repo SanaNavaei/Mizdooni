@@ -1,13 +1,27 @@
 import { useEffect, useState } from 'react';
 
+import { getCurrentDate } from 'utils';
+
 function RestaurantReservations({ restaurantId, tableNumber }) {
   const [reservations, setReservations] = useState([]);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(getCurrentDate());
 
   useEffect(() => {
+    document.getElementById('date').value = date;
+  }, []);
+
+  useEffect(() => {
+    if (tableNumber === 0) {
+      return;
+    }
     const fetchReservations = async () => {
       try {
-        const response = await fetch(`/api/reserves/${restaurantId}?table=${tableNumber}&date=${date}`);
+        const response = await fetch(`/api/reserves/${restaurantId}?table=${tableNumber}&date=${date}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
         if (response.ok) {
           const data = await response.json();
           setReservations(data.data);
@@ -22,8 +36,7 @@ function RestaurantReservations({ restaurantId, tableNumber }) {
   }, [tableNumber, date]);
 
   const handleDateChange = (event) => {
-    const selectedDate = event.target.value;
-    setDate(selectedDate);
+    setDate(event.target.value);
   };
 
   let selectTableText = "fw-light text-end fs-7 m-0 ";

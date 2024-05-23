@@ -4,12 +4,7 @@ import { Modal } from 'bootstrap';
 import 'react-toastify/dist/ReactToastify.css';
 
 import CompleteReserveModal from './CompleteReserveModal';
-
-const getCurrentDate = () => {
-  const date = new Date();
-  const today = new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
-  return today.toISOString().slice(0, 10);
-};
+import { getCurrentDate } from 'utils';
 
 function Reserve({ maxSeatsNumber, address, id: restaurantId }) {
   const [selectedPeople, setSelectedPeople] = useState(0);
@@ -43,7 +38,7 @@ function Reserve({ maxSeatsNumber, address, id: restaurantId }) {
     fetch(`/api/reserves/${restaurantId}/available?` + query, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
     })
       .then(response => {
@@ -66,6 +61,7 @@ function Reserve({ maxSeatsNumber, address, id: restaurantId }) {
     fetch(`/api/reserves/${restaurantId}`, {
       method: 'POST',
       headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({

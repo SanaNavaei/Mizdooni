@@ -16,25 +16,18 @@ function Manager() {
   const id = localStorage.getItem('id');
 
   const reloadRestaurants = () => {
-    fetch(`/api/restaurants/manager/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(async (response) => {
+    fetch(`/api/restaurants/manager/${id}`)
+      .then(async response => {
         if (response.ok) {
           return response.json();
-        } else {
-          const resp = await response.json();
-          throw new Error(resp.message);
         }
+        const resp = await response.json();
+        throw new Error(resp.message);
       })
-      .then((data) => {
-        console.log('Data:', data);
+      .then(data => {
         setRestaurants(data.data);
       })
-      .catch((error) => {
+      .catch(error => {
         console.error('Error getting restaurants:', error.message);
       });
   };

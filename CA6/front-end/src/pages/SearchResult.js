@@ -19,12 +19,7 @@ function SearchResult() {
   const topText = 'Results for #' + searchParams;
 
   useEffect(() => {
-    fetch(`/api/restaurants?${searchParams}&page=${currentPage}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
+    fetch(`/api/restaurants?${searchParams}&page=${currentPage}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Failed to fetch restaurants');

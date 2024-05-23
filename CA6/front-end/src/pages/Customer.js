@@ -19,7 +19,7 @@ function Customer() {
     fetch(`/api/reserves/customer/${id}`, {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
     })
       .then(async (response) => {

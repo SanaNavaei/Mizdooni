@@ -11,7 +11,12 @@ function RestaurantTables({ restaurantId, setTableNumber }) {
   const reloadTables = () => {
     const fetchTables = async () => {
       try {
-        const response = await fetch(`/api/tables/${restaurantId}`);
+        const response = await fetch(`/api/tables/${restaurantId}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
         if (response.ok) {
           const data = await response.json();
           setTables(data.data);
