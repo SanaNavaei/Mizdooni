@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import PageLayout from 'components/PageLayout';
 import RestaurantReservations from 'components/RestaurantReservations';
 import RestaurantTables from 'components/RestaurantTables';
-import { useLogout } from 'utils/logout';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
@@ -13,7 +13,6 @@ import 'assets/stylesheets/manager_manage.css';
 
 function Manage() {
   useEffect(() => { document.title = 'Manager Manage'; }, []);
-  const logout = useLogout();
 
   const restaurantId = useParams().id;
   const [tableNumber, setTableNumber] = useState(0);
@@ -32,10 +31,8 @@ function Manage() {
       if (response.ok) {
         const body = await response.json();
         setRestaurantInfo(body.data);
-      } else if (response.status === 401) {
-        logout();
       } else {
-        console.error('Error fetching restaurant');
+        toast.error('Error fetching manager restaurant info');
       }
     }
     fetchRestaurant();

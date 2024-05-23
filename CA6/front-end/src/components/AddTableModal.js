@@ -3,8 +3,6 @@ import { toast } from 'react-toastify';
 
 import { useLogout } from 'utils/logout';
 
-import 'react-toastify/dist/ReactToastify.css';
-
 function AddTableModal({ restaurantId, reloadTables }) {
   const [inputValue, setInputValue] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);

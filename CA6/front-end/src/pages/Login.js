@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 import AuthenticationHeader from 'components/AuthenticationHeader';
 import FormItem from 'components/FormItem';

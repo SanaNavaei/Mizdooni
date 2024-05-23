@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { getCurrentDate } from 'utils/date';
 import { useLogout } from 'utils/logout';
@@ -29,7 +30,7 @@ function RestaurantReservations({ restaurantId, tableNumber }) {
       } else if (response.status === 401) {
         logout();
       } else {
-        console.error('Failed to fetch reservations');
+        toast.error('Failed to fetch restaurant reservations');
       }
     }
     fetchReservations();

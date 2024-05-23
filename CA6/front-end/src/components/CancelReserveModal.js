@@ -3,9 +3,7 @@ import { toast } from 'react-toastify';
 
 import { useLogout } from 'utils/logout';
 
-import 'react-toastify/dist/ReactToastify.css';
-
-function CancelReserveModal({ restaurantName, reserveId }) {
+function CancelReserveModal({ restaurantName, reserveId, reloadReserves }) {
   const [isChecked, setIsChecked] = useState(false);
   const logout = useLogout();
 
@@ -25,7 +23,7 @@ function CancelReserveModal({ restaurantName, reserveId }) {
     setIsChecked(false);
     if (response.ok) {
       toast.success('Reservation canceled successfully');
-      window.location.reload();
+      reloadReserves();
     } else if (response.status === 401) {
       logout();
     } else {

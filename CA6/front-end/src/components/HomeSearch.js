@@ -1,35 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { createSearchParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import Logo from 'assets/images/logo.png'
-import { useLogout } from 'utils/logout';
 
 function HomeSearch() {
-  const [locations, setLocations] = useState({
-    Canada: [],
-    Germany: [],
-    Japan: [],
-    US: [],
-  });
-  const countries = ['Canada', 'Germany', 'Japan', 'US'];
-  const [CanadaData, setCanadaData] = useState([]);
-  const [GermanyData, setGermanyData] = useState([]);
-  const [JapanData, setJapanData] = useState([]);
-  const [USData, setUSData] = useState([]);
-  const logout = useLogout();
-
-  useEffect(() => {
-    setLocations({
-      Canada: CanadaData,
-      Germany: GermanyData,
-      Japan: JapanData,
-      US: USData,
-    });
-  }, [CanadaData, GermanyData, JapanData, USData]);
-
   const navigate = useNavigate();
-  const [restaurantTypes, setRestaurantTypes] = useState([]);
+  const searchParams = {};
 
+  const [locations, setLocations] = useState({});
+  const [restaurantTypes, setRestaurantTypes] = useState([]);
   const [formData, setFormData] = useState({
     location: '',
     type: '',
@@ -37,18 +17,25 @@ function HomeSearch() {
   });
 
   useEffect(() => {
+    if (formData.location) {
+      searchParams.location = formData.location;
+    }
+    if (formData.type) {
+      searchParams.type = formData.type;
+    }
+    if (formData.name) {
+      searchParams.name = formData.name;
+    }
+  }, [formData]);
+
+  useEffect(() => {
     const fetchRestaurantLocations = async () => {
       const response = await fetch('/api/restaurants/locations');
       if (response.ok) {
         const body = await response.json();
-        setCanadaData(body.data.Canada);
-        setGermanyData(body.data.Germany);
-        setJapanData(body.data.Japan);
-        setUSData(body.data.US);
-      } else if (response.status === 401) {
-        logout();
+        setLocations(body.data);
       } else {
-        console.error('Failed to fetch restaurant locations');
+        toast.error('Failed to fetch restaurant locations');
       }
     }
 
@@ -57,34 +44,19 @@ function HomeSearch() {
       if (response.ok) {
         const body = await response.json();
         setRestaurantTypes(body.data);
-      } else if (response.status === 401) {
-        logout();
       } else {
-        console.error('Failed to fetch restaurant types');
+        toast.error('Failed to fetch restaurant types');
       }
     }
 
     fetchRestaurantLocations();
     fetchRestaurantTypes();
   }, []);
-  const params = {};
-
-  useEffect(() => {
-    if (formData.location) {
-      params.location = formData.location;
-    }
-    if (formData.type) {
-      params.type = formData.type;
-    }
-    if (formData.name) {
-      params.name = formData.name;
-    }
-  }, [formData]);
 
   const changePage = () => {
     navigate({
       pathname: '/restaurants',
-      search: `?${createSearchParams(params)}`,
+      search: new URLSearchParams(searchParams).toString(),
     })
   }
 
@@ -103,14 +75,10 @@ function HomeSearch() {
                 <option value="">Location</option>
                 {(() => {
                   const options = [];
-                  for (let i = 0; i < countries.length; i++) {
-                    const country = countries[i];
-                    const cities = locations[country] || [];
-                    const cityOptions = [];
-                    for (let j = 0; j < cities.length; j++) {
-                      const city = cities[j];
-                      cityOptions.push(<option key={city} value={city}>{city}</option>);
-                    }
+                  for (const [country, cities] of Object.entries(locations)) {
+                    const cityOptions = cities.map(city => (
+                      <option key={city} value={city}>{city}</option>
+                    ));
                     options.push(
                       <optgroup key={country} label={country}>
                         {cityOptions}

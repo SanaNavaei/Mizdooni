@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import AddReviewModal from './AddReviewModal';
 import CancelReserveModal from './CancelReserveModal';
 
-function CustomerReserve({ reserves }) {
-  const [data, setData] = useState({
+function CustomerReserves({ reserves, reloadReserves }) {
+  const [modalData, setModalData] = useState({
     restaurant: {
       id: 0,
       name: '',
@@ -11,8 +13,8 @@ function CustomerReserve({ reserves }) {
     reservationNumber: 0,
   });
 
-  const handleCancel = (index) => {
-    setData({
+  const handleModals = (index) => {
+    setModalData({
       restaurant: {
         id: reserves[index].restaurant.id,
         name: reserves[index].restaurant.name,
@@ -39,7 +41,7 @@ function CustomerReserve({ reserves }) {
               reserves.map((reserve, index) => (
                 <tr key={index} className={reserve.cancelled && reserve.isPastTime ? "cancelled-reservation past-reservation" : reserve.cancelled ? "cancelled-reservation" : reserve.isPastTime ? "past-reservation" : ""}>
                   <td className="ps-3">{reserve.datetime}</td>
-                  <td>{reserve.restaurant.name}</td>
+                  <td><Link className="miz-link-button text-decoration-none" to={`/restaurants/${reserve.restaurant.id}`}>{reserve.restaurant.name}</Link></td>
                   <td>Table-{reserve.table.tableNumber}</td>
                   <td>{reserve.table.seatsNumber} Seats</td>
                   <td className="pe-3 text-end">
@@ -47,11 +49,11 @@ function CustomerReserve({ reserves }) {
                       <button className="miz-link-button" disabled>Canceled</button>
                     ) : (
                       reserve.isPastTime ? (
-                        <button className="miz-link-button" data-bs-toggle="modal" data-bs-target="#modal-add-review">
+                        <button className="miz-link-button" onClick={() => handleModals(index)} data-bs-toggle="modal" data-bs-target="#modal-add-review">
                           Add Comment
                         </button>
                       ) : (
-                        <button className="miz-link-button" onClick={() => handleCancel(index)} data-bs-toggle="modal" data-bs-target="#modal-cancel-reservation">
+                        <button className="miz-link-button" onClick={() => handleModals(index)} data-bs-toggle="modal" data-bs-target="#modal-cancel-reservation">
                           Cancel
                         </button>
                       )
@@ -63,10 +65,10 @@ function CustomerReserve({ reserves }) {
           </tbody>
         </table>
       </div>
-      <AddReviewModal restaurantName={data.restaurant.name} restaurantId={data.restaurant.id} />
-      <CancelReserveModal restaurantName={data.restaurant.name} reserveId={data.reservationNumber} />
+      <AddReviewModal restaurantName={modalData.restaurant.name} restaurantId={modalData.restaurant.id} />
+      <CancelReserveModal restaurantName={modalData.restaurant.name} reserveId={modalData.reservationNumber} reloadReserves={reloadReserves} />
     </>
   );
 }
 
-export default CustomerReserve;
+export default CustomerReserves;

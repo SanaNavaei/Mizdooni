@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { useLogout } from 'utils/logout';
+
 import EmptyStar from 'assets/icons/star_empty.svg'
 import FullStar from 'assets/icons/star_filled.svg'
 
@@ -40,7 +40,9 @@ function AddReviewModal({ restaurantName, restaurantId, reloadReviews }) {
     });
     if (response.ok) {
       setError('');
-      reloadReviews();
+      if (reloadReviews) {
+        reloadReviews();
+      }
       toast.success('Review added successfully');
     } else if (response.status === 401) {
       logout();

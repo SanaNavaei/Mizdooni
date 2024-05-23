@@ -1,16 +1,13 @@
 import { Link } from 'react-router-dom';
 
 import Stars from './Stars'
+import { isRestaurantOpen } from 'utils/date';
 
 import Location from 'assets/icons/location.svg';
 import Dot from 'assets/icons/dot.svg';
 
 function Card({ id, name, totalReviews, type, address, endTime, startTime, starCount, image }) {
-  const isOpen = () => {
-    const currentTime = new Date();
-    const currentHour = currentTime.getHours();
-    return currentHour >= Number(startTime.split(':')[0]) && currentHour < Number(endTime.split(':')[0]);
-  };
+  const isOpen = isRestaurantOpen(startTime, endTime)
 
   return (
     <section className="col">
@@ -30,9 +27,9 @@ function Card({ id, name, totalReviews, type, address, endTime, startTime, starC
             <p>{address.city}</p>
           </div>
           <div className="d-flex">
-            <p className={`miz-text-${isOpen() ? 'green' : 'red'} fw-medium`}>{isOpen() ? 'Open' : 'Closed'}</p>
+            <p className={`miz-text-${isOpen ? 'green' : 'red'} fw-medium`}>{isOpen ? 'Open' : 'Closed'}</p>
             <img className="mx-1" src={Dot} alt="" />
-            <p>{isOpen() ? `Closes at ${endTime}` : `Opens at ${startTime}`}</p>
+            <p>{isOpen ? `Closes at ${endTime}` : `Opens at ${startTime}`}</p>
           </div>
         </div>
       </div>

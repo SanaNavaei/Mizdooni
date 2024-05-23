@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-import 'react-toastify/dist/ReactToastify.css';
 
 import AuthenticationHeader from 'components/AuthenticationHeader';
 import FormItem from 'components/FormItem';
@@ -44,8 +43,8 @@ function Signup() {
     if (response.ok) {
       setUserError('');
     } else {
-      const data = await response.json();
-      setUserError(data.message);
+      const body = await response.json();
+      setUserError(body.message);
     }
   };
 
@@ -54,8 +53,8 @@ function Signup() {
     if (response.ok) {
       setEmailError('');
     } else {
-      const data = await response.json();
-      setEmailError(data.message);
+      const body = await response.json();
+      setEmailError(body.message);
     }
   };
 

@@ -1,14 +1,12 @@
+import { isRestaurantOpen } from 'utils/date';
+
 import Time from 'assets/icons/time.svg';
 import ReviewStar from 'assets/icons/review_star.svg';
 import Restaurant from 'assets/icons/restaurant.svg';
 import Location from 'assets/icons/location.svg';
 
 function RestaurantDetails({ name, totalReviews, type, address, endTime, startTime, image, description }) {
-  const isOpen = () => {
-    const currentTime = new Date();
-    const currentHour = currentTime.getHours();
-    return currentHour >= Number(startTime.split(':')[0]) && currentHour < Number(endTime.split(':')[0]);
-  };
+  const isOpen = isRestaurantOpen(startTime, endTime);
 
   return (
     <section className="col-lg">
@@ -16,7 +14,7 @@ function RestaurantDetails({ name, totalReviews, type, address, endTime, startTi
         <img id="restaurant-image" className="w-100 object-fit-cover rounded-3 border-end-3" src={image} alt={name} />
         <div id="restaurant" className="border-bottom w-100 d-flex justify-content-between align-items-center position-absolute bottom-0 rounded-bottom-3 pt-3 pb-2 ps-2 pe-4">
           <h2 className="fw-semibold">{name}</h2>
-          <p className={`text-white rounded-3 py-1 px-3 ${isOpen() ? 'open' : 'closed'}`}>{isOpen() ? 'Open!' : 'Closed!'}</p>
+          <p className={`text-white rounded-3 py-1 px-3 ${isOpen ? 'open' : 'closed'}`}>{isOpen ? 'Open!' : 'Closed!'}</p>
         </div>
       </div>
       <div className="px-2">

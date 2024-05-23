@@ -5,7 +5,6 @@ import { toast } from 'react-toastify';
 import PageLayout from 'components/PageLayout';
 import Cards from 'components/Cards';
 import Pagination from 'components/Pagination';
-import { useLogout } from 'utils/logout';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'assets/stylesheets/global.css';
@@ -13,7 +12,6 @@ import 'assets/stylesheets/cards.css';
 
 function SearchResult() {
   useEffect(() => { document.title = 'Search Result'; }, []);
-  const logout = useLogout();
 
   const [restaurants, setRestaurants] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -28,10 +26,8 @@ function SearchResult() {
         const body = await response.json();
         setRestaurants(body.data.pageList);
         setTotalPages(body.data.totalPages);
-      } else if (response.status == 401) {
-        logout();
       } else {
-        toast.error('Error fetching restaurants');
+        toast.error('Error fetching search restaurants');
       }
     }
     fetchRestaurants();

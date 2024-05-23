@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Modal } from 'bootstrap';
-import 'react-toastify/dist/ReactToastify.css';
 
 import CompleteReserveModal from './CompleteReserveModal';
 import { getCurrentDate } from 'utils/date';

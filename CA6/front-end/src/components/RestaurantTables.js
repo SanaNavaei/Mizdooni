@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 import AddTableModal from './AddTableModal';
 import Hashtag from 'assets/icons/hashtag.svg';
@@ -23,7 +24,7 @@ function RestaurantTables({ restaurantId, setTableNumber }) {
     } else if (response.status === 401) {
       logout();
     } else {
-      console.error('Failed to fetch tables');
+      toast.error('Failed to fetch restaurant tables');
     }
   }
 
@@ -43,7 +44,6 @@ function RestaurantTables({ restaurantId, setTableNumber }) {
   }
 
   const handleTable = (tableNumber) => {
-    console.log(tableNumber);
     setTableNumber(tableNumber);
     setSelectedTable(tableNumber);
   };

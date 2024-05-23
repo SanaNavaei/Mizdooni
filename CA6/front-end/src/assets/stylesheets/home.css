@@ -32,7 +32,7 @@
     min-width: 130px;
 }
 
-#search-form select option:first-child {
+#search-form select>option:first-child {
     color: var(--miz-text-grey);
 }
 

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { useLogout } from 'utils/logout';
 
@@ -60,8 +59,6 @@ function AddRestaurantModal({ reloadRestaurants }) {
     const response = await fetch(`/api/validate/restaurant-name?data=${formData.name}`);
     if (response.ok) {
       setNameError('');
-    } else if (response.status === 401) {
-      logout();
     } else {
       const body = await response.json();
       setNameError(body.message);
