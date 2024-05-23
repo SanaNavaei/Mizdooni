@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { createSearchParams, useNavigate } from 'react-router-dom';
 
 import Logo from 'assets/images/logo.png'
+import { useLogout } from 'utils/logout';
 
 function HomeSearch() {
   const [locations, setLocations] = useState({
@@ -15,6 +16,7 @@ function HomeSearch() {
   const [GermanyData, setGermanyData] = useState([]);
   const [JapanData, setJapanData] = useState([]);
   const [USData, setUSData] = useState([]);
+  const logout = useLogout();
 
   useEffect(() => {
     setLocations({
@@ -35,37 +37,35 @@ function HomeSearch() {
   });
 
   useEffect(() => {
-    fetch('/api/restaurants/locations')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch locations');
-        }
-        return response.json();
-      })
-      .then(data => {
-        setCanadaData(data.data.Canada);
-        setGermanyData(data.data.Germany);
-        setJapanData(data.data.Japan);
-        setUSData(data.data.US);
-      })
-      .catch(error => {
-        console.error('Error fetching locations:', error);
-      });
+    const fetchRestaurantLocations = async () => {
+      const response = await fetch('/api/restaurants/locations');
+      if (response.ok) {
+        const body = await response.json();
+        setCanadaData(body.data.Canada);
+        setGermanyData(body.data.Germany);
+        setJapanData(body.data.Japan);
+        setUSData(body.data.US);
+      } else if (response.status === 401) {
+        logout();
+      } else {
+        console.error('Failed to fetch restaurant locations');
+      }
+    }
 
-    fetch('/api/restaurants/types')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch restaurant types');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.log('Restaurant types:', data.data);
-        setRestaurantTypes(data.data);
-      })
-      .catch(error => {
-        console.error('Error fetching restaurant types:', error);
-      });
+    const fetchRestaurantTypes = async () => {
+      const response = await fetch('/api/restaurants/types');
+      if (response.ok) {
+        const body = await response.json();
+        setRestaurantTypes(body.data);
+      } else if (response.status === 401) {
+        logout();
+      } else {
+        console.error('Failed to fetch restaurant types');
+      }
+    }
+
+    fetchRestaurantLocations();
+    fetchRestaurantTypes();
   }, []);
   const params = {};
 
@@ -100,7 +100,7 @@ function HomeSearch() {
             <img src={Logo} alt="Mizdooni" height="200" width="248" />
             <form id="search-form" className="d-flex flex-wrap w-100 mt-3 mb-5">
               <select className="form-select flex-grow-1" name="location" value={formData.location} onChange={handleChange}>
-                <option value="" selected>Location</option>
+                <option value="">Location</option>
                 {(() => {
                   const options = [];
                   for (let i = 0; i < countries.length; i++) {
@@ -122,7 +122,7 @@ function HomeSearch() {
               </select>
 
               <select className="form-select flex-grow-1" name="type" value={formData.type} onChange={handleChange}>
-                <option value="" selected>Restaurant</option>
+                <option value="">Restaurant</option>
                 {restaurantTypes.map(type => (
                   <option key={type} value={type}>{type}</option>
                 ))}

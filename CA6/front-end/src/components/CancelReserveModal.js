@@ -1,40 +1,37 @@
 import { useState } from 'react';
 import { toast } from 'react-toastify';
+
+import { useLogout } from 'utils/logout';
+
 import 'react-toastify/dist/ReactToastify.css';
 
 function CancelReserveModal({ restaurantName, reserveId }) {
   const [isChecked, setIsChecked] = useState(false);
+  const logout = useLogout();
 
   const handleCheckboxChange = () => {
     setIsChecked(true);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    fetch(`/api/reserves/cancel/${reserveId}`, {
+    const response = await fetch(`/api/reserves/cancel/${reserveId}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
       },
-    })
-      .then(async (response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          const resp = await response.json();
-          throw new Error(resp.message);
-        }
-      })
-      .then(data => {
-        toast.success('Reservation canceled successfully');
-        setIsChecked(false);
-        window.location.reload();
-      })
-      .catch(error => {
-        toast.error(error.message);
-        setIsChecked(false);
-      });
+    });
+    setIsChecked(false);
+    if (response.ok) {
+      toast.success('Reservation canceled successfully');
+      window.location.reload();
+    } else if (response.status === 401) {
+      logout();
+    } else {
+      const body = await response.json();
+      toast.error(body.message);
+    }
   }
 
   return (

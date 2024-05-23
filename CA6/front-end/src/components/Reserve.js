@@ -5,6 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import CompleteReserveModal from './CompleteReserveModal';
 import { getCurrentDate } from 'utils/date';
+import { useLogout } from 'utils/logout';
 
 function Reserve({ maxSeatsNumber, address, id: restaurantId }) {
   const [selectedPeople, setSelectedPeople] = useState(0);
@@ -15,6 +16,7 @@ function Reserve({ maxSeatsNumber, address, id: restaurantId }) {
   const [availableTimes, setAvailableTimes] = useState([]);
   const [tableNumber, setTableNumber] = useState(0);
   const [reservationModal, setReservationModal] = useState(null);
+  const logout = useLogout();
 
   useEffect(() => {
     setReservationModal(new Modal(document.getElementById('modal-complete-reservation')));
@@ -33,32 +35,24 @@ function Reserve({ maxSeatsNumber, address, id: restaurantId }) {
     fetchTimes()
   }, [selectedPeople, selectedDate]);
 
-  const fetchTimes = () => {
-    const query = new URLSearchParams({ people: selectedPeople, date: selectedDate })
-    fetch(`/api/reserves/${restaurantId}/available?` + query, {
+  const fetchTimes = async () => {
+    const response = await fetch(`/api/reserves/${restaurantId}/available?people=${selectedPeople}&date=${selectedDate}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
       },
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch available times');
-        }
-        return response.json();
-      })
-      .then(data => {
-        setAvailableTimes(data.data);
-      })
-      .catch(error => {
-        setAvailableTimes([]);
-        console.error('Error fetching available times:', error);
-      });
+    });
+    if (response.ok) {
+      const body = await response.json();
+      setAvailableTimes(body.data);
+    } else {
+      toast.error('Failed to fetch available times');
+    }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    fetch(`/api/reserves/${restaurantId}`, {
+    const response = await fetch(`/api/reserves/${restaurantId}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -68,22 +62,17 @@ function Reserve({ maxSeatsNumber, address, id: restaurantId }) {
         people: selectedPeople,
         datetime: `${selectedDate} ${selectedTime}`
       }),
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to reserve table');
-        }
-        return response.json();
-      })
-      .then(data => {
-        console.debug('Success:', data);
-        setTableNumber(data.data.table.tableNumber);
-        reservationModal.show();
-        fetchTimes();
-      })
-      .catch(error => {
-        toast.error(error.message);
-      });
+    });
+    if (response.ok) {
+      const body = await response.json();
+      setTableNumber(body.data.table.tableNumber);
+      reservationModal.show();
+      fetchTimes();
+    } else if (response.status === 401) {
+      logout();
+    } else {
+      toast.error('Failed to reserve table');
+    }
   };
 
   const handlePeopleChange = (e) => {

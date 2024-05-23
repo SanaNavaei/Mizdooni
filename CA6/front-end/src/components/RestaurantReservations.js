@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 
 import { getCurrentDate } from 'utils/date';
+import { useLogout } from 'utils/logout';
 
 function RestaurantReservations({ restaurantId, tableNumber }) {
   const [reservations, setReservations] = useState([]);
   const [date, setDate] = useState(getCurrentDate());
+  const logout = useLogout();
 
   useEffect(() => {
     document.getElementById('date').value = date;
@@ -15,23 +17,21 @@ function RestaurantReservations({ restaurantId, tableNumber }) {
       return;
     }
     const fetchReservations = async () => {
-      try {
-        const response = await fetch(`/api/reserves/${restaurantId}?table=${tableNumber}&date=${date}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setReservations(data.data);
-        } else {
-          console.error('Failed to fetch reservations');
-        }
-      } catch (error) {
-        console.error('Error fetching reservations:', error);
+      const response = await fetch(`/api/reserves/${restaurantId}?table=${tableNumber}&date=${date}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
+      if (response.ok) {
+        const body = await response.json();
+        setReservations(body.data);
+      } else if (response.status === 401) {
+        logout();
+      } else {
+        console.error('Failed to fetch reservations');
       }
-    };
+    }
     fetchReservations();
   }, [tableNumber, date]);
 

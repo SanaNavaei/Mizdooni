@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { useLogout } from 'utils/logout';
+
 const startHours = [<option key={0}></option>]
 for (let i = 8; i < 18; i++) {
   const formattedHour = i.toString().padStart(2, '0');
@@ -15,6 +17,10 @@ for (let i = 18; i < 24; i++) {
 }
 
 function AddRestaurantModal({ reloadRestaurants }) {
+  const logout = useLogout();
+
+  const [nameError, setNameError] = useState('');
+  const [isFormFilled, setIsFormFilled] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     type: '',
@@ -27,9 +33,6 @@ function AddRestaurantModal({ reloadRestaurants }) {
       street: ''
     },
   });
-
-  const [nameError, setNameError] = useState('');
-  const [isFormFilled, setIsFormFilled] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,41 +58,36 @@ function AddRestaurantModal({ reloadRestaurants }) {
   };
 
   const validateName = async () => {
-    try {
-      const response = await fetch(`/api/validate/restaurant-name?data=${formData.name}`);
-      if (response.ok) {
-        setNameError('');
-      } else {
-        const data = await response.json();
-        setNameError(data.message);
-      }
-    } catch (error) {
-      console.error('Error validating restaurant name:', error);
+    const response = await fetch(`/api/validate/restaurant-name?data=${formData.name}`);
+    if (response.ok) {
+      setNameError('');
+    } else if (response.status === 401) {
+      logout();
+    } else {
+      const body = await response.json();
+      setNameError(body.message);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("body: ", JSON.stringify(formData));
-    try {
-      const response = await fetch('/api/restaurants', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        setNameError('');
-        reloadRestaurants();
-        toast.success('Restaurant added successfully');
-      } else {
-        const data = await response.json();
-        toast.error(data.message);
-      }
-    } catch (error) {
-      console.error('Error adding restaurant:', error);
+    const response = await fetch('/api/restaurants', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+    if (response.ok) {
+      setNameError('');
+      reloadRestaurants();
+      toast.success('Restaurant added successfully');
+    } else if (response.status === 401) {
+      logout();
+    } else {
+      const body = await response.json();
+      toast.error(body.message);
     }
   };
 

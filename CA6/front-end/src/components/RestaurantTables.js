@@ -3,32 +3,28 @@ import { useState, useEffect } from 'react';
 import AddTableModal from './AddTableModal';
 import Hashtag from 'assets/icons/hashtag.svg';
 import Seat from 'assets/icons/seat.svg';
+import { useLogout } from 'utils/logout';
 
 function RestaurantTables({ restaurantId, setTableNumber }) {
   const [tables, setTables] = useState([]);
   const [selectedTable, setSelectedTable] = useState(null);
+  const logout = useLogout();
 
-  const reloadTables = () => {
-    const fetchTables = async () => {
-      try {
-        const response = await fetch(`/api/tables/${restaurantId}`, {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
-        if (response.ok) {
-          const data = await response.json();
-          setTables(data.data);
-        } else {
-          console.error('Failed to fetch tables');
-        }
-      } catch (error) {
-        console.error('Error fetching tables:', error);
-      }
-    };
-
-    fetchTables();
+  const reloadTables = async () => {
+    const response = await fetch(`/api/tables/${restaurantId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      },
+    });
+    if (response.ok) {
+      const body = await response.json();
+      setTables(body.data);
+    } else if (response.status === 401) {
+      logout();
+    } else {
+      console.error('Failed to fetch tables');
+    }
   }
 
   useEffect(() => {

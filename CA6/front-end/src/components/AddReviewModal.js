@@ -2,10 +2,13 @@ import { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { useLogout } from 'utils/logout';
 import EmptyStar from 'assets/icons/star_empty.svg'
 import FullStar from 'assets/icons/star_filled.svg'
 
 function AddReviewModal({ restaurantName, restaurantId, reloadReviews }) {
+  const logout = useLogout();
+
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
@@ -26,33 +29,27 @@ function AddReviewModal({ restaurantName, restaurantId, reloadReviews }) {
     }
   }, [formData]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    fetch(`/api/reviews/${restaurantId}`, {
+    const response = await fetch(`/api/reviews/${restaurantId}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData),
-    })
-      .then(async response => {
-        if (response.ok) {
-          return response.json();
-        }
-        const resp = await response.json();
-        throw new Error(resp.message);
-      })
-      .then(data => {
-        console.debug(data);
-        setError('');
-        reloadReviews();
-        toast.success('Review added successfully');
-      })
-      .catch(error => {
-        toast.error(error.message);
-        setError(error.message);
-      });
+    });
+    if (response.ok) {
+      setError('');
+      reloadReviews();
+      toast.success('Review added successfully');
+    } else if (response.status === 401) {
+      logout();
+    } else {
+      const body = await response.json();
+      toast.error(body.message);
+      setError(body.message);
+    }
   }
 
   const handleCommentChange = (e) => {

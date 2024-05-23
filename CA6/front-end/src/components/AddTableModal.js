@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+
+import { useLogout } from 'utils/logout';
+
 import 'react-toastify/dist/ReactToastify.css';
 
 function AddTableModal({ restaurantId, reloadTables }) {
   const [inputValue, setInputValue] = useState(0);
   const [isDisabled, setIsDisabled] = useState(true);
+  const logout = useLogout();
 
   useEffect(() => {
     if (inputValue > 0) {
@@ -20,23 +24,21 @@ function AddTableModal({ restaurantId, reloadTables }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const response = await fetch(`/api/tables/${restaurantId}`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ seatsNumber: inputValue }),
-      });
-      if (response.ok) {
-        reloadTables();
-        toast.success('Table added successfully');
-      } else {
-        toast.error('Failed to add table');
-      }
-    } catch (error) {
-      console.error('Error adding table:', error);
+    const response = await fetch(`/api/tables/${restaurantId}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ seatsNumber: inputValue }),
+    });
+    if (response.ok) {
+      reloadTables();
+      toast.success('Table added successfully');
+    } else if (response.status === 401) {
+      logout();
+    } else {
+      toast.error('Failed to add table');
     }
   }
 

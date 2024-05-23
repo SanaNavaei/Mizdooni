@@ -4,6 +4,7 @@ import AverageReview from './AverageReview';
 import Review from './Review';
 import AddReviewModal from './AddReviewModal';
 import Pagination from './Pagination';
+import { useLogout } from 'utils/logout';
 
 function RestaurantReviews({ restaurant }) {
   const [reviews, setReviews] = useState([{
@@ -24,24 +25,20 @@ function RestaurantReviews({ restaurant }) {
   }]);
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
+  const logout = useLogout();
 
-  const reloadReviews = () => {
-    fetch(`/api/reviews/${restaurant.id}?page=${currentPage}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch restaurant reviews');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.debug('Success:', data.data);
-        setReviews(data.data.pageList);
-        setTotalPages(data.data.totalPages);
-      })
-      .catch(error => {
-        console.error('Error fetching restaurant reviews:', error);
-      });
-  };
+  const reloadReviews = async () => {
+    const response = await fetch(`/api/reviews/${restaurant.id}?page=${currentPage}`);
+    if (response.ok) {
+      const body = await response.json();
+      setReviews(body.data.pageList);
+      setTotalPages(body.data.totalPages);
+    } else if (response.status === 401) {
+      logout();
+    } else {
+      console.error('Failed to fetch restaurant reviews');
+    }
+  }
 
   useEffect(() => {
     if (restaurant.id !== -1) {

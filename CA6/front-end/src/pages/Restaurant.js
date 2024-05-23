@@ -5,6 +5,7 @@ import PageLayout from 'components/PageLayout';
 import RestaurantDetails from 'components/RestaurantDetails';
 import Reserve from 'components/Reserve';
 import RestaurantReviews from 'components/RestaurantReviews';
+import { useLogout } from 'utils/logout';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
@@ -13,6 +14,7 @@ import 'assets/stylesheets/restaurant.css';
 
 function Restaurant() {
   useEffect(() => { document.title = 'Restaurant'; }, []);
+  const logout = useLogout();
 
   const restaurantId = useParams().id;
   const [restaurant, setRestaurant] = useState({
@@ -41,20 +43,18 @@ function Restaurant() {
   });
 
   useEffect(() => {
-    fetch(`/api/restaurants/${restaurantId}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Failed to fetch restaurant data');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.debug('Success:', data.data);
-        setRestaurant(data.data);
-      })
-      .catch(error => {
-        console.error('Error fetching restaurant data:', error);
-      });
+    const fetchRestaurant = async () => {
+      const response = await fetch(`/api/restaurants/${restaurantId}`);
+      if (response.ok) {
+        const body = await response.json();
+        setRestaurant(body.data);
+      } else if (response.status === 401) {
+        logout();
+      } else {
+        console.error('Error fetching restaurant');
+      }
+    }
+    fetchRestaurant();
   }, [restaurantId]);
 
   return (
