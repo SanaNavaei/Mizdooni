@@ -17,8 +17,6 @@ for (let i = 18; i < 24; i++) {
 }
 
 function AddRestaurantModal({ reloadRestaurants }) {
-  const logout = useLogout();
-
   const [nameError, setNameError] = useState('');
   const [isFormFilled, setIsFormFilled] = useState(false);
   const [formData, setFormData] = useState({
@@ -33,6 +31,7 @@ function AddRestaurantModal({ reloadRestaurants }) {
       street: ''
     },
   });
+  const logout = useLogout();
 
   const handleChange = (e) => {
     const { name, value } = e.target;

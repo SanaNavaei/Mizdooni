@@ -22,19 +22,19 @@ function SearchResult() {
   const topText = 'Results for #' + searchParams;
 
   useEffect(() => {
-    const fetchEffect = async () => {
+    const fetchRestaurants = async () => {
       const response = await fetch(`/api/restaurants?${searchParams}&page=${currentPage}`);
       if (response.ok) {
-        const resp = await response.json();
-        setRestaurants(resp.data.pageList);
-        setTotalPages(resp.data.totalPages);
+        const body = await response.json();
+        setRestaurants(body.data.pageList);
+        setTotalPages(body.data.totalPages);
       } else if (response.status == 401) {
         logout();
       } else {
         toast.error('Error fetching restaurants');
       }
     }
-    fetchEffect();
+    fetchRestaurants();
   }, [searchParams, currentPage]);
 
   const handlePageChange = (page) => {

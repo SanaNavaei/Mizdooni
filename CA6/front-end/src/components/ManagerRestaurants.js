@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import AddRestaurantModal from './AddRestaurantModal';
 
 function ManagerRestaurants({ restaurants, reloadRestaurants }) {
-  const id = localStorage.getItem('id');
-
   return (
     <div id="restaurants-list" className="mx-auto bg-white rounded-3 pt-3 pb-1">
       <div className="d-flex justify-content-between align-items-center px-3">

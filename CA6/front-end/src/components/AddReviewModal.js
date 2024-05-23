@@ -7,8 +7,6 @@ import EmptyStar from 'assets/icons/star_empty.svg'
 import FullStar from 'assets/icons/star_filled.svg'
 
 function AddReviewModal({ restaurantName, restaurantId, reloadReviews }) {
-  const logout = useLogout();
-
   const [isSubmitDisabled, setIsSubmitDisabled] = useState(true);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
@@ -20,6 +18,7 @@ function AddReviewModal({ restaurantName, restaurantId, reloadReviews }) {
     },
     comment: '',
   });
+  const logout = useLogout();
 
   useEffect(() => {
     if (formData.rating.food > 0 && formData.rating.service > 0 && formData.rating.ambiance > 0 && formData.rating.overall > 0) {

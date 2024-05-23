@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 
 import AuthenticationHeader from 'components/AuthenticationHeader';
 import FormItem from 'components/FormItem';
+import { useLogin } from 'utils/login';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'assets/stylesheets/global.css';
@@ -19,7 +20,7 @@ const googleOAuthLink = 'https://accounts.google.com/o/oauth2/auth?' + new URLSe
 
 function Login() {
   useEffect(() => { document.title = 'Login'; }, []);
-  const navigate = useNavigate();
+  const login = useLogin();
 
   const [formData, setFormData] = useState({
     username: '',
@@ -42,20 +43,8 @@ function Login() {
     });
 
     if (response.ok) {
-      let res = await response.json();
-      localStorage.setItem('token', res.token);
-      localStorage.setItem('id', res.data.id);
-      localStorage.setItem('username', res.data.username);
-      localStorage.setItem('email', res.data.email);
-      localStorage.setItem('role', res.data.role);
-      localStorage.setItem('country', res.data.address.country);
-      localStorage.setItem('city', res.data.address.city);
-
-      if (res.data.role === 'manager') {
-        navigate('/manager')
-      } else {
-        navigate('/customer')
-      }
+      const body = await response.json();
+      login(body);
     } else {
       toast.error('Invalid username or password');
     }

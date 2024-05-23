@@ -2,9 +2,12 @@ import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { useLogin } from 'utils/login';
+
 function OAuthCallback() {
   useEffect(() => { document.title = 'Redirecting...'; }, []);
   const navigate = useNavigate();
+  const login = useLogin();
 
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -18,20 +21,8 @@ function OAuthCallback() {
     });
 
     if (response.ok) {
-      let res = await response.json();
-      localStorage.setItem('token', res.token);
-      localStorage.setItem('id', res.data.id);
-      localStorage.setItem('username', res.data.username);
-      localStorage.setItem('email', res.data.email);
-      localStorage.setItem('role', res.data.role);
-      localStorage.setItem('country', res.data.address.country);
-      localStorage.setItem('city', res.data.address.city);
-
-      if (res.data.role === 'manager') {
-        navigate('/manager')
-      } else {
-        navigate('/customer')
-      }
+      const body = await response.json();
+      login(body);
     } else {
       toast.error('Google Authentication Failed');
       navigate('/login');
