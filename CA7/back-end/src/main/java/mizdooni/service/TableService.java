@@ -1,5 +1,8 @@
 package mizdooni.service;
 
+import co.elastic.apm.api.CaptureSpan;
+import co.elastic.apm.api.ElasticApm;
+import co.elastic.apm.api.Span;
 import mizdooni.exceptions.InvalidManagerRestaurant;
 import mizdooni.exceptions.RestaurantNotFound;
 import mizdooni.exceptions.UserNotManager;
@@ -30,10 +33,17 @@ public class TableService {
         return mizTableRepository.findByRestaurantId(restaurantId);
     }
 
+    @CaptureSpan
     public void addTable(int userId, int restaurantId, int seatsNumber)
             throws RestaurantNotFound, UserNotManager, InvalidManagerRestaurant {
+        Span addTableSpan = ElasticApm.currentSpan();
+        Span getUserSpan = addTableSpan.startSpan().setName("get user");
         User manager = userService.getUser(userId);
+        getUserSpan.end();
+
+        Span findRestaurantSpan = addTableSpan.startSpan().setName("find restaurant");
         Restaurant restaurant = restaurantRepository.findById(restaurantId);
+        findRestaurantSpan.end();
 
         if (restaurant == null) {
             throw new RestaurantNotFound();
@@ -45,7 +55,9 @@ public class TableService {
             throw new InvalidManagerRestaurant();
         }
 
+        Span newTableSpan = addTableSpan.startSpan().setName("add table");
         MizTable table = new MizTable(0, restaurant, seatsNumber);
         mizTableRepository.save(table);
+        newTableSpan.end();
     }
 }
