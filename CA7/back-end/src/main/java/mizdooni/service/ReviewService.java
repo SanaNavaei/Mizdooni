@@ -1,5 +1,8 @@
 package mizdooni.service;
 
+import co.elastic.apm.api.CaptureSpan;
+import co.elastic.apm.api.ElasticApm;
+import co.elastic.apm.api.Span;
 import mizdooni.exceptions.*;
 import mizdooni.model.Rating;
 import mizdooni.model.Restaurant;
@@ -27,20 +30,32 @@ public class ReviewService {
     @Autowired
     private UserService userService;
 
+    @CaptureSpan
     public PagedList<Review> getReviews(int restaurantId, int page) throws RestaurantNotFound {
+        Span getReviewsSpan = ElasticApm.currentSpan();
+        Span findRestaurantSpan = getReviewsSpan.startSpan().setName("find restaurant");
         Restaurant restaurant = restaurantRepository.findById(restaurantId);
+        findRestaurantSpan.end();
+
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
         PageRequest pageRequest = PageRequest.of(page - 1, ServiceUtils.REVIEW_PAGE_SIZE);
+        Span getReviewsFromDbSpan = getReviewsSpan.startSpan().setName("get reviews");
         List<Review> reviews = reviewRepository.findByRestaurantId(restaurantId, pageRequest);
+        getReviewsFromDbSpan.end();
         int totalReviews = reviewRepository.countByRestaurantId(restaurantId);
         return new PagedList<>(reviews, totalReviews, pageRequest);
     }
 
+    @CaptureSpan
     public void addReview(int userId, int restaurantId, Rating rating, String comment)
             throws UserNotFound, ManagerCannotReview, RestaurantNotFound, InvalidReviewRating, UserHasNotReserved {
+        Span addReviewSpan = ElasticApm.currentSpan();
+        Span getUserSpan = addReviewSpan.startSpan().setName("get user");
         User user = userService.getUser(userId);
+        getUserSpan.end();
+
         if (user == null) {
             throw new UserNotFound();
         }
@@ -48,7 +63,10 @@ public class ReviewService {
             throw new ManagerCannotReview();
         }
 
+        Span findRestaurantSpan = addReviewSpan.startSpan().setName("find restaurant");
         Restaurant restaurant = restaurantRepository.findById(restaurantId);
+        findRestaurantSpan.end();
+
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
@@ -69,6 +87,7 @@ public class ReviewService {
             throw new InvalidReviewRating("Overall");
         }
 
+        Span saveReviewSpan = addReviewSpan.startSpan().setName("add review");
         Review previous = reviewRepository.findByUserIdAndRestaurantId(user.getId(), restaurantId);
         if (previous == null) {
             Review review = new Review(user, restaurant, rating, comment, LocalDateTime.now());
@@ -76,6 +95,7 @@ public class ReviewService {
         } else {
             reviewRepository.update(previous.getId(), rating, comment, LocalDateTime.now());
         }
+        saveReviewSpan.end();
     }
 
     private boolean checkReserved(User user, Restaurant restaurant) {
