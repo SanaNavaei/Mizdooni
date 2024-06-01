@@ -1,5 +1,8 @@
 package mizdooni.service;
 
+import co.elastic.apm.api.CaptureSpan;
+import co.elastic.apm.api.ElasticApm;
+import co.elastic.apm.api.Span;
 import mizdooni.exceptions.DuplicatedRestaurantName;
 import mizdooni.exceptions.InvalidWorkingTime;
 import mizdooni.exceptions.UserNotManager;
@@ -60,9 +63,13 @@ public class RestaurantService {
         return restaurants;
     }
 
+    @CaptureSpan
     public int addRestaurant(int userId, String name, String type, LocalTime startTime, LocalTime endTime, String description,
                              Address address, String imageLink) throws DuplicatedRestaurantName, UserNotManager, InvalidWorkingTime {
+        Span addRestaurantSpan = ElasticApm.currentSpan();
+        Span getUserSpan = addRestaurantSpan.startSpan().setName("get manager");
         User manager = userService.getUser(userId);
+        getUserSpan.end();
 
         if (restaurantRepository.existsByName(name)) {
             throw new DuplicatedRestaurantName();
@@ -76,8 +83,10 @@ public class RestaurantService {
         }
 
         int id = (int) restaurantRepository.count();
+        Span newRestaurantSpan = addRestaurantSpan.startSpan().setName("add restaurant");
         Restaurant restaurant = new Restaurant(id, name, manager, type, startTime, endTime, description, address, imageLink);
         restaurantRepository.save(restaurant);
+        newRestaurantSpan.end();
         return restaurant.getId();
     }
 
@@ -89,8 +98,13 @@ public class RestaurantService {
         return restaurantRepository.findAllTypes();
     }
 
+    @CaptureSpan
     public Map<String, Set<String>> getRestaurantLocations() {
+        Span getLocationsSpan = ElasticApm.currentSpan();
+        Span findLocationsSpan = getLocationsSpan.startSpan().setName("find locations");
         List<List<String>> locations = restaurantRepository.findCitiesByCountry();
+        findLocationsSpan.end();
+
         return locations.stream().collect(Collectors.groupingBy(
                 location -> location.get(0),
                 Collectors.mapping(location -> location.get(1), Collectors.toSet())
