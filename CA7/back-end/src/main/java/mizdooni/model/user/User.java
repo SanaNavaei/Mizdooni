@@ -74,7 +74,7 @@ public abstract class User {
     public boolean checkReserved(Restaurant restaurant) {
         return reservations.stream().anyMatch(r -> !r.isCancelled() &&
                 r.getDateTime().isBefore(LocalDateTime.now()) &&
-                r.getRestaurant().equals(restaurant));
+                r.getRestaurant().getId() == restaurant.getId());
     }
 
     public Reservation getReservation(int reservationNumber) {

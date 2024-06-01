@@ -41,7 +41,7 @@ public class TableService {
         if (manager == null || manager.getRole() != User.Role.manager) {
             throw new UserNotManager();
         }
-        if (!restaurant.getManager().equals(manager)) {
+        if (restaurant.getManager().getId() != manager.getId()) {
             throw new InvalidManagerRestaurant();
         }
 

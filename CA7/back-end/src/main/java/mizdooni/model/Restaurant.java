@@ -73,7 +73,7 @@ public class Restaurant {
 
     public void addReview(Review review) {
         for (Review r : reviews) {
-            if (r.getUser().equals(review.getUser())) {
+            if (r.getUser().getId() == review.getUser().getId()) {
                 reviews.remove(r);
                 break;
             }
