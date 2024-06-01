@@ -1,5 +1,8 @@
 package mizdooni.service;
 
+import co.elastic.apm.api.CaptureSpan;
+import co.elastic.apm.api.ElasticApm;
+import co.elastic.apm.api.Span;
 import mizdooni.exceptions.DuplicatedUsernameEmail;
 import mizdooni.exceptions.InvalidEmailFormat;
 import mizdooni.exceptions.InvalidUsernameFormat;
@@ -63,8 +66,11 @@ public class UserService {
         return new UserTokenPair(user, jwtService.createToken(user));
     }
 
+    @CaptureSpan
     public void signup(String username, String password, String email, Address address, User.Role role)
             throws InvalidEmailFormat, InvalidUsernameFormat, DuplicatedUsernameEmail {
+        Span signupSpan = ElasticApm.currentSpan();
+
         if (!ServiceUtils.validateUsername(username)) {
             throw new InvalidUsernameFormat();
         }
@@ -78,12 +84,15 @@ public class UserService {
         String passwordHash = Crypto.hash(password);
         User user = null;
         int id = (int) userRepository.count();
+
+        Span newUserSpan = signupSpan.startSpan().setName("create user");
         if (role == User.Role.manager) {
             user = new Manager(id, username, passwordHash, email, address);
         } else {
             user = new Client(id, username, passwordHash, email, address);
         }
         userRepository.save(user);
+        newUserSpan.end();
     }
 
     public boolean usernameExists(String username) {
