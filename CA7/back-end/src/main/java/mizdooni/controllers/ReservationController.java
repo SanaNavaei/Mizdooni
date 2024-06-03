@@ -6,6 +6,7 @@ import mizdooni.response.Response;
 import mizdooni.response.ResponseException;
 import mizdooni.service.ReservationService;
 import mizdooni.service.RestaurantService;
+import mizdooni.utils.MizdooniMetrics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -98,6 +99,7 @@ public class ReservationController {
 
         try {
             Reservation reservation = reserveService.reserveTable(userId, restaurantId, people, datetime);
+            MizdooniMetrics.newReservation();
             return Response.ok("reservation done", reservation);
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);
@@ -108,6 +110,7 @@ public class ReservationController {
     public Response cancelReservation(@RequestAttribute int userId, @PathVariable int reservationNumber) {
         try {
             reserveService.cancelReservation(userId, reservationNumber);
+            MizdooniMetrics.newCancellation();
             return Response.ok("reservation cancelled");
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);

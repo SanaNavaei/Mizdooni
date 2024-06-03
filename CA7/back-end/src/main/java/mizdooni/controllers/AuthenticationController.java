@@ -7,6 +7,7 @@ import mizdooni.response.ResponseException;
 import mizdooni.service.JwtService;
 import mizdooni.service.ServiceUtils;
 import mizdooni.service.UserService;
+import mizdooni.utils.MizdooniMetrics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -95,6 +96,7 @@ public class AuthenticationController {
         try {
             userService.signup(username, password, email, address, role);
             UserService.UserTokenPair result = userService.login(username, password);
+            MizdooniMetrics.newSignup();
             return Response.ok("signup successful", result.user()).token(result.token());
         } catch (Exception ex) {
             throw new ResponseException(HttpStatus.BAD_REQUEST, ex);

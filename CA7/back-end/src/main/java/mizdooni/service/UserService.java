@@ -12,6 +12,7 @@ import mizdooni.model.user.Manager;
 import mizdooni.model.user.User;
 import mizdooni.repository.user.UserRepository;
 import mizdooni.utils.Crypto;
+import mizdooni.utils.MizdooniMetrics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +64,7 @@ public class UserService {
         int id = (int) userRepository.count();
         User user = new Client(id, name, null, email, new Address("", "", null));
         userRepository.save(user);
+        MizdooniMetrics.newSignup();
         return new UserTokenPair(user, jwtService.createToken(user));
     }
 
