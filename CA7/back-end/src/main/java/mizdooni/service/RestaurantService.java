@@ -42,9 +42,13 @@ public class RestaurantService {
     }
 
     @Transactional
+    @CaptureSpan
     public PagedList<Restaurant> getRestaurants(int page, RestaurantSearchFilter filter) {
+        Span getRestaurantsSpan = ElasticApm.currentSpan();
+        Span findRestaurantsSpan = getRestaurantsSpan.startSpan().setName("find restaurants");
         RestaurantSearchSpec spec = new RestaurantSearchSpec(filter.getName(), filter.getType(), filter.getLocation());
         List<Restaurant> restaurants = restaurantRepository.findAll(spec);
+        findRestaurantsSpan.end();
         restaurants = filter.sort(restaurants);
         for (Restaurant restaurant : restaurants) {
             Hibernate.initialize(restaurant.getReviews());
