@@ -1,5 +1,8 @@
 package mizdooni.service;
 
+import co.elastic.apm.api.CaptureSpan;
+import co.elastic.apm.api.ElasticApm;
+import co.elastic.apm.api.Span;
 import mizdooni.exceptions.*;
 import mizdooni.model.MizTable;
 import mizdooni.model.Reservation;
@@ -76,9 +79,14 @@ public class ReservationService {
     }
 
     @Transactional
+    @CaptureSpan
     public List<LocalTime> getAvailableTimes(int restaurantId, int people, LocalDate date)
             throws RestaurantNotFound, DateTimeInThePast, BadPeopleNumber {
+        Span getAvailableTimesSpan = ElasticApm.currentSpan();
+        Span findRestaurantSpan = getAvailableTimesSpan.startSpan().setName("find restaurant");
         Restaurant restaurant = restaurantRepository.findById(restaurantId);
+        findRestaurantSpan.end();
+
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
@@ -90,19 +98,29 @@ public class ReservationService {
             throw new BadPeopleNumber();
         }
 
+        Span peopleTablesSpan = getAvailableTimesSpan.startSpan().setName("get people tables");
         List<MizTable> peopleTables = mizTableRepository.findByRestaurantIdAndSeatsNumberGreaterThanEqual(restaurantId, people);
+        peopleTablesSpan.end();
+
+        Span availableTimesSpan = getAvailableTimesSpan.startSpan().setName("get available times");
         Set<LocalTime> availableTimes = peopleTables.stream()
                 .flatMap(table -> getAvailableTableTimes(table, date, restaurant).stream())
                 .collect(Collectors.toSet());
+        availableTimesSpan.end();
 
         return availableTimes.stream().sorted().toList();
     }
 
     @Transactional
+    @CaptureSpan
     public Reservation reserveTable(int userId, int restaurantId, int people, LocalDateTime datetime)
             throws UserNotFound, ManagerReservationNotAllowed, InvalidWorkingTime, RestaurantNotFound, TableNotFound,
             DateTimeInThePast, ReservationNotInOpenTimes {
+        Span reserveTableSpan = ElasticApm.currentSpan();
+        Span getUserSpan = reserveTableSpan.startSpan().setName("get user");
         User user = userService.getUser(userId);
+        getUserSpan.end();
+
         if (user == null) {
             throw new UserNotFound();
         }
@@ -117,7 +135,10 @@ public class ReservationService {
             throw new DateTimeInThePast();
         }
 
+        Span findRestaurantSpan = reserveTableSpan.startSpan().setName("find restaurant");
         Restaurant restaurant = restaurantRepository.findById(restaurantId);
+        findRestaurantSpan.end();
+
         if (restaurant == null) {
             throw new RestaurantNotFound();
         }
@@ -131,20 +152,30 @@ public class ReservationService {
             throw new TableNotFound();
         }
 
+        Span createReservationSpan = reserveTableSpan.startSpan().setName("create reservation");
         Reservation reservation = new Reservation(user, restaurant, table, datetime);
         user.nextReservation(reservation);
         userRepository.updateReservationCounter(user.getId());
         reservationRepository.save(reservation);
+        createReservationSpan.end();
         return reservation;
     }
 
+    @CaptureSpan
     public void cancelReservation(int userId, int reservationNumber) throws UserNotFound, ReservationNotFound, ReservationCannotBeCancelled {
+        Span cancelReservationSpan = ElasticApm.currentSpan();
+        Span getUserSpan = cancelReservationSpan.startSpan().setName("get user");
         User user = userService.getUser(userId);
+        getUserSpan.end();
+
         if (user == null) {
             throw new UserNotFound();
         }
 
+        Span findReservationSpan = cancelReservationSpan.startSpan().setName("find reservation");
         Reservation reservation = reservationRepository.findByUserIdAndReservationNumber(user.getId(), reservationNumber);
+        findReservationSpan.end();
+
         if (reservation == null) {
             throw new ReservationNotFound();
         }
@@ -153,9 +184,12 @@ public class ReservationService {
             throw new ReservationCannotBeCancelled();
         }
 
+        Span cancelSpan = cancelReservationSpan.startSpan().setName("cancel reservation");
         reservation.cancel();
         reservationRepository.save(reservation);
+        cancelSpan.end();
     }
+
 
     private List<LocalTime> getAvailableTableTimes(MizTable table, LocalDate date, Restaurant restaurant) {
         Set<LocalTime> reserves = table.getReservations().stream()
@@ -176,6 +210,7 @@ public class ReservationService {
         return availableTimes;
     }
 
+    @CaptureSpan
     private MizTable findAvailableTable(Restaurant restaurant, int people, LocalDateTime datetime) {
         return restaurant.getTables().stream()
                 .filter(table -> table.getSeatsNumber() >= people && !table.isReserved(datetime))
