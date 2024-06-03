@@ -56,6 +56,11 @@
             <artifactId>apm-agent-api</artifactId>
             <version>1.50.0</version>
         </dependency>
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-api</artifactId>
+            <version>1.38.0</version>
+        </dependency>
     </dependencies>
 
     <build>
