@@ -17,9 +17,19 @@ services:
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
       MYSQL_USER: admin
       MYSQL_PASSWORD_FILE: /run/secrets/db_admin_password
+    healthcheck:
+      test: mysqladmin ping -h localhost -u $$MYSQL_USER -p$$(cat $$MYSQL_PASSWORD_FILE)
+      timeout: 4s
+      interval: 30s
+      retries: 4
+      start_period: 12s
+      start_interval: 2s
 
   back-end:
     image: miz-back-end:1.0
+    depends_on:
+      db:
+        condition: service_healthy
     build:
       context: ../../back-end
       dockerfile: Dockerfile.run
@@ -32,6 +42,13 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/mizdooni
       SPRING_DATASOURCE_PASSWORD: $${file(/run/secrets/db_admin_password)}
+    healthcheck:
+      test: wget -T4 -q -O - http://localhost:8080/api/status/health | grep '"condition":"healthy"' || exit 1
+      timeout: 4s
+      interval: 30s
+      retries: 4
+      start_period: 12s
+      start_interval: 2s
 
 secrets:
   db_root_password:
