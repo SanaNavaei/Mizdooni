@@ -1,0 +1,31 @@
+name: mizdooni
+
+services:
+  db:
+    image: mysql:8.4.0
+    ports:
+      - 3307:3306
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - mizdooni-net
+    secrets:
+      - db_root_password
+      - db_admin_password
+    environment:
+      MYSQL_DATABASE: mizdooni
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_USER: admin
+      MYSQL_PASSWORD_FILE: /run/secrets/db_admin_password
+
+secrets:
+  db_root_password:
+    file: ./db/root.password
+  db_admin_password:
+    file: ./db/admin.password
+
+volumes:
+  db-data:
+
+networks:
+  mizdooni-net:
