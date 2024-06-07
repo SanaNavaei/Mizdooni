@@ -18,6 +18,21 @@ services:
       MYSQL_USER: admin
       MYSQL_PASSWORD_FILE: /run/secrets/db_admin_password
 
+  back-end:
+    image: miz-back-end:1.0
+    build:
+      context: ../../back-end
+      dockerfile: Dockerfile.run
+    ports:
+      - 8081:8080
+    networks:
+      - mizdooni-net
+    secrets:
+      - db_admin_password
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/mizdooni
+      SPRING_DATASOURCE_PASSWORD: $${file(/run/secrets/db_admin_password)}
+
 secrets:
   db_root_password:
     file: ./db/root.password
