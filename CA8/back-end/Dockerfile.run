@@ -1,0 +1,8 @@
+FROM eclipse-temurin:19-jre-alpine
+WORKDIR /app
+RUN addgroup -S mizg && adduser -S mizu -G mizg
+USER mizu:mizg
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} mizdooni.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "mizdooni.jar"]
