@@ -35,7 +35,7 @@ function Reserve({ maxSeatsNumber, address, id: restaurantId }) {
   }, [selectedPeople, selectedDate]);
 
   const fetchTimes = async () => {
-    const response = await fetch(`/api/reserves/${restaurantId}/available?people=${selectedPeople}&date=${selectedDate}`, {
+    const response = await fetch(process.env.REACT_APP_API_URL + `/api/reserves/${restaurantId}/available?people=${selectedPeople}&date=${selectedDate}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -51,7 +51,7 @@ function Reserve({ maxSeatsNumber, address, id: restaurantId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch(`/api/reserves/${restaurantId}`, {
+    const response = await fetch(process.env.REACT_APP_API_URL + `/api/reserves/${restaurantId}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,

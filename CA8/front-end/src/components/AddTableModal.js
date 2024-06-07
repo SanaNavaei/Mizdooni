@@ -22,7 +22,7 @@ function AddTableModal({ restaurantId, reloadTables }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await fetch(`/api/tables/${restaurantId}`, {
+    const response = await fetch(process.env.REACT_APP_API_URL + `/api/tables/${restaurantId}`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,

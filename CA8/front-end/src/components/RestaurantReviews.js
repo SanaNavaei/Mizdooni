@@ -27,7 +27,7 @@ function RestaurantReviews({ restaurant }) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const reloadReviews = async () => {
-    const response = await fetch(`/api/reviews/${restaurant.id}?page=${currentPage}`);
+    const response = await fetch(process.env.REACT_APP_API_URL + `/api/reviews/${restaurant.id}?page=${currentPage}`);
     if (response.ok) {
       const body = await response.json();
       setReviews(body.data.pageList);

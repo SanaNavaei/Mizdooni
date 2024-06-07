@@ -39,7 +39,7 @@ function Signup() {
   }, [formData]);
 
   const validateUsername = async () => {
-    const response = await fetch(`/api/validate/username?data=${formData.username}`);
+    const response = await fetch(process.env.REACT_APP_API_URL + `/api/validate/username?data=${formData.username}`);
     if (response.ok) {
       setUserError('');
     } else {
@@ -49,7 +49,7 @@ function Signup() {
   };
 
   const validateEmail = async () => {
-    const response = await fetch(`/api/validate/email?data=${formData.email}`);
+    const response = await fetch(process.env.REACT_APP_API_URL + `/api/validate/email?data=${formData.email}`);
     if (response.ok) {
       setEmailError('');
     } else {
@@ -76,7 +76,7 @@ function Signup() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('/api/signup', {
+    const response = await fetch(process.env.REACT_APP_API_URL + '/api/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

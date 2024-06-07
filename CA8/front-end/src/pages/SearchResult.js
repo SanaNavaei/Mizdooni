@@ -21,7 +21,7 @@ function SearchResult() {
 
   useEffect(() => {
     const fetchRestaurants = async () => {
-      const response = await fetch(`/api/restaurants?${searchParams}&page=${currentPage}`);
+      const response = await fetch(process.env.REACT_APP_API_URL + `/api/restaurants?${searchParams}&page=${currentPage}`);
       if (response.ok) {
         const body = await response.json();
         setRestaurants(body.data.pageList);

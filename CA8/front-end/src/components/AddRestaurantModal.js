@@ -56,7 +56,7 @@ function AddRestaurantModal({ reloadRestaurants }) {
   };
 
   const validateName = async () => {
-    const response = await fetch(`/api/validate/restaurant-name?data=${formData.name}`);
+    const response = await fetch(process.env.REACT_APP_API_URL + `/api/validate/restaurant-name?data=${formData.name}`);
     if (response.ok) {
       setNameError('');
     } else {
@@ -67,7 +67,7 @@ function AddRestaurantModal({ reloadRestaurants }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('/api/restaurants', {
+    const response = await fetch(process.env.REACT_APP_API_URL + '/api/restaurants', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,

@@ -12,7 +12,7 @@ function RestaurantTables({ restaurantId, setTableNumber }) {
   const logout = useLogout();
 
   const reloadTables = async () => {
-    const response = await fetch(`/api/tables/${restaurantId}`, {
+    const response = await fetch(process.env.REACT_APP_API_URL + `/api/tables/${restaurantId}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,

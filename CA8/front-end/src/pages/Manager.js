@@ -17,7 +17,7 @@ function Manager() {
   const id = localStorage.getItem('id');
 
   const reloadRestaurants = async () => {
-    const response = await fetch(`/api/restaurants/manager/${id}`);
+    const response = await fetch(process.env.REACT_APP_API_URL + `/api/restaurants/manager/${id}`);
     if (response.ok) {
       const body = await response.json();
       setRestaurants(body.data);
