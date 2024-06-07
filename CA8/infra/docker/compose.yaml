@@ -50,6 +50,17 @@ services:
       start_period: 12s
       start_interval: 2s
 
+  front-end:
+    image: miz-front-end:1.0
+    depends_on:
+      back-end:
+        condition: service_healthy
+    build:
+      context: ../../front-end
+      dockerfile: Dockerfile.run
+    ports:
+      - 3001:3000
+
 secrets:
   db_root_password:
     file: ./db/root.password
