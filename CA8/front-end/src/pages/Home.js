@@ -18,7 +18,7 @@ function Home() {
   const [restaurantsLike, setRestaurantsLike] = useState([]);
 
   const fetchRestaurants = async (query) => {
-    const response = await fetch(process.env.REACT_APP_API_URL + `/api/restaurants?${query}`);
+    const response = await fetch(`/api/restaurants?${query}`);
     if (response.ok) {
       const body = await response.json();
       return body.data.pageList;

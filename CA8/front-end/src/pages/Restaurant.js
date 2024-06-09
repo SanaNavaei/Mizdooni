@@ -43,7 +43,7 @@ function Restaurant() {
 
   useEffect(() => {
     const fetchRestaurant = async () => {
-      const response = await fetch(process.env.REACT_APP_API_URL + `/api/restaurants/${restaurantId}`);
+      const response = await fetch(`/api/restaurants/${restaurantId}`);
       if (response.ok) {
         const body = await response.json();
         setRestaurant(body.data);

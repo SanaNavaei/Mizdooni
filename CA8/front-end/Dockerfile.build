@@ -2,7 +2,6 @@ FROM node:20-alpine AS Build
 WORKDIR /app
 COPY package*.json .
 COPY jsconfig.json .
-COPY .env .env
 COPY public public
 COPY src src
 RUN npm install
@@ -11,6 +10,6 @@ RUN npm run build
 FROM nginx:1.27.0-alpine
 RUN rm -rf /usr/share/nginx/html/*
 COPY --from=Build /app/build /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/templates/default.conf.template
 EXPOSE 3000
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]

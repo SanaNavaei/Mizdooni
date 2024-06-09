@@ -30,7 +30,7 @@ function HomeSearch() {
 
   useEffect(() => {
     const fetchRestaurantLocations = async () => {
-      const response = await fetch(process.env.REACT_APP_API_URL + '/api/restaurants/locations');
+      const response = await fetch('/api/restaurants/locations');
       if (response.ok) {
         const body = await response.json();
         setLocations(body.data);
@@ -40,7 +40,7 @@ function HomeSearch() {
     }
 
     const fetchRestaurantTypes = async () => {
-      const response = await fetch(process.env.REACT_APP_API_URL + '/api/restaurants/types');
+      const response = await fetch('/api/restaurants/types');
       if (response.ok) {
         const body = await response.json();
         setRestaurantTypes(body.data);

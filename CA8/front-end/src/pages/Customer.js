@@ -19,7 +19,7 @@ function Customer() {
   const [reservations, setReservations] = useState([]);
 
   const reloadReservations = async () => {
-    const response = await fetch(process.env.REACT_APP_API_URL + `/api/reserves/customer/${id}`, {
+    const response = await fetch(`/api/reserves/customer/${id}`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`,

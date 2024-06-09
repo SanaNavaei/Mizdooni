@@ -18,7 +18,7 @@ function RestaurantReservations({ restaurantId, tableNumber }) {
       return;
     }
     const fetchReservations = async () => {
-      const response = await fetch(process.env.REACT_APP_API_URL + `/api/reserves/${restaurantId}?table=${tableNumber}&date=${date}`, {
+      const response = await fetch(`/api/reserves/${restaurantId}?table=${tableNumber}&date=${date}`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`,

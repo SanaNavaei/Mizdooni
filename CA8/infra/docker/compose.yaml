@@ -60,6 +60,10 @@ services:
       dockerfile: Dockerfile.run
     ports:
       - 3001:3000
+    networks:
+      - mizdooni-net
+    environment:
+      NGINX_API_URL: http://back-end:8080
 
 secrets:
   db_root_password:
