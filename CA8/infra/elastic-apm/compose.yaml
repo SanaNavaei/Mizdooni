@@ -1,4 +1,3 @@
-version: '2.2'
 services:
   apm-server:
     image: docker.elastic.co/apm/apm-server:7.17.21
@@ -10,9 +9,9 @@ services:
     cap_add: ["CHOWN", "DAC_OVERRIDE", "SETGID", "SETUID"]
     cap_drop: ["ALL"]
     ports:
-    - 8200:8200
+      - 8200:8200
     networks:
-    - elastic
+      - elastic
     command: >
        apm-server -e
          -E apm-server.rum.enabled=true
@@ -29,21 +28,21 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.21
     environment:
-    - bootstrap.memory_lock=true
-    - cluster.name=docker-cluster
-    - cluster.routing.allocation.disk.threshold_enabled=false
-    - discovery.type=single-node
-    - ES_JAVA_OPTS=-XX:UseAVX=2 -Xms1g -Xmx1g
+      - bootstrap.memory_lock=true
+      - cluster.name=docker-cluster
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-XX:UseAVX=2 -Xms1g -Xmx1g
     ulimits:
       memlock:
         hard: -1
         soft: -1
     volumes:
-    - esdata:/usr/share/elasticsearch/data
+      - es-data:/usr/share/elasticsearch/data
     ports:
-    - 9200:9200
+      - 9200:9200
     networks:
-    - elastic
+      - elastic
     healthcheck:
       interval: 20s
       retries: 10
@@ -58,18 +57,16 @@ services:
       ELASTICSEARCH_URL: http://elasticsearch:9200
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
     ports:
-    - 5601:5601
+      - 5601:5601
     networks:
-    - elastic
+      - elastic
     healthcheck:
       interval: 10s
       retries: 20
       test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:5601/api/status
 
 volumes:
-  esdata:
-    driver: local
+  es-data:
 
 networks:
   elastic:
-    driver: bridge

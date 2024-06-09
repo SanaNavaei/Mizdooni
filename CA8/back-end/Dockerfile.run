@@ -1,8 +1,11 @@
 FROM eclipse-temurin:19-jre-alpine
+ARG JAR_FILE=target/*.jar
+ARG APM_AGENT_JAR=elastic-apm-agent-1.50.0.jar
 WORKDIR /app
 RUN addgroup -S mizg && adduser -S mizu -G mizg
 USER mizu:mizg
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} mizdooni.jar
+COPY $JAR_FILE mizdooni.jar
+COPY $APM_AGENT_JAR elastic-apm-agent.jar
+COPY elasticapm.properties elasticapm.properties
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "mizdooni.jar"]
+ENTRYPOINT ["java", "-javaagent:elastic-apm-agent.jar", "-jar", "mizdooni.jar"]
