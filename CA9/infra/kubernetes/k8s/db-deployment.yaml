@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: db-deployment
+  labels:
+    app: db
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - image: mysql:8.4.0
+        name: db
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: db-configmap
+              key: db-name
+        - name: MYSQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: db-configmap
+              key: db-user
+        - name: MYSQL_PASSWORD_FILE
+          valueFrom:
+            configMapKeyRef:
+              name: db-configmap
+              key: db-admin-password-file
+        - name: MYSQL_ROOT_PASSWORD_FILE
+          valueFrom:
+            configMapKeyRef:
+              name: db-configmap
+              key: db-root-password-file
+        livenessProbe:
+          exec:
+            command:
+              - mysqladmin ping -h localhost -u $MYSQL_USER -p$(cat $MYSQL_PASSWORD_FILE)
+          timeoutSeconds: 4
+          periodSeconds: 30
+          failureThreshold: 4
+          initialDelaySeconds: 12
+        volumeMounts:
+        - mountPath: /run/secrets/db
+          name: db-passwords-volume
+        - mountPath: /var/lib/mysql
+          name: db-data-volume
+      volumes:
+      - name: db-passwords-volume
+        secret:
+          secretName: db-secret
+          items:
+          - key: db-root-password
+            path: db_root_password
+          - key: db-admin-password
+            path: db_admin_password
+      - name: db-data-volume
+        persistentVolumeClaim:
+          claimName: db-data-pvc

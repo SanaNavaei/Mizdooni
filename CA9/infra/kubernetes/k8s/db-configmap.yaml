@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: db-configmap
+
+data:
+  db-name: mizdooni
+  db-user: admin
+  db-admin-password-file: /run/secrets/db/db_admin_password
+  db-root-password-file: /run/secrets/db/db_root_password
