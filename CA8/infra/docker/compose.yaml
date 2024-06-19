@@ -29,7 +29,7 @@ services:
       start_interval: 2s
 
   back-end:
-    image: miz-back-end:1.0
+    image: misaghm/miz-back-end:1.0
     depends_on:
       db:
         condition: service_healthy
@@ -58,7 +58,7 @@ services:
       start_interval: 2s
 
   front-end:
-    image: miz-front-end:1.0
+    image: misaghm/miz-front-end:1.0
     depends_on:
       back-end:
         condition: service_healthy
