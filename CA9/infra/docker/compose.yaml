@@ -1,0 +1,86 @@
+name: mizdooni
+
+include:
+  - ../elastic-apm/compose_include.yaml
+
+services:
+  db:
+    image: mysql:8.4.0
+    ports:
+      - 3307:3306
+    volumes:
+      - db-data:/var/lib/mysql
+    networks:
+      - mizdooni-net
+    secrets:
+      - db_root_password
+      - db_admin_password
+    environment:
+      MYSQL_DATABASE: mizdooni
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_USER: admin
+      MYSQL_PASSWORD_FILE: /run/secrets/db_admin_password
+    healthcheck:
+      test: mysqladmin ping -h localhost -u $$MYSQL_USER -p$$(cat $$MYSQL_PASSWORD_FILE)
+      timeout: 4s
+      interval: 30s
+      retries: 4
+      start_period: 12s
+      start_interval: 2s
+
+  back-end:
+    image: misaghm/miz-back-end:1.0
+    depends_on:
+      db:
+        condition: service_healthy
+      apm-server:
+        condition: service_healthy
+    build:
+      context: ../../back-end
+      dockerfile: Dockerfile.run
+    ports:
+      - 8081:8080
+    networks:
+      - mizdooni-net
+      - mizdooni-apm
+    secrets:
+      - db_admin_password
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/mizdooni
+      SPRING_DATASOURCE_PASSWORD: $${file(/run/secrets/db_admin_password)}
+      ELASTIC_APM_SERVER_URL: http://apm-server:8200
+    healthcheck:
+      test: wget -T4 -q -O - http://localhost:8080/api/status/health | grep '"condition":"healthy"' || exit 1
+      timeout: 4s
+      interval: 30s
+      retries: 4
+      start_period: 12s
+      start_interval: 2s
+
+  front-end:
+    image: misaghm/miz-front-end:1.0
+    depends_on:
+      back-end:
+        condition: service_healthy
+    build:
+      context: ../../front-end
+      dockerfile: Dockerfile.run
+    ports:
+      - 3001:3000
+    networks:
+      - mizdooni-net
+    environment:
+      NGINX_API_URL: http://back-end:8080
+
+secrets:
+  db_root_password:
+    file: ./db/root.password
+  db_admin_password:
+    file: ./db/admin.password
+
+volumes:
+  db-data:
+
+networks:
+  mizdooni-net:
+  mizdooni-apm:

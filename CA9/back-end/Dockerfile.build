@@ -1,0 +1,16 @@
+FROM maven:3.9-eclipse-temurin-19-alpine AS Build
+WORKDIR /app
+COPY src src
+COPY pom.xml pom.xml
+RUN mvn clean package
+
+FROM eclipse-temurin:19-jre-alpine
+ARG APM_AGENT_JAR=elastic-apm-agent-1.50.0.jar
+WORKDIR /app
+RUN addgroup -S mizg && adduser -S mizu -G mizg
+USER mizu:mizg
+COPY --from=Build /app/target/*.jar mizdooni.jar
+COPY $APM_AGENT_JAR elastic-apm-agent.jar
+COPY elasticapm.properties elasticapm.properties
+EXPOSE 8080
+ENTRYPOINT ["java", "-javaagent:elastic-apm-agent.jar", "-jar", "mizdooni.jar"]
