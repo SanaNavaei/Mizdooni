@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: back-end-deployment
+  labels:
+    app: back-end
+
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: back-end
+  template:
+    metadata:
+      labels:
+        app: back-end
+    spec:
+      containers:
+      - name: back-end
+        image: misaghm/miz-back-end:1.0
+        ports:
+        - containerPort: 8080
+        env:
+        - name: SPRING_DATASOURCE_URL
+          valueFrom:
+            configMapKeyRef:
+              name: back-end-configmap
+              key: datasource-url
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: back-end-configmap
+              key: datasource-password
+        - name: ELASTIC_APM_SERVER_URL
+          valueFrom:
+            configMapKeyRef:
+              name: back-end-configmap
+              key: apm-server-url
+        - name: ELASTIC_APM_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: back-end-configmap
+              key: apm-agent-enabled
+        livenessProbe:
+          exec:
+            command:
+              - wget -T4 -q -O - http://localhost:8080/api/status/health | grep '"condition":"healthy"' || exit 1
+          timeoutSeconds: 4
+          periodSeconds: 30
+          failureThreshold: 4
+          initialDelaySeconds: 12
+        volumeMounts:
+        - mountPath: /run/secrets/db
+          name: db-admin-password-volume
+      volumes:
+      - name: db-admin-password-volume
+        secret:
+          secretName: db-secret
+          items:
+          - key: db-admin-password
+            path: db_admin_password
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: back-end
+            topologyKey: kubernetes.io/hostname

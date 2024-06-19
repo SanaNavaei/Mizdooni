@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: back-end-configmap
+
+data:
+  datasource-url: jdbc:mysql://db-service:3306/mizdooni
+  datasource-password: ${file(/run/secrets/db/db_admin_password)}
+  apm-server-url: http://apm-server-service:8200
+  apm-agent-enabled: "false"
