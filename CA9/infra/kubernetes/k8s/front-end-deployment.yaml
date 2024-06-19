@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: front-end-deployment
+  labels:
+    app: front-end
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-end
+  template:
+    metadata:
+      labels:
+        app: front-end
+    spec:
+      containers:
+      - image: misaghm/miz-front-end:1.0
+        name: front-end
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NGINX_API_URL
+          valueFrom:
+            configMapKeyRef:
+              name: front-end-configmap
+              key: api-url

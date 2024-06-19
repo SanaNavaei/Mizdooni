@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: front-end-configmap
+
+data:
+  api-url: http://back-end-service:8080
